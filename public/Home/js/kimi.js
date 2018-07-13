@@ -7,7 +7,7 @@
  */
 function get_cart_list()
 {
-    var url = 'http://sramer.test/Cart/index';
+    var url = '/Cart/index';
     $.post(url,'',function(result){
         if (result.status == 200)
         {
