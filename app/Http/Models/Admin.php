@@ -12,4 +12,7 @@ class Admin extends Model
     protected $guard_name = 'web';
 
     protected $table = 'admins';
+
+    protected $fillable = ['nickname', 'email', 'password', 'register_ip', 'status'];
+
 }

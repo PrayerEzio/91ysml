@@ -30,6 +30,7 @@ class PermissionMiddleware
         $permission_route_mc = "{$route['module']}-{$route['controller']}-*";
         $permission_route_m = "{$route['module']}-*";
         $permission_route = "*";
+        dd(session('admin_info.id'));
         $admin_id = session('admin_info.id');
         if (empty($admin_id))
         {

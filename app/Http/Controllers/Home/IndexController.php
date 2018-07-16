@@ -9,9 +9,15 @@ use App\Http\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class IndexController extends Controller
+class IndexController extends CommonController
 {
-    public function index()
+    public function __construct()
+    {
+        parent::__construct();
+        $this->top_navbar = __('Home/common.shop');
+    }
+
+    public function index(Request $request)
     {
         $ad_model = new Advertisement();
         $banner_list = $ad_model->active()->banner()->orderBy('sort')->get();
@@ -25,7 +31,8 @@ class IndexController extends Controller
             $min_price_product = $product_model->where('stock', '>', 0)->where('goods_id',$item->id)->active()->orderBy('price')->first();
             $goods_list[$key]['min_price'] = $min_price_product->price;
         }
-        return view('Home.Index.index')->with(compact('banner_list','goods_category_list','goods_list'));
+        $top_navbar = $this->top_navbar;
+        return view('Home.Index.index')->with(compact('banner_list','goods_category_list','goods_list','top_navbar'));
     }
 
     public function category(Request $request)
@@ -46,6 +53,7 @@ class IndexController extends Controller
             $min_price_product = $product_model->where('stock', '>', 0)->where('goods_id',$item->id)->active()->orderBy('price')->first();
             $goods_list[$key]['min_price'] = $min_price_product->price;
         }
-        return view('Home.Index.category')->with(compact('parents_list','goods_count','category_info','goods_category_list','current_goods_category_list','goods_list'));
+        $top_navbar = $this->top_navbar;
+        return view('Home.Index.category')->with(compact('parents_list','goods_count','category_info','goods_category_list','current_goods_category_list','goods_list','top_navbar'));
     }
 }

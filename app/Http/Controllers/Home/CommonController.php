@@ -12,6 +12,7 @@ abstract class CommonController extends Controller
     public function __construct()
     {
         parent::__construct();
+        $this->top_navbar = '';
     }
 
     protected function getUserId()

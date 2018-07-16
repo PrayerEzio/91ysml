@@ -2,11 +2,10 @@
 <div class="clearfix"></div>
 <footer class="container-fluid">
     <div class="col-md-6 menu-footer">
-        <h4>Kimi is a curated foods and beverages artisans</h4>
-        <a href="about.html" class="text-roboto-light text-white">{{ __('Home/common.about') }}</a>
-        <a href="contact.html" class="text-roboto-light text-white">{{ __('Home/common.contact_us') }}</a>
-        <a href="chefDirectory.html" class="text-roboto-light text-white">Chef Directory</a>
-        <a href="jobs.html" class="text-roboto-light text-white">Jobs</a>
+        <h4>优圣美俪订货平台</h4>
+        <a href="{{ url('about_us') }}" class="text-roboto-light text-white">{{ __('Home/common.about_us') }}</a>
+        <a href="{{ url('contact_us') }}" class="text-roboto-light text-white">{{ __('Home/common.contact_us') }}</a>
+        <a href="{{ url('Member/index') }}" class="text-roboto-light text-white">{{ __('Home/common.member_center') }}</a>
     </div>
 
     <div class="col-md-3 social-icons-wrapper">

@@ -1,11 +1,4 @@
 <?php
-/**
- * Copyright (c) 2018. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
 
 namespace App\Http\Controllers\Admin;
 
@@ -65,7 +58,7 @@ class LoginController extends CommonController
         if ($input = $request->all())
         {
             $rule = [
-                'email' => 'required|email|unique:admin,email',
+                'email' => 'required|email|unique:admins,email',
                 'password' => 'required|confirmed|between:8,32',
                 'register_protocol' => 'accepted'
             ];
@@ -87,14 +80,13 @@ class LoginController extends CommonController
             $admin_user['email'] = $input['email'];
             $admin_user['password'] = Crypt::encrypt($input['password']);
             $admin_user['register_ip'] = $request->getClientIp();
-            $admin_user['superadmin'] = 0;
+            $admin_user['is_super_admin'] = 0;
             $admin_user['status'] = 1;
             $admin = Admin::create($admin_user);
             if ($admin)
             {
                 //TODO:发送注册成功通知.
-
-                return redirect()->action('Admin\LoginController@index');
+                return redirect()->action('Admin\IndexController@index');
             }else {
                 $errors[] = '网络繁忙,请稍后再试.';
                 return back()->withErrors($errors);

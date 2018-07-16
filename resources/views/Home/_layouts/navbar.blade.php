@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="help-text hidden-sm hidden-md" id="helpText">Find any troubles? Drop us an email at <a href="mailto:prayer@crucis.cn" class="text-secondary">prayer@crucis.cn</a> </p>
+                <p class="help-text hidden-sm hidden-md" id="helpText">有任何疑问? 请联系我们的邮箱 <a href="mailto:prayer@crucis.cn" class="text-secondary">prayer@crucis.cn</a> </p>
             </div>
             <div class="col-md-4 col-sm-4">
                 <p class="text-center logo-container"><a href="index.html"><img src="{{asset('Home')}}/images/logo.png" width="100"></a></p>
@@ -62,27 +62,11 @@
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ url('/') }}">{{ __('Home/common.shop') }}</a></li>
-                <li><a href="{{ url('articles') }}">{{ __('Home/common.articles') }}</a></li>
-                <li><a href="merchantGuide.html">Chef Guide</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Location <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="chefDirectory.html">Jakarta Barat</a></li>
-                        <li><a href="chefDirectory.html">Jakarta Selatan</a></li>
-                        <li><a href="chefDirectory.html">Jakarta Pusat</a></li>
-                        <li><a href="chefDirectory.html">Jakarta Utara</a></li>
-                        <li><a href="chefDirectory.html">Jakarta Timur</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="chefDirectory.html">Depok</a></li>
-                        <li><a href="chefDirectory.html">Tangerang</a></li>
-                    </ul>
-                </li>
-                <li><a href="questions.html">{{ __('Home/common.FAQs') }}</a></li>
-                <li><a href="about.html">{{ __('Home/common.about') }}</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="chefDirectory.html">Chef Directory</a></li>
-                {{--<li><a href="{{ url('/Login/index') }}">{{ __('Home/common.login_or_register') }}</a></li>--}}
+                <li @if ($top_navbar == __('Home/common.shop'))class="active"@endif><a href="{{ url('/') }}">{{ __('Home/common.shop') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.articles'))class="active"@endif><a href="{{ url('articles') }}">{{ __('Home/common.articles') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.FAQs'))class="active"@endif><a href="questions.html">{{ __('Home/common.FAQs') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.about_us'))class="active"@endif><a href="{{ url('about_us') }}">{{ __('Home/common.about_us') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.contact_us'))class="active"@endif><a href="{{ url('contact_us') }}">{{ __('Home/common.contact_us') }}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

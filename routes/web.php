@@ -126,6 +126,7 @@ $admin_private_group = function(){
 $admin_public_group = function(){
     Route::group(['prefix' => 'Login'],function(){
         Route::get('/','LoginController@index')->name('admin.login.index');
+        Route::post('/','LoginController@index');
         Route::get('/index','LoginController@index');
         Route::get('/register','LoginController@register');
         Route::post('/index','LoginController@index');
