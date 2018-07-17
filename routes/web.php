@@ -11,8 +11,6 @@
 |
 */
 
-Route::resource('test/index','Test\IndexController');
-
 $test_group = function(){
     Route::get('/','IndexController@index');
     Route::group(['prefix' => 'Index'],function(){
@@ -25,6 +23,7 @@ $test_group = function(){
         Route::get('/getArticleModel','IndexController@getArticleModel');
         Route::get('/qiniu','IndexController@qiniu');
         Route::get('/addPermission','IndexController@addPermission')->name('test.index.add_permission');
+        Route::get('/addRole','IndexController@addRole')->name('test.index.add_role');
         Route::get('/createRoleAndPermission','IndexController@createRoleAndPermission');
         Route::get('/adminAssignRole','IndexController@adminAssignRole');
         Route::get('/givePermissionToRole','IndexController@givePermissionToRole');
@@ -119,6 +118,10 @@ $admin_private_group = function(){
     Route::group(['prefix' => 'Article'],function(){
         $controller = 'Article';
         Route::get('/index',"{$controller}Controller@index");
+        Route::get('/add',"{$controller}Controller@add");
+        Route::post('/add',"{$controller}Controller@add");
+        Route::get('/addCate',"{$controller}Controller@addCate");
+        Route::post('/addCate',"{$controller}Controller@addCate");
         Route::get('/{slug}',"{$controller}Controller@show");
     });
 };
@@ -154,7 +157,7 @@ Route::group(['prefix' => 'home','namespace' => 'Home','middleware' => ['home.lo
 
 Route::group(['prefix' => 'Admin','namespace' => 'Admin'],$admin_public_group);
 
-Route::group(['prefix' => 'admin','namespace' => 'Admin','middleware' => ['admin.login','admin.permission']],$admin_private_group);
+Route::group(['prefix' => 'admin','namespace' => 'Admin'],$admin_public_group);
 
 Route::group(['prefix' => 'Admin','namespace' => 'Admin','middleware' => ['admin.login','admin.permission']],$admin_private_group);
 

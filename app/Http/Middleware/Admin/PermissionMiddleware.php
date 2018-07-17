@@ -11,6 +11,7 @@ namespace App\Http\Middleware\Admin;
 
 use App\Http\Models\Admin;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
@@ -23,15 +24,14 @@ class PermissionMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $route = $this->getCurrentRoute();
         $permission_route_mca = "{$route['module']}-{$route['controller']}-{$route['action']}";
         $permission_route_mc = "{$route['module']}-{$route['controller']}-*";
         $permission_route_m = "{$route['module']}-*";
         $permission_route = "*";
-        dd(session('admin_info.id'));
-        $admin_id = session('admin_info.id');
+        $admin_id = $request->session()->get('admin_info.id');
         if (empty($admin_id))
         {
             return abort(401,"Don't have [{$permission_route}] permission");

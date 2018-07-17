@@ -20,6 +20,7 @@ class CreateRegionsTable extends Migration
             $table->unsignedTinyInteger('level');
             $table->unsignedTinyInteger('is_hot')->default(0);
             $table->integer('parent_id')->default(0);
+            $table->unsignedTinyInteger('is_special')->default(0);
             $table->unsignedInteger('sort')->default(0);
             $table->unsignedTinyInteger('status')->default(0);
         });

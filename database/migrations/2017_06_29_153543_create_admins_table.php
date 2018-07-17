@@ -28,6 +28,7 @@ class CreateAdminsTable extends Migration
             $table->string('password',255);
             $table->ipAddress('register_ip');
             $table->tinyInteger('is_super_admin')->default(0);
+            $table->string('token',255)->nullable();
             $table->tinyInteger('status');
             $table->softDeletes();
             $table->timestamps();

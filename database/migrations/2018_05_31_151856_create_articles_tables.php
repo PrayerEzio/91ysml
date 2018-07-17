@@ -29,7 +29,18 @@ class CreateArticlesTables extends Migration
                 ->on('article_category');
             $table->string('title');
             $table->string('author');
-            $table->text('content');
+            $table->string('tag')->nullable();
+            $table->string('image');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->text('body');
+            $table->text('seo_title')->nullable();
+            $table->text('seo_keywords')->nullable();
+            $table->text('seo_description')->nullable();
+            $table->smallInteger('page_view')->unsigned()->default(0);
+            $table->tinyInteger('status')->default(0);
+            $table->timestamp('published_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
