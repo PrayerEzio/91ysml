@@ -122,6 +122,7 @@ $admin_private_group = function(){
         Route::post('/add',"{$controller}Controller@add");
         Route::get('/addCate',"{$controller}Controller@addCate");
         Route::post('/addCate',"{$controller}Controller@addCate");
+        Route::get('/cate_list',"{$controller}Controller@cate_list");
         Route::get('/{slug}',"{$controller}Controller@show");
     });
 };
