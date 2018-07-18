@@ -117,11 +117,9 @@ class ArticleController extends CommonController
         }
     }
 
-    public function cate_list(ArticleCate $articleCate)
+    public function cateList()
     {
-        $cate_list = $articleCate->get()->toArray();
-        $cate_list = $this->unlimitedForLayer($cate_list);
-        return view('Admin.Article.cate_list')->with(compact('cate_list'));
+        return view('Admin.Article.cate_list');
     }
 
     public function delete(Request $request,Article $article)

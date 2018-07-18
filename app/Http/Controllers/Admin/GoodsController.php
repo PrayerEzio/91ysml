@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
 use Illuminate\Http\Request;
 
 class GoodsController extends CommonController
 {
-    public function goods_list(Goods $goods)
+    public function goodsList(Goods $goods)
     {
         $goods_list = $goods->all();
         return view('Admin.Goods.goods_list')->with(compact('goods_list'));

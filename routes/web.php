@@ -126,20 +126,31 @@ $admin_private_group = function(){
         Route::post('/edit/{id}',"{$controller}Controller@edit");
         Route::get('/addCate',"{$controller}Controller@addCate");
         Route::post('/addCate',"{$controller}Controller@addCate");
-        Route::get('/cate_list',"{$controller}Controller@cate_list");
+        Route::get('/cate_list',"{$controller}Controller@cateList");
         Route::delete('/delete',"{$controller}Controller@delete");
         Route::get('/{slug}',"{$controller}Controller@show");
     });
     Route::group(['prefix' => 'Goods'],function(){
         $controller = 'Goods';
-        Route::get('/goods_list',"{$controller}Controller@goods_list");
+        Route::get('/goods_list',"{$controller}Controller@goodsList");
         Route::get('/add',"{$controller}Controller@add");
         Route::post('/add',"{$controller}Controller@add");
         Route::get('/edit/{id}',"{$controller}Controller@edit");
         Route::post('/edit/{id}',"{$controller}Controller@edit");
         Route::get('/addCate',"{$controller}Controller@addCate");
         Route::post('/addCate',"{$controller}Controller@addCate");
-        Route::get('/cate_list',"{$controller}Controller@cate_list");
+        Route::get('/cate_list',"{$controller}Controller@cateList");
+        Route::delete('/delete',"{$controller}Controller@delete");
+    });
+    Route::group(['prefix' => 'Attribute'],function(){
+        $controller = 'Attribute';
+        Route::get('/add',"{$controller}Controller@add");
+        Route::post('/add',"{$controller}Controller@add");
+        Route::get('/edit/{id}',"{$controller}Controller@edit");
+        Route::post('/edit/{id}',"{$controller}Controller@edit");
+        Route::get('/addCategory',"{$controller}Controller@addCategory");
+        Route::post('/addCategory',"{$controller}Controller@addCategory");
+        Route::get('/cateList',"{$controller}Controller@cateList");
         Route::delete('/delete',"{$controller}Controller@delete");
     });
 };
