@@ -30,7 +30,7 @@ class CreateArticlesTables extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('tag')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->text('body');

@@ -202,7 +202,17 @@ return [
         /*
          * Package Laravel Shopping Cart Providers...
          */
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
+        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+
+        /**
+         * Package UEditor Providers...
+         */
+        Stevenyangecho\UEditor\UEditorServiceProvider::class,
+
+        /**
+         * Package QiniuStorage Providers...
+         */
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class
 
     ],
 

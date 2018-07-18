@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Models\Address;
+use App\Http\Models\ArticleCate;
 use App\Http\Models\Order;
 use App\Http\Models\Region;
 use Illuminate\Http\Request;
@@ -58,6 +59,18 @@ class AjaxController extends CommonController
         $data['user'] = $order_info->user;
         $data['logs'] = $order_info->logs;
         $data['address'] = $order_info->address;
+        if ($request->ajax()) {
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+                'data' => $data,
+            ]);
+        }
+    }
+
+    public function getArticleCategoryList(Request $request,ArticleCate $articleCate)
+    {
+        $data = $articleCate->where('status','=',1)->orderBy('sort')->get();
         if ($request->ajax()) {
             return response([
                 'status'  => 200,

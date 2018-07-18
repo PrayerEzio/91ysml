@@ -58,6 +58,8 @@ $home_public_group = function(){
     });
     Route::group(['prefix' => 'Ajax'],function(){
         Route::post('/getRegionsList','AjaxController@getRegionsList')->name('Home.Ajax.getRegionsList');
+        Route::post('/getOrderDetail','AjaxController@getOrderDetail')->name('Home.Ajax.getOrderDetail');
+        Route::post('/getArticleCategoryList','AjaxController@getArticleCategoryList')->name('Home.Ajax.getArticleCategoryList');
     });
     Route::group(['prefix' => 'Login'],function(){
         Route::get('/','LoginController@index')->name('Home.Login.index');
@@ -120,10 +122,25 @@ $admin_private_group = function(){
         Route::get('/index',"{$controller}Controller@index");
         Route::get('/add',"{$controller}Controller@add");
         Route::post('/add',"{$controller}Controller@add");
+        Route::get('/edit/{id}',"{$controller}Controller@edit");
+        Route::post('/edit/{id}',"{$controller}Controller@edit");
         Route::get('/addCate',"{$controller}Controller@addCate");
         Route::post('/addCate',"{$controller}Controller@addCate");
         Route::get('/cate_list',"{$controller}Controller@cate_list");
+        Route::delete('/delete',"{$controller}Controller@delete");
         Route::get('/{slug}',"{$controller}Controller@show");
+    });
+    Route::group(['prefix' => 'Goods'],function(){
+        $controller = 'Goods';
+        Route::get('/goods_list',"{$controller}Controller@goods_list");
+        Route::get('/add',"{$controller}Controller@add");
+        Route::post('/add',"{$controller}Controller@add");
+        Route::get('/edit/{id}',"{$controller}Controller@edit");
+        Route::post('/edit/{id}',"{$controller}Controller@edit");
+        Route::get('/addCate',"{$controller}Controller@addCate");
+        Route::post('/addCate',"{$controller}Controller@addCate");
+        Route::get('/cate_list',"{$controller}Controller@cate_list");
+        Route::delete('/delete',"{$controller}Controller@delete");
     });
 };
 
