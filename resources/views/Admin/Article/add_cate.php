@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="post" action="{{ url('Admin/Article/addCate') }}" class="form-horizontal">
+                        <form method="post" action="" class="form-horizontal">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">父级分类</label>

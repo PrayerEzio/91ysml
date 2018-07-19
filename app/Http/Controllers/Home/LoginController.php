@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends CommonController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->top_navbar = __('Home/common.shop');
+    }
+
     public function index(Request $request,User $user)
     {
         if ($input = $request->all())
@@ -44,10 +50,10 @@ class LoginController extends CommonController
             session(['user_info'=>$user_info_array]);
             $user_info->token = session('_token');
             $user_info->save();
-            return redirect()->back();
-//            return redirect()->action('Home\MemberController@index');
+            return redirect()->action('Home\IndexController@index');
         }else {
-            return view('Home.Login.index');
+            $top_navbar = $this->top_navbar;
+            return view('Home.Login.index')->with(compact('top_navbar'));
         }
     }
 
@@ -88,7 +94,8 @@ class LoginController extends CommonController
                 return back()->withErrors($errors);
             }
         } else {
-            return view('Home.Login.register');
+            $top_navbar = $this->top_navbar;
+            return view('Home.Login.register')->with(compact('top_navbar'));
         }
     }
 }

@@ -95,7 +95,7 @@ class ArticleController extends CommonController
             dd($res);
         }else {
             $article_cates = $articleCate->get();
-            return view('Admin.Article.addCate')->with(compact('article_cates'));
+            return view('Admin.Article.add_cate')->with(compact('article_cates'));
         }
     }
 

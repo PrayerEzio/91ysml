@@ -14,8 +14,8 @@ class UserController extends CommonController
      */
     public function index(User $user)
     {
-        $user_list = $user->all();
-        return view('Admin.User.index')->with(compact('user_list'));
+        $list = $user->all();
+        return view('Admin.User.index')->with(compact('list'));
     }
 
     /**
@@ -36,10 +36,7 @@ class UserController extends CommonController
      */
     public function store(Request $request)
     {
-        if ($request->method() == 'post')
-        {
 
-        }
     }
 
     /**
@@ -74,10 +71,7 @@ class UserController extends CommonController
      */
     public function update(Request $request, $id)
     {
-        if ($request->method() == 'post')
-        {
 
-        }
     }
 
     /**
@@ -88,9 +82,6 @@ class UserController extends CommonController
      */
     public function destroy(Request $request,$id)
     {
-        if ($request->method() == 'DELETE')
-        {
 
-        }
     }
 }
