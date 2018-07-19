@@ -34,9 +34,35 @@ class UserController extends CommonController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,User $user)
     {
-
+        if ($request->file('avatar'))
+        {
+            $file = $request->file('avatar');
+            $disk = \Storage::disk('qiniu');
+            $originalName = $file->getClientOriginalName(); //源文件名
+            $ext = $file->getClientOriginalExtension();    //文件拓展名
+            $type = $file->getClientMimeType(); //文件类型
+            $realPath = $file->getRealPath();   //临时文件的绝对路径
+            $fileName = date('Y-m-d-H-i-s').'-'.uniqid().'.'.$ext;  //新文件名
+            $contents = file_get_contents($realPath);
+            $upload_result = $disk->put($fileName,$contents);
+        }
+        $user->nickname = $request->nickname;
+        $user->avatar = env('QINIU_STORAGE_DOMAIN_URL').'/'.$fileName;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->amount = $request->amount;
+        $user->password = Crypt::encrypt($request->password);
+        $user->status = $request->status == 'on' ? 1 : 0;
+        $res = $user->save();
+        if ($res)
+        {
+            $alert = ['success','操作成功'];
+            return redirect('/Admin/User')->with('alert',$alert);
+        }else {
+            return redirect()->back()->withInput()->withErrors('保存失败！');
+        }
     }
 
     /**
@@ -58,8 +84,8 @@ class UserController extends CommonController
      */
     public function edit(User $user,$id)
     {
-        $user_info = $user->findOrFail($id);
-        return view('Admin.User.create')->with(compact('user_info'));
+        $data = $user->findOrFail($id);
+        return view('Admin.User.create')->with(compact('data'));
     }
 
     /**
@@ -69,9 +95,23 @@ class UserController extends CommonController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-
+        $data = $user->findOrFail($request->id);
+        $user->nickname = $request->nickname;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->amount = $request->amount;
+        $user->password = Crypt::encrypt($request->password);
+        $user->status = $request->status == 'on' ? 1 : 0;
+        $res = $user->save();
+        if ($res)
+        {
+            $alert = ['success','操作成功'];
+        }else {
+            $alert = ['error','操作失败'];
+        }
+        return redirect("/Admin/User")->with('alert',$alert);
     }
 
     /**
@@ -80,8 +120,22 @@ class UserController extends CommonController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request,$id,User $user)
     {
-
+        $res = $user->destroy($request->id);
+        if ($res)
+        {
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+                'data' => $res
+            ]);
+        }else {
+            return response([
+                'status'  => 500,
+                'message' => __('Operation fail.'),
+                'data' => $res
+            ]);
+        }
     }
 }

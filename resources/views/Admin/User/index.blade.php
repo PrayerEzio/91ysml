@@ -64,7 +64,7 @@
                                 <td>{{ $item->status == 1 ? '正常' : '冻结' }}</td>
                                 <td>
                                     <a class="btn btn-info" href="{{ url("/Admin/User/{$item->id}/edit" ) }}"><i class="fa fa-edit"></i> 编辑</a>
-                                    {{--<a class="btn btn-danger" onclick="delete_attribute_category({{ $item->id }})"><i class="fa fa-trash"></i> 删除</a>--}}
+                                    <a class="btn btn-danger" onclick="delete_user({{ $item->id }})"><i class="fa fa-trash"></i> 删除</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -123,7 +123,7 @@
         $(document).ready(function(){$(".dataTables-example").dataTable()});
 </script>
 <script>
-    function delete_attribute_category(id)
+    function delete_user(id)
     {
         swal({
             title: "您确定要删除这条信息吗",
@@ -135,7 +135,7 @@
             cancelButtonText: "取消",
             closeOnConfirm: false
         }, function () {
-            var URL = '{{ url('Admin/Attribute/deleteAttributeCategory') }}';
+            var URL = '{{ url('Admin/User') }}';
             var data = {_method:"DELETE",id:id};
             $.post(URL, data, function (result) {
                 if (result.status == 200)
