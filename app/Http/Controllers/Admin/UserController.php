@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\User;
+use App\Http\Service\QiniuService;
 use Illuminate\Http\Request;
 
 class UserController extends CommonController
@@ -34,22 +35,14 @@ class UserController extends CommonController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,User $user)
+    public function store(Request $request,User $user,QiniuService $qiniuService)
     {
         if ($request->file('avatar'))
         {
             $file = $request->file('avatar');
-            $disk = \Storage::disk('qiniu');
-            $originalName = $file->getClientOriginalName(); //源文件名
-            $ext = $file->getClientOriginalExtension();    //文件拓展名
-            $type = $file->getClientMimeType(); //文件类型
-            $realPath = $file->getRealPath();   //临时文件的绝对路径
-            $fileName = date('Y-m-d-H-i-s').'-'.uniqid().'.'.$ext;  //新文件名
-            $contents = file_get_contents($realPath);
-            $upload_result = $disk->put($fileName,$contents);
+            $user->avatar = $qiniuService->upload($file);
         }
         $user->nickname = $request->nickname;
-        $user->avatar = env('QINIU_STORAGE_DOMAIN_URL').'/'.$fileName;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->amount = $request->amount;
@@ -95,9 +88,14 @@ class UserController extends CommonController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, QiniuService $qiniuService)
     {
         $data = $user->findOrFail($request->id);
+        if ($request->file('avatar'))
+        {
+            $file = $request->file('avatar');
+            $user->avatar = $qiniuService->upload($file);
+        }
         $user->nickname = $request->nickname;
         $user->email = $request->email;
         $user->phone = $request->phone;

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Service\AdminService;
 use App\Http\Service\QiniuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

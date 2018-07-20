@@ -126,8 +126,13 @@ $admin_private_group = function(){
         Route::post('/edit/{id}',"{$controller}Controller@edit");
         Route::get('/addCate',"{$controller}Controller@addCate");
         Route::post('/addCate',"{$controller}Controller@addCate");
-        Route::get('/cate_list',"{$controller}Controller@cateList");
+        Route::get('/addCate/{id}',"{$controller}Controller@addCate");
+        Route::post('/addCate/{id}',"{$controller}Controller@addCate");
+        Route::get('/editCate/{id}',"{$controller}Controller@editCate");
+        Route::post('/editCate/{id}',"{$controller}Controller@editCate");
+        Route::get('/cateList',"{$controller}Controller@cateList");
         Route::delete('/delete',"{$controller}Controller@delete");
+        Route::delete('/deleteCate',"{$controller}Controller@deleteCate");
         Route::get('/{slug}',"{$controller}Controller@show");
     });
     Route::group(['prefix' => 'Goods'],function(){

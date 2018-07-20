@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Models\Article;
 use App\Http\Models\ArticleCate;
+use App\Http\Service\QiniuService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -30,10 +31,14 @@ class ArticleController extends CommonController
         return view('Admin.Article.show')->with(compact('article'));
     }
 
-    public function add(Request $request,ArticleCate $articleCate)
+    public function add(Request $request,ArticleCate $articleCate,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
+            if ($request->file('image'))
+            {
+                $data['image'] = $qiniuService->upload($request->file('image'));
+            }
             $data['category_id'] = $request->category_id;
             $data['title'] = $request->title;
             $data['slug'] = str_slug($data['title']);
@@ -46,20 +51,29 @@ class ArticleController extends CommonController
             $data['status'] = $request->status == 'on' ? 1 : 0;
             $data['body'] = $request->body;
             $data['sort'] = $request->sort;
-            $data['image'] = '';
             $res = Article::create($data);
-            dd($res);
+            if ($res)
+            {
+                $alert = ['success','操作成功'];
+            }else {
+                $alert = ['error','操作失败'];
+            }
+            return redirect("/Admin/Article/index")->with('alert',$alert);
         }else {
             $article_cates = $articleCate->get();
             return view('Admin.Article.add')->with(compact('article_cates'));
         }
     }
 
-    public function edit(Request $request,ArticleCate $articleCate,Article $article)
+    public function edit(Request $request,ArticleCate $articleCate,Article $article,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
             $data['id'] = $request->id;
+            if ($request->file('image'))
+            {
+                $data['image'] = $qiniuService->upload($request->file('image'));
+            }
             $data['category_id'] = $request->category_id;
             $data['title'] = $request->title;
             $data['slug'] = str_slug($data['title']);
@@ -72,9 +86,14 @@ class ArticleController extends CommonController
             $data['status'] = $request->status == 'on' ? 1 : 0;
             $data['body'] = $request->body;
             $data['sort'] = $request->sort;
-            $data['image'] = '';
             $res = Article::update($data);
-            dd($res);
+            if ($res)
+            {
+                $alert = ['success','操作成功'];
+            }else {
+                $alert = ['error','操作失败'];
+            }
+            return redirect("/Admin/Article/index")->with('alert',$alert);
         }else {
             $article_cates = $articleCate->get();
             $id = $request->id;
@@ -83,37 +102,48 @@ class ArticleController extends CommonController
         }
     }
 
-    public function addCate(Request $request,ArticleCate $articleCate)
+    public function addCate(Request $request,ArticleCate $articleCate,$id)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data['name'] = $request->name;
-            $data['parent_id'] = $request->parent_id;
-            $data['sort'] = $request->sort;
-            $data['status'] = 1;
-            $res = ArticleCate::create($data);
-            dd($res);
+            $articleCate->name = $request->name;
+            $articleCate->parent_id = $id;
+            $articleCate->sort = $request->sort;
+            $articleCate->status = 1;
+            $res = $articleCate->save();
+            if ($res)
+            {
+                $alert = ['success','操作成功'];
+            }else {
+                $alert = ['error','操作失败'];
+            }
+            return redirect("/Admin/Article/cateList")->with('alert',$alert);
         }else {
-            $article_cates = $articleCate->get();
-            return view('Admin.Article.add_cate')->with(compact('article_cates'));
+            return view('Admin.Article.add_cate');
         }
     }
 
-    public function editCate(Request $request,ArticleCate $articleCate)
+    public function editCate(Request $request,ArticleCate $articleCate,$id)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data['id'] = $request->id;
-            $data['name'] = $request->name;
-            $data['parent_id'] = $request->parent_id;
-            $data['sort'] = $request->sort;
-            $data['status'] = 1;
-            $res = ArticleCate::update($data);
-            dd($res);
+            $articleCate = $articleCate->findOrFail($id);
+            $articleCate->name = $request->name;
+            $articleCate->parent_id = $request->parent_id;
+            $articleCate->sort = $request->sort;
+            $articleCate->status = 1;
+            $res = $articleCate->save();
+            if ($res)
+            {
+                $alert = ['success','操作成功'];
+            }else {
+                $alert = ['error','操作失败'];
+            }
+            return redirect("/Admin/Article/cateList")->with('alert',$alert);
         }else {
             $article_cates = $articleCate->get();
-            $cate_info = $articleCate->findOrFail($request->id);
-            return view('Admin.Article.addCate')->with(compact('article_cates','cate_info'));
+            $data = $articleCate->findOrFail($request->id);
+            return view('Admin.Article.add_cate')->with(compact('article_cates','data'));
         }
     }
 
@@ -124,23 +154,44 @@ class ArticleController extends CommonController
 
     public function delete(Request $request,Article $article)
     {
-        if ($request->method() == 'DELETE')
+        $res = $article->destroy($request->id);
+        if ($res)
         {
-            $res = $article->destroy($request->id);
-            if ($res)
-            {
-                return response([
-                    'status'  => 200,
-                    'message' => __('Operation succeed.'),
-                    'data' => $res
-                ]);
-            }else {
-                return response([
-                    'status'  => 500,
-                    'message' => __('Operation fail.'),
-                    'data' => $res
-                ]);
-            }
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+                'data' => $res
+            ]);
+        }else {
+            return response([
+                'status'  => 500,
+                'message' => __('Operation fail.'),
+                'data' => $res
+            ]);
+        }
+    }
+
+    public function deleteCate(Request $request,ArticleCate $articleCate)
+    {
+        $res = false;
+        $child_count = $articleCate->where('parent_id',$request->id)->count();
+        if (!$child_count)
+        {
+            $res = $articleCate->destroy($request->id);
+        }
+        if ($res)
+        {
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+                'data' => $res
+            ]);
+        }else {
+            return response([
+                'status'  => 500,
+                'message' => __('Operation fail.'),
+                'data' => $res
+            ]);
         }
     }
 }
