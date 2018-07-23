@@ -11,21 +11,28 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
+use App\Http\Service\QiniuService;
 use Illuminate\Http\Request;
 
 class GoodsController extends CommonController
 {
-    public function goodsCategoryList(GoodsCategory $goodsCategory)
+    public function goodsCategoryList()
     {
-        $list = $goodsCategory->all();
-        return view('Admin.Goods.goods_category_list')->with(compact('list'));
+        return view('Admin.Goods.goods_category_list');
     }
 
-    public function addCategory(Request $request,GoodsCategory $goodsCategory)
+    public function addCategory(Request $request,GoodsCategory $goodsCategory,$id,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
+            if ($request->file('image'))
+            {
+                $goodsCategory->image = $qiniuService->upload($request->file('image'));
+            }
             $goodsCategory->name = $request->name;
+            $goodsCategory->parent_id = $id;
+            $goodsCategory->sort = $request->sort;
+            $goodsCategory->status = $request->status == 'on' ? 1 : 0;
             $res = $goodsCategory->save();
             if ($res)
             {
@@ -39,13 +46,20 @@ class GoodsController extends CommonController
         }
     }
 
-    public function editCategory(Request $request,GoodsCategory $goodsCategory)
+    public function editCategory(Request $request,GoodsCategory $goodsCategory,$id,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data = $goodsCategory->findOrFail($request->id);
-            $data->name = $request->name;
-            $res = $data->save();
+            if ($request->file('image'))
+            {
+                $goodsCategory->image = $qiniuService->upload($request->file('image'));
+            }
+            $goodsCategory = $goodsCategory->findOrFail($id);
+            $goodsCategory->name = $request->name;
+            $goodsCategory->parent_id = $request->parent_id;
+            $goodsCategory->sort = $request->sort;
+            $goodsCategory->status = $request->status == 'on' ? 1 : 0;
+            $res = $goodsCategory->save();
             if ($res)
             {
                 $alert = ['success','操作成功'];
@@ -61,23 +75,25 @@ class GoodsController extends CommonController
 
     public function deleteGoodsCategory(Request $request,GoodsCategory $goodsCategory)
     {
-        if ($request->method() == 'DELETE')
+        $res = false;
+        $child_count = $goodsCategory->where('parent_id',$request->id)->count();
+        if (!$child_count)
         {
             $res = $goodsCategory->destroy($request->id);
-            if ($res)
-            {
-                return response([
-                    'status'  => 200,
-                    'message' => __('Operation succeed.'),
-                    'data' => $res
-                ]);
-            }else {
-                return response([
-                    'status'  => 500,
-                    'message' => __('Operation fail.'),
-                    'data' => $res
-                ]);
-            }
+        }
+        if ($res)
+        {
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+                'data' => $res
+            ]);
+        }else {
+            return response([
+                'status'  => 500,
+                'message' => __('Operation fail.'),
+                'data' => $res
+            ]);
         }
     }
 
@@ -102,7 +118,7 @@ class GoodsController extends CommonController
             }
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
-            $cate_list = $goodsCategory->all();
+            $cate_list = $goodsCategory->get();
             return view('Admin.Goods.add_goods')->with(compact('cate_list'));
         }
     }
@@ -123,7 +139,7 @@ class GoodsController extends CommonController
             }
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
-            $cate_list = $goodsCategory->all();
+            $cate_list = $goodsCategory->get();
             $data = $goods->findOrFail($request->id);
             return view('Admin.Goods.add_goods')->with(compact('cate_list','data'));
         }

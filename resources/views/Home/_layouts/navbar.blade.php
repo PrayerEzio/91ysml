@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="help-text hidden-sm hidden-md" id="helpText">有任何疑问? 请联系我们的邮箱 <a href="mailto:prayer@crucis.cn" class="text-secondary">prayer@crucis.cn</a> </p>
+                <p class="help-text hidden-sm hidden-md" id="helpText">有任何疑问? 请联系我们的邮箱 <a href="mailto:service@91ysml.net" class="text-secondary">service@91ysml.net</a> </p>
             </div>
             <div class="col-md-4 col-sm-4">
                 <p class="text-center logo-container"><a href="index.html"><img src="{{asset('Home')}}/images/logo.png" width="100"></a></p>

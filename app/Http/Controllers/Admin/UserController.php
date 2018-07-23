@@ -15,7 +15,7 @@ class UserController extends CommonController
      */
     public function index(User $user)
     {
-        $list = $user->all();
+        $list = $user->get();
         return view('Admin.User.index')->with(compact('list'));
     }
 

@@ -10,7 +10,7 @@ class AttributeController extends CommonController
 {
     public function attributeCategoryList(AttributeCategory $attributeCategory)
     {
-        $list = $attributeCategory->all();
+        $list = $attributeCategory->get();
         return view('Admin.Attribute.attribute_category_list')->with(compact('list'));
     }
 
@@ -80,6 +80,7 @@ class AttributeController extends CommonController
         {
             $attribute->category_id = $request->category_id;
             $attribute->value = $request->value;
+            $attribute->value_code = $request->value_code;
             $res = $attribute->save();
             if ($res)
             {
@@ -89,7 +90,7 @@ class AttributeController extends CommonController
             }
             return redirect("/Admin/Attribute/attributeList/{$request->category_id}")->with('alert',$alert);
         }else {
-            $cate_list = $attributeCategory->all();
+            $cate_list = $attributeCategory->get();
             return view('Admin.Attribute.add_attribute')->with(compact('cate_list'));
         }
     }
@@ -101,6 +102,7 @@ class AttributeController extends CommonController
             $data = $attribute->findOrFail($request->id);
             $data->category_id = $request->category_id;
             $data->value = $request->value;
+            $data->value_code = $request->value_code;
             $res = $data->save();
             if ($res)
             {
@@ -110,7 +112,7 @@ class AttributeController extends CommonController
             }
             return redirect("/Admin/Attribute/attributeList/{$request->category_id}")->with('alert',$alert);
         }else {
-            $cate_list = $attributeCategory->all();
+            $cate_list = $attributeCategory->get();
             $data = $attribute->findOrFail($request->id);
             return view('Admin.Attribute.add_attribute')->with(compact('cate_list','data'));
         }

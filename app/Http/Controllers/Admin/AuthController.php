@@ -26,7 +26,7 @@ class AuthController extends CommonController
 
     public function permission_list(Permission $permission)
     {
-        $permission_list = $permission->all();
+        $permission_list = $permission->get();
         return view('Admin.Auth.permission_list')->with(compact('permission_list'));
     }
 

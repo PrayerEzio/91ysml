@@ -26,6 +26,7 @@
                         <tr>
                             <th>#</th>
                             <th>属性分类</th>
+                            <th>属性编号</th>
                             <th>属性值</th>
                             <th>操作</th>
                         </tr>
@@ -35,6 +36,7 @@
                             <tr>
                                 <td class="center">{{ $item->id }}</td>
                                 <td>{{ $item->category->name }}</td>
+                                <td>{{ $item->value_code }}</td>
                                 <td>{{ $item->value }}</td>
                                 <td>
                                     <a class="btn btn-info" href="{{ url('/Admin/Attribute/editAttribute',['id'=>$item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
@@ -47,6 +49,7 @@
                         <tr>
                             <th>#</th>
                             <th>属性分类</th>
+                            <th>属性编号</th>
                             <th>属性值</th>
                             <th>操作</th>
                         </tr>

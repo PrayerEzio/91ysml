@@ -60,6 +60,7 @@ $home_public_group = function(){
         Route::post('/getRegionsList','AjaxController@getRegionsList')->name('Home.Ajax.getRegionsList');
         Route::post('/getOrderDetail','AjaxController@getOrderDetail')->name('Home.Ajax.getOrderDetail');
         Route::post('/getArticleCategoryList','AjaxController@getArticleCategoryList')->name('Home.Ajax.getArticleCategoryList');
+        Route::post('/getGoodsCategoryList','AjaxController@getGoodsCategoryList')->name('Home.Ajax.getGoodsCategoryList');
     });
     Route::group(['prefix' => 'Login'],function(){
         Route::get('/','LoginController@index')->name('Home.Login.index');
@@ -143,6 +144,8 @@ $admin_private_group = function(){
         Route::post('/editGoods/{id}',"{$controller}Controller@editGoods");
         Route::get('/addCategory',"{$controller}Controller@addCategory");
         Route::post('/addCategory',"{$controller}Controller@addCategory");
+        Route::get('/addCategory/{id}',"{$controller}Controller@addCategory");
+        Route::post('/addCategory/{id}',"{$controller}Controller@addCategory");
         Route::get('/editCategory/{id}',"{$controller}Controller@editCategory");
         Route::post('/editCategory/{id}',"{$controller}Controller@editCategory");
         Route::get('/goodsCategoryList',"{$controller}Controller@goodsCategoryList");
@@ -165,6 +168,10 @@ $admin_private_group = function(){
         Route::get('/attributeList/{id}',"{$controller}Controller@attributeList");
         Route::delete('/deleteAttribute',"{$controller}Controller@deleteAttribute");
         Route::delete('/deleteAttributeCategory',"{$controller}Controller@deleteAttributeCategory");
+    });
+    Route::group(['prefix' => 'Order'],function(){
+        $controller = 'Order';
+        Route::get('/orderList',"{$controller}Controller@orderList");
     });
     Route::resource('User', 'UserController');
     /*Route::group(['prefix' => 'User'],function(){

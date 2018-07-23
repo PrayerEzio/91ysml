@@ -109,7 +109,7 @@ class ArticleController extends CommonController
             $articleCate->name = $request->name;
             $articleCate->parent_id = $id;
             $articleCate->sort = $request->sort;
-            $articleCate->status = 1;
+            $articleCate->status = $request->status == 'on' ? 1 : 0;
             $res = $articleCate->save();
             if ($res)
             {
@@ -131,7 +131,7 @@ class ArticleController extends CommonController
             $articleCate->name = $request->name;
             $articleCate->parent_id = $request->parent_id;
             $articleCate->sort = $request->sort;
-            $articleCate->status = 1;
+            $articleCate->status = $request->status == 'on' ? 1 : 0;
             $res = $articleCate->save();
             if ($res)
             {
