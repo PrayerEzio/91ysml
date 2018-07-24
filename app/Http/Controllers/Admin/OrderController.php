@@ -9,7 +9,7 @@ class OrderController extends CommonController
 {
     public function orderList(Order $order)
     {
-        $list = $order->orderBy('created_at','desc')->get();
+        $list = $order->orderBy('created_at','desc')->paginate(10);
         return view('Admin.Order.order_list')->with(compact('list'));
     }
 

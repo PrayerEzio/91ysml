@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
 use App\Http\Service\QiniuService;
@@ -99,11 +100,11 @@ class GoodsController extends CommonController
 
     public function goodsList(Request $request,Goods $goods)
     {
-        $list = $goods->where('category_id',$request->id)->get();
+        $list = $goods->paginate(10);
         return view('Admin.Goods.goods_list')->with(compact('list'));
     }
 
-    public function addGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods)
+    public function addGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods,AttributeCategory $attributeCategory)
     {
         if (strtolower($request->method()) == 'post')
         {
@@ -119,7 +120,9 @@ class GoodsController extends CommonController
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
             $cate_list = $goodsCategory->get();
-            return view('Admin.Goods.add_goods')->with(compact('cate_list'));
+            $cate_list = $this->unlimitedForLayer($cate_list);
+            $attribute_category_list = $attributeCategory->get();
+            return view('Admin.Goods.add_goods')->with(compact('cate_list','attribute_category_list'));
         }
     }
 

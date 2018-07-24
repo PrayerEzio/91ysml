@@ -6,7 +6,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>商品列表
+                        <h5>订单列表
                             <small></small>
                         </h5>
                         <div class="ibox-tools">
@@ -52,26 +52,28 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>商品名称</th>
-                                    <th>所属分类</th>
-                                    <th>上传时间</th>
+                                    <th>订单号</th>
+                                    <th>用户</th>
+                                    <th>金额</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($list as $goods)
-                                    <tr>
-                                        <td class="center">{{ $goods->id }}</td>
-                                        <td>{{ $goods->name }}</td>
-                                        <td>{{ $goods->category->name }}</td>
-                                        <td>{{ $goods->created_at }}</td>
-                                        <td>
-                                            <a class="btn btn-info"><i class="fa fa-edit"></i> 编辑</a>
-                                            <a class="btn btn-danger"><i class="fa fa-trash"></i> 删除</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    @foreach($list as $item)
+                                        <tr>
+                                            <td class="center">{{ $item->order_sn }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->amount }}</td>
+                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->status }}</td>
+                                            <td>
+                                                <a class="btn btn-info"><i class="fa fa-edit"></i> 编辑</a>
+                                                <a class="btn btn-danger"><i class="fa fa-trash"></i> 删除</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">

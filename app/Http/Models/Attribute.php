@@ -15,4 +15,8 @@ class Attribute extends Model
         return $this->belongsTo('App\Http\Models\AttributeCategory', 'category_id');
     }
 
+    public function scopeCategory($query,$category_id)
+    {
+        return $query->where('category_id', $category_id);
+    }
 }
