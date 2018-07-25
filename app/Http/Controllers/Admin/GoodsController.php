@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\Attribute;
 use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
@@ -104,10 +105,12 @@ class GoodsController extends CommonController
         return view('Admin.Goods.goods_list')->with(compact('list'));
     }
 
-    public function addGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods,AttributeCategory $attributeCategory)
+    public function addGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods,AttributeCategory $attributeCategory,Attribute $attribute)
     {
         if (strtolower($request->method()) == 'post')
         {
+            $data = $request->all();
+            dd($data);
             $goods->category_id = $request->category_id;
             $goods->value = $request->value;
             $res = $goods->save();
@@ -122,7 +125,8 @@ class GoodsController extends CommonController
             $cate_list = $goodsCategory->get();
             $cate_list = $this->unlimitedForLayer($cate_list);
             $attribute_category_list = $attributeCategory->get();
-            return view('Admin.Goods.add_goods')->with(compact('cate_list','attribute_category_list'));
+            $attribute_list = $attribute->get();
+            return view('Admin.Goods.add_goods')->with(compact('cate_list','attribute_category_list','attribute_list'));
         }
     }
 
