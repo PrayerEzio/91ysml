@@ -146,7 +146,7 @@
     </div><!-- /.container -->
 
     <div class="container" style="background: white; padding-bottom: 50px;">
-        {{ $goods->detail }}
+        {!! $goods->detail !!}
     </div>
 @endsection
 @section('javascript')

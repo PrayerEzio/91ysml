@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class GoodsController extends CommonController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->top_navbar = __('Home/common.shop');
+    }
+
     public function show(Request $request,Goods $goods)
     {
-        $goods = $goods->find($request->id);
+        $goods = $goods->has('products')->findOrFail($request->id);
         $goods_category_model = new GoodsCategory();
         $goods_category_list = $goods_category_model->get();
         $goods_category = $this->getParents($goods_category_list,$goods->category_id);
@@ -33,7 +39,8 @@ class GoodsController extends CommonController
             }
             $product->attribute_string = join('|',$product_attribute);
         }
-        return view('Home.Goods.show')->with(compact('goods','goods_category','attribute_list'));
+        $top_navbar = $this->top_navbar;
+        return view('Home.Goods.show')->with(compact('goods','goods_category','attribute_list','top_navbar'));
     }
 
 }

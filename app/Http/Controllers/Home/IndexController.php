@@ -24,7 +24,7 @@ class IndexController extends CommonController
         $goods_category_model = new GoodsCategory();
         $goods_category_list = $goods_category_model->parent(0)->get();
         $goods_model = new Goods();
-        $goods_list = $goods_model->paginate(9);
+        $goods_list = $goods_model->has('products')->paginate(9);
         $product_model = new Product();
         foreach ($goods_list as $key => $item)
         {
@@ -45,8 +45,8 @@ class IndexController extends CommonController
         $goods_category_list = $goods_category_model->parent($request->id)->get();
         $category_info = $goods_category_model->where('id',$request->id)->first();
         $goods_model = new Goods();
-        $goods_list = $goods_model->whereIn('category_id',$childs_id_array)->paginate(6);
-        $goods_count =  $goods_model->whereIn('category_id',$childs_id_array)->count();
+        $goods_list = $goods_model->whereIn('category_id',$childs_id_array)->has('products')->paginate(6);
+        $goods_count =  $goods_model->whereIn('category_id',$childs_id_array)->has('products')->count();
         $product_model = new Product();
         foreach ($goods_list as $key => $item)
         {

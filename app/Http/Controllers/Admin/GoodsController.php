@@ -13,8 +13,10 @@ use App\Http\Models\Attribute;
 use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
+use App\Http\Models\Product;
 use App\Http\Service\QiniuService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GoodsController extends CommonController
 {
@@ -105,15 +107,43 @@ class GoodsController extends CommonController
         return view('Admin.Goods.goods_list')->with(compact('list'));
     }
 
-    public function addGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods,AttributeCategory $attributeCategory,Attribute $attribute)
+    public function addGoods(Request $request,Goods $goods,GoodsCategory $goodsCategory,AttributeCategory $attributeCategory,Attribute $attribute,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data = $request->all();
-            dd($data);
-            $goods->category_id = $request->category_id;
-            $goods->value = $request->value;
-            $res = $goods->save();
+            DB::beginTransaction(); //事务开始
+            try {
+                $fillable_filed = ['category_id','goods_no','name','sub_title','tag','description','seo_title','seo_keywords','seo_description','sort','detail'];
+                foreach ($fillable_filed as $item)
+                {
+                    $goods->$item = $request->$item;
+                }
+                $goods->status = $request->status == 'on' ? 1 : 0;
+                $goods->save();
+                foreach ($request->product as $key => $item)
+                {
+                    $product = new Product();
+                    $product->goods_id = $goods->id;
+                    $product->product_no = $item['product_no'];
+                    $product->mkt_price = $item['mkt_price'];
+                    $product->price = $item['price'];
+                    $product->stock = $item['stock'];
+                    $product->position = $item['position'];
+                    $product->status = 1;
+                    $product->save();
+                    $attribute_list = [];
+                    foreach ($item['attribute'] as $item)
+                    {
+                        $product->attributes()->attach($item);
+                    }
+                }
+                DB::commit(); //提交事务
+                $res = true;
+            } catch(QueryException $ex) {
+                DB::rollback(); //回滚事务
+                //异常处理
+                $res = false;
+            }
             if ($res)
             {
                 $alert = ['success','操作成功'];
