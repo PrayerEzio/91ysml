@@ -71,7 +71,7 @@ class CreateOrdersTables extends Migration
             $table->unsignedDecimal('mkt_price')->default(0);
             $table->unsignedDecimal('price');
             $table->unsignedSmallInteger('qty')->default(0);
-            $table->string('goods_pic')->nullable();
+            $table->string('picture')->nullable();
         });
         Schema::create('order_logs', function (Blueprint $table) {
             $table->increments('id');
@@ -80,6 +80,7 @@ class CreateOrdersTables extends Migration
                 ->references('id')
                 ->on('orders');
             $table->string('operator');
+            $table->string('title');
             $table->string('content');
             $table->ipAddress('ip');
             $table->unsignedTinyInteger('level');

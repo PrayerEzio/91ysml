@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('phone',16)->nullable();
             $table->string('avatar',255)->nullable();
             $table->string('password',255);
-            $table->unsignedDecimal('amount')->default(0);
+            $table->unsignedDecimal('balance')->default(0);
             $table->ipAddress('register_ip');
             $table->string('token',255)->nullable();
             $table->tinyInteger('status');

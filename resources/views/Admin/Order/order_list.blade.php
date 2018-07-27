@@ -64,13 +64,13 @@
                                     @foreach($list as $item)
                                         <tr>
                                             <td class="center">{{ $item->order_sn }}</td>
-                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->user->nickname }}</td>
                                             <td>{{ $item->amount }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>{{ $item->status }}</td>
                                             <td>
                                                 <a class="btn btn-info"><i class="fa fa-edit"></i> 编辑</a>
-                                                <a class="btn btn-danger"><i class="fa fa-trash"></i> 删除</a>
+                                                <a class="btn btn-danger" onclick="cancel_order({{ $item->order_sn }})"><i class="fa fa-trash"></i> 取消</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -85,4 +85,32 @@
             </div>
         </div>
     </div>
+@endsection
+@section('javascript')
+    <script>
+        function cancel_order(sn)
+        {
+            swal({
+                title: "您确定要取消这条订单吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                closeOnConfirm: false
+            }, function () {
+                var URL = '{{ url('Admin/Order/cancelOrder') }}';
+                var data = {_method:"DELETE",id:id};
+                $.post(URL, data, function (result) {
+                    if (result.status == 200)
+                    {
+                        swal("订单取消成功！", result.message, "success");
+                    }else {
+                        swal("订单取消失败！", result.message, "error");
+                    }
+                });
+            })
+        }
+    </script>
 @endsection

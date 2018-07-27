@@ -54,7 +54,7 @@
             "closeButton": true,
             "debug": false,
             "progressBar": true,
-            "positionClass": "toast-top-right",
+            "positionClass": "toast-top-center",
             "onclick": null,
             "showDuration": "400",
             "hideDuration": "1000",

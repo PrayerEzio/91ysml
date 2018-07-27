@@ -97,7 +97,7 @@ class OrderController extends CommonController
                 $temp_item['mkt_price'] = $product_info->mkt_price ? $product_info->mkt_price : 0.00;
                 $temp_item['price'] = $product_info->price ? $product_info->price : 0.00;
                 $temp_item['qty'] = $item->qty;
-                $temp_item['goods_pic'] = $product_info->goods->picture;
+                $temp_item['picture'] = $product_info->goods->picture;
                 $product_list[] = $temp_item;
             }
             $order->products()->createMany($product_list);
@@ -108,30 +108,30 @@ class OrderController extends CommonController
                 'level' => 0,
                 'status' => 1,
             ]);
+            Cart::destroy();
             DB::commit(); //提交事务
         } catch(QueryException $ex) {
             DB::rollback(); //回滚事务
             //异常处理
             return abort(500,'订单生成失败');
         }
-        Cart::destroy();
         return redirect()->route('Home.Order.payOrder',['sn'=>$order_sn]);
     }
 
-    public function payOrder(Request $request,Order $order,User $user)
+    public function payOrder($sn,Request $request,Order $order,User $user)
     {
-        $order_info = $order->scopeOrderSn($request->sn)->scopeUserId($this->getUserId())->first();
+        $order_info = $order->orderSn($sn)->userId($this->getUserId())->status(1)->first();
         if (empty($order_info)) return abort(500);
         if ($request->method() == 'POST')
         {
-            //TODO:支付
             DB::beginTransaction(); //事务开始
             try {
-                switch ($request->pay_type) {
+                switch ($request->payment_method) {
                     case 'perpay':
-                        $user->scopeUserId($this->getUserId())
+                        $user->userId($this->getUserId())
                             ->where('balance','>=',$order_info->amount)
                             ->decrement('balance',$order_info->amount);
+                        $order_info->status = 2;//1未支付 2已支付 3已发货 4已收货 5已完成 -1取消
                         break;
                     case 'alipay':
                         break;
@@ -139,42 +139,80 @@ class OrderController extends CommonController
                         break;
                     case 'paypal':
                         break;
+                    default:
+                        return redirect()->back()->withInput()->with('alert',['error','支付失败']);
+                        break;
                 }
-                $order_info->status = 2;//1未支付 2已支付 3已发货 4已收货 5已完成 -1取消
-                $order->save();
-                $order->logs()->create([
+                $order_info->save();
+                $order_info->logs()->create([
                     'operator' => "用户id-{$this->getUserId()}",
-                    'content' => "支付订单-{$request->pay_type}",
+                    'content' => "支付订单-{$request->payment_method}",
                     'ip' => $request->getClientIp(),
                     'level' => 0,
                     'status' => 1,
                 ]);
                 DB::commit();//提交事务
+                return redirect('/Home/Order/getList')->with('alert',['success','操作成功']);
             } catch(QueryException $ex) {
                 DB::rollback(); //回滚事务
                 //异常处理
-                return abort(500,'订单支付失败');
+                dd($ex);
+                return redirect()->back()->withInput()->with('alert',['error','支付失败']);
             }
         }else {
-            return view('Home.Order.payOrder')->with(compact('order_info'));
+            return view('Home.Order.detail')->with(compact('order_info'));
         }
     }
 
     public function getList(Order $order)
     {
-        $order_list = $order->where('user_id',$this->getUserId())->paginate(10);
+        $order_list = $order->userId($this->getUserId())->paginate(10);
         return view('Home.Order.getList')->with(compact('order_list'));
     }
 
     public function detail($sn,Order $order)
     {
-        $order_info = $order->where('user_id',$this->getUserId())
-                            ->where('order_sn',$sn)
+        $order_info = $order->userId($this->getUserId())
+                            ->orderSn($sn)
                             ->first();
         return view('Home.Order.detail')->with(compact('order_info'));
     }
 
     public function cancelOrder($sn,Order $order)
     {
+        $order_info = $order->orderSn($sn)->userId($this->getUserId())->whereIn('status',[1,2])->first();
+        if (mpty($order_info)) {
+            return response([
+                'status'  => 404,
+                'message' => __('Operation fail.'),
+            ]);
+        }
+        DB::beginTransaction(); //事务开始
+        try{
+            //1.改变订单状态
+            $order_info->status = -1;
+            //2.回滚库存
+            foreach ($order_info->products as $order_product)
+            {
+                $product_model = new Product();
+                $product_model->where('id',$order_product->product_id)->increment('stock',$order_product->qty);
+            }
+            //3.进行退款操作 判断是否已经付款
+            switch ($order->status)
+            {
+                case 2:
+                    $user_model = new User();
+                    $user_model->userId('id',$order->user_id)->increment('amount',$order->amount);
+                    break;
+            }
+            DB::commit();//提交事务
+        } catch(QueryException $ex) {
+            DB::rollback(); //回滚事务
+            //异常处理
+            return response([
+                'status'  => 500,
+                'message' => __('Operation fail.'),
+            ]);
+        }
     }
 }

@@ -35,6 +35,7 @@ $test_group = function(){
         Route::get('/seed','IndexController@seed')->name('test.index.seed');
         Route::get('/getOrder/{order_sn}','IndexController@getOrder')->name('test.index.get_order');
         Route::get('/cart','IndexController@cart')->name('test.index.cart');
+        Route::get('/test','IndexController@test')->name('test.index.test');
     });
 };
 
@@ -81,7 +82,8 @@ $home_private_group = function (){
         Route::get('/getList','OrderController@getList')->name('Home.Order.getList');
         Route::get('/detail/{sn}','OrderController@detail')->name('Home.Order.detail');
         Route::get('/payOrder/{sn}','OrderController@payOrder')->name('Home.Order.payOrder');
-        Route::get('/cancelOrder/{sn}','OrderController@cancelOrder')->name('Home.Order.cancelOrder');
+        Route::post('/payOrder/{sn}','OrderController@payOrder')->name('Home.Order.payOrder');
+        Route::delete('/cancelOrder/{sn}','OrderController@cancelOrder')->name('Home.Order.cancelOrder');
     });
     Route::group(['prefix' => 'Member'],function(){
         Route::get('/index','MemberController@index')->name('Home.Member.index');
@@ -172,10 +174,11 @@ $admin_private_group = function(){
     Route::group(['prefix' => 'Order'],function(){
         $controller = 'Order';
         Route::get('/orderList',"{$controller}Controller@orderList");
+        Route::delete('/cancelOrder/{sn}','OrderController@cancelOrder')->name("Admin.{$controller}.cancelOrder");
     });
     Route::group(['prefix' => 'Ajax'],function(){
         $controller = 'Ajax';
-        Route::post('/getAttributesList',"{$controller}Controller@getAttributesList")->name("Home.{$controller}.getOrderDetail");
+        Route::post('/getAttributesList',"{$controller}Controller@getAttributesList")->name("Admin.{$controller}.getOrderDetail");
     });
     Route::resource('User', 'UserController');
     /*Route::group(['prefix' => 'User'],function(){

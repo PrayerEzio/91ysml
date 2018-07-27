@@ -62,6 +62,7 @@
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                @php isset($top_navbar) ? '' : $top_navbar = '';@endphp
                 <li @if ($top_navbar == __('Home/common.shop'))class="active"@endif><a href="{{ url('/') }}">{{ __('Home/common.shop') }}</a></li>
                 <li @if ($top_navbar == __('Home/common.articles'))class="active"@endif><a href="{{ url('articles') }}">{{ __('Home/common.articles') }}</a></li>
                 <li @if ($top_navbar == __('Home/common.FAQs'))class="active"@endif><a href="questions.html">{{ __('Home/common.FAQs') }}</a></li>

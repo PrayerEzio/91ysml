@@ -14,6 +14,7 @@ class CartController extends CommonController
     {
         parent::__construct();
         $cart::instance($this->_cart_name);
+        $this->top_navbar = __('Home/common.shop');
     }
 
     public function index(Request $request)
@@ -30,7 +31,8 @@ class CartController extends CommonController
                 'data' => $data,
             ]);
         } else {
-            return view('Home.Cart.index')->with(compact('data'));
+            $top_navbar = $this->top_navbar;
+            return view('Home.Cart.index')->with(compact('data','top_navbar'));
         }
     }
 

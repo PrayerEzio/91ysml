@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">余额</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="amount" value="{{ $data->amount or '' }}">
+                                    <input type="number" class="form-control" name="balance" value="{{ $data->balance or '' }}">
                                 </div>
                             </div>
                             <div class="form-group">

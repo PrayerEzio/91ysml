@@ -53,6 +53,7 @@
     <link rel="stylesheet" href="{{asset('Home')}}/css/tipuesearch/tipuesearch.css">
 
     <link rel="stylesheet" href="{{asset('Home')}}/css/prism/prism.css">
+    <link href="{{ asset('Admin') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <style type="text/css">
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -88,13 +89,39 @@
 <script src="{{asset('Home')}}/js/tipusearch/tipuesearch_content.js"></script>
 <script src="{{asset('Home')}}/js/tipusearch/tipuesearch_set.js"></script>
 <script src="{{asset('Home')}}/js/tipusearch/tipuesearch.js"></script>
-
 <script src="{{asset('Home')}}/js/prism/prism.js"></script>
+<script src="{{ asset('Admin') }}/js/plugins/toastr/toastr.min.js"></script>
 
 <!--kimi basic js-->
 <script src="{{asset('Home')}}/js/kimi.js"></script>
 <script>
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+</script>
+<script type="text/javascript">
+    $(function(){
+        var shortCutFunction = '{{ session('alert.0') }}';
+        var title = '{{ session('alert.1') }}';
+        var msg = '{{ session('alert.2') }}';
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "7000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if (shortCutFunction !== '')
+        {
+            toastr[shortCutFunction](msg,title);
+        }
+    });
 </script>
 @yield('javascript')
 </body>

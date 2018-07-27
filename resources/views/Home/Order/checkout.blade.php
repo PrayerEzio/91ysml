@@ -110,43 +110,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="box-bg-white">
-                        <h3 class="section-title">支付方式</h3>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="payment_method" id="perpay" value="perpay" aria-label="...">
-                                        预付款
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="payment_method" id="alipay" value="alipay" aria-label="...">
-                                        支付宝
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="payment_method" id="wechat" value="wechat" aria-label="...">
-                                        微信
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="payment_method" id="paypal" value="paypal" aria-label="...">
-                                        paypal
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="well m-t"><strong>注意：</strong> 请在30日内完成付款，否则订单会自动取消。
                     </div>
                     <a href="{{ url('/Cart/index') }}" class="text-gray-1"><i class="fa fa-angle-left" aria-hidden="true"></i> {{ __('Home/common.cart') }}</a>
                     {{--<a href="checkout2.html" class="btn btn-default pull-right button-black hidden-xs">Continue to Shipping</a>--}}

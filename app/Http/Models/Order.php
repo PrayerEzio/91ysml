@@ -37,4 +37,9 @@ class Order extends Model
     {
         return $query->where('user_id',$user_id);
     }
+
+    public function scopeStatus($query,$status)
+    {
+        return $query->where('status',$status);
+    }
 }

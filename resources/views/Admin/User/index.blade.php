@@ -40,7 +40,7 @@
                                     <td>{{ $item->nickname or '' }}</td>
                                     <td>{{ $item->email or '' }}</td>
                                     <td>{{ $item->phone or '' }}</td>
-                                    <td>{{ $item->amount }}</td>
+                                    <td>{{ $item->balance }}</td>
                                     <td>{{ $item->status == 1 ? '正常' : '冻结' }}</td>
                                     <td>
                                         <a class="btn btn-info" href="{{ url("/Admin/User/{$item->id}/edit" ) }}"><i class="fa fa-edit"></i> 编辑</a>
