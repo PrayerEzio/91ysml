@@ -42,4 +42,35 @@ class Order extends Model
     {
         return $query->where('status',$status);
     }
+
+    static public function getStatusName($order)
+    {
+        if (empty($order)) return '';
+        //1未支付 2已支付 3已发货 4已收货 5已完成 -1取消
+        switch ($order->status)
+        {
+            case -1:
+                $status_name = '已取消';
+                break;
+            case 1:
+                $status_name = '未支付';
+                break;
+            case 2:
+                $status_name = '已支付';
+                break;
+            case 3:
+                $status_name = '已发货';
+                break;
+            case 4:
+                $status_name = '已收货';
+                break;
+            case 5:
+                $status_name = '已完成';
+                break;
+            default:
+                $status_name = '异常状态';
+                break;
+        }
+        return $status_name;
+    }
 }

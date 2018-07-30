@@ -39,7 +39,6 @@
 <script src="{{ asset('Admin') }}/js/plugins/prettyfile/bootstrap-prettyfile.js" type="text/javascript" charset="utf-8"></script>
 <script src="{{ asset('Admin') }}/js/plugins/iCheck/icheck.min.js"></script>
 <script src="{{ asset('Admin') }}/js/plugins/switchery/switchery.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script src="{{ asset('Admin') }}/js/plugins/cropper/cropper.min.js"></script>
 <script src="{{ asset('Vendor') }}/layui/layui.js"></script>
 <script>

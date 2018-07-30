@@ -174,7 +174,8 @@ $admin_private_group = function(){
     Route::group(['prefix' => 'Order'],function(){
         $controller = 'Order';
         Route::get('/orderList',"{$controller}Controller@orderList");
-        Route::delete('/cancelOrder/{sn}','OrderController@cancelOrder')->name("Admin.{$controller}.cancelOrder");
+        Route::get('/detail/{sn}',"{$controller}Controller@detail")->name("Admin.{$controller}.detail");
+        Route::delete('/cancelOrder/{sn}',"{$controller}Controller@cancelOrder")->name("Admin.{$controller}.cancelOrder");
     });
     Route::group(['prefix' => 'Ajax'],function(){
         $controller = 'Ajax';

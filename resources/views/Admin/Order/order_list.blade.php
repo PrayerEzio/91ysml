@@ -1,5 +1,8 @@
 @extends('Admin.main')
 @section('title', "首页-Sramer")
+@section('css')
+    <link href="{{ asset('Admin') }}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+@endsection
 @section('body')
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
@@ -21,33 +24,51 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <div class="row">
-                            <div class="col-sm-5 m-b-xs">
-                                <select class="input-sm form-control input-s-sm inline">
-                                    <option value="0">请选择</option>
-                                    <option value="1">选项1</option>
-                                    <option value="2">选项2</option>
-                                    <option value="3">选项3</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4 m-b-xs">
-                                <div data-toggle="buttons" class="btn-group">
-                                    <label class="btn btn-sm btn-white">
-                                        <input type="radio" id="option1" name="options">天</label>
-                                    <label class="btn btn-sm btn-white active">
-                                        <input type="radio" id="option2" name="options">周</label>
-                                    <label class="btn btn-sm btn-white">
-                                        <input type="radio" id="option3" name="options">月</label>
+                        <form id="filter_form" method="get" action="">
+                            <div class="row">
+                                {{--<div class="col-sm-5 m-b-xs">
+                                    <select class="input-sm form-control input-s-sm inline">
+                                        <option value="0">请选择</option>
+                                        <option value="1">选项1</option>
+                                        <option value="2">选项2</option>
+                                        <option value="3">选项3</option>
+                                    </select>
+                                </div>--}}
+                                <div class="col-sm-4 m-b-xs">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        @php !isset($input['status']) ? $input['status'] = '' : '';@endphp
+                                        <label class="btn btn-sm btn-white {{ $input['status']=='' ? 'active' : ''}}">
+                                            <input type="radio" id="all" name="status" value="">全部订单</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == 1 ? 'active' : ''}}">
+                                            <input type="radio" id="status1" name="status" value="1">未支付</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == 2 ? 'active' : ''}}">
+                                            <input type="radio" id="status2" name="status" value="2">已付款</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == 3 ? 'active' : ''}}">
+                                            <input type="radio" id="status3" name="status" value="3">已发货</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == 4 ? 'active' : ''}}">
+                                            <input type="radio" id="status4" name="status" value="4">已收货</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == 5 ? 'active' : ''}}">
+                                            <input type="radio" id="status5" name="status" value="5">已完成</label>
+                                        <label class="btn btn-sm btn-white {{ $input['status'] == -1 ? 'active' : ''}}">
+                                            <input type="radio" id="status-1" name="status" value="-1">已取消</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+                                    <div class="input-daterange input-group" id="datepicker">
+                                        <input type="text" class="input-sm form-control" name="start" value="{{ $input['start'] or '' }}"/>
+                                        <span class="input-group-addon">至</span>
+                                        <input type="text" class="input-sm form-control" name="end" value="{{ $input['end'] or '' }}"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入订单号" class="input-sm form-control" name="sn" value="{{ $input['sn'] or '' }}"> <span
+                                                class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="input-group">
-                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
-                                            class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -67,9 +88,11 @@
                                             <td>{{ $item->user->nickname }}</td>
                                             <td>{{ $item->amount }}</td>
                                             <td>{{ $item->created_at }}</td>
-                                            <td>{{ $item->status }}</td>
                                             <td>
-                                                <a class="btn btn-info"><i class="fa fa-edit"></i> 编辑</a>
+                                                {{ \App\Http\Models\Order::getStatusName($item) }}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-info" href="{{ url('Admin/Order/detail',['sn'=>$item->order_sn]) }}"><i class="fa fa-edit"></i> 查看</a>
                                                 <a class="btn btn-danger" onclick="cancel_order({{ $item->order_sn }})"><i class="fa fa-trash"></i> 取消</a>
                                             </td>
                                         </tr>
@@ -87,6 +110,7 @@
     </div>
 @endsection
 @section('javascript')
+    <script src="{{ asset('Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
         function cancel_order(sn)
         {
@@ -112,5 +136,12 @@
                 });
             })
         }
+        $('input:radio[name="status"]').change(function () {
+            $("#filter_form").submit();
+        });
+        $('.input-daterange').datepicker({
+            language: "zh-CN",
+            autoclose:true,
+        });
     </script>
 @endsection
