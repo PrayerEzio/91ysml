@@ -182,6 +182,7 @@ $admin_private_group = function(){
         Route::post('/getAttributesList',"{$controller}Controller@getAttributesList")->name("Admin.{$controller}.getOrderDetail");
     });
     Route::resource('User', 'UserController');
+    Route::resource('Advertisement', 'AdvertisementController');
     /*Route::group(['prefix' => 'User'],function(){
         $controller = 'User';
         Route::resource('User', 'UserController');

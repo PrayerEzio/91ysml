@@ -21,7 +21,12 @@ class OrderController extends CommonController
 
     public function detail($sn,Order $order)
     {
-        $data = $order->orderSn($sn)->findOrFail();
+        $data = $order->orderSn($sn)->first();
         return view('Admin.Order.detail')->with(compact('data'));
+    }
+
+    public function cancelOrder($sn,Order $order)
+    {
+
     }
 }

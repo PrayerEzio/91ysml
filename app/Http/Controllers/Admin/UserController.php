@@ -90,7 +90,7 @@ class UserController extends CommonController
      */
     public function update(Request $request, User $user, QiniuService $qiniuService)
     {
-        $data = $user->findOrFail($request->id);
+        $user = $user->findOrFail($request->id);
         if ($request->file('avatar'))
         {
             $file = $request->file('avatar');

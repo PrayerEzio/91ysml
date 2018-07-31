@@ -3,9 +3,14 @@
 namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleCate extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
     protected $table = 'article_category';
 
     protected $fillable = ['name', 'parent_id', 'sort', 'status'];

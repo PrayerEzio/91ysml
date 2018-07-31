@@ -211,25 +211,32 @@
                                     <div class="text-right">
                                         <button class="btn btn-primary" type="button" onclick="pay()"><i class="fa fa-dollar"></i> 去付款</button>
                                     </div>
+                                    @break
+                                @case (3)
+                                    <div class="text-right">
+                                        <button class="btn btn-primary" type="button" onclick="confirm_receipt()"><i class="fa fa-dollar"></i> 确认收货</button>
+                                    </div>
+                                    @break
                                 @default
-                                    @foreach($order_info->logs as $log)
-                                    <div class="ibox-content timeline">
-                                        <div class="timeline-item">
-                                            <div class="row">
-                                                <div class="col-xs-3 date">
-                                                    {{ $log->created_at }}
-                                                    <br>
-                                                    <small class="text-navy">{{ $log->created_at->diffForHumans() }}</small>
-                                                </div>
-                                                <div class="col-xs-7 content no-top-border">
-                                                    <p class="m-b-xs"><strong>{{ $log->title }}</strong></p>
-                                                    <p>{{ $log->content }}</p>
-                                                </div>
+                                    @break
+                            @endswitch
+                            @foreach($order_info->logs as $log)
+                                <div class="ibox-content timeline">
+                                    <div class="timeline-item">
+                                        <div class="row">
+                                            <div class="col-xs-3 date">
+                                                {{ $log->created_at }}
+                                                <br>
+                                                <small class="text-navy">{{ $log->created_at->diffForHumans() }}</small>
+                                            </div>
+                                            <div class="col-xs-7 content no-top-border">
+                                                <p class="m-b-xs"><strong>{{ $log->title }}</strong></p>
+                                                <p>{{ $log->content }}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
-                            @endswitch
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </form>
@@ -249,6 +256,11 @@
             }
             $("#order_pay_form").attr('action',"{{ url('/Order/payOrder',['sn'=>$order_info->order_sn]) }}");
             $("#order_pay_form").submit();
+        }
+
+        function confirm_receipt()
+        {
+
         }
     </script>
 @endsection

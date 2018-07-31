@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>订单列表
+                        <h5>广告列表
                             <small></small>
                         </h5>
                         <div class="ibox-tools">
@@ -18,7 +18,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
-                                    <a href="{{ url('Admin/Goods/addGoods') }}"><i class="fa fa-plus"></i> 新增</a>
+                                    <a href="{{ url('Admin/Advertisement/create') }}"><i class="fa fa-plus"></i> 新增</a>
                                 </li>
                             </ul>
                         </div>
@@ -26,31 +26,13 @@
                     <div class="ibox-content">
                         <form id="filter_form" method="get" action="">
                             <div class="row">
-                                {{--<div class="col-sm-5 m-b-xs">
-                                    <select class="input-sm form-control input-s-sm inline">
-                                        <option value="0">请选择</option>
-                                        <option value="1">选项1</option>
-                                        <option value="2">选项2</option>
-                                        <option value="3">选项3</option>
-                                    </select>
-                                </div>--}}
                                 <div class="col-sm-4 m-b-xs">
                                     <div data-toggle="buttons" class="btn-group">
-                                        @php !isset($input['status']) ? $input['status'] = '' : '';@endphp
-                                        <label class="btn btn-sm btn-white {{ $input['status']=='' ? 'active' : ''}}">
-                                            <input type="radio" id="all" name="status" value="">全部订单</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == 1 ? 'active' : ''}}">
-                                            <input type="radio" id="status1" name="status" value="1">未支付</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == 2 ? 'active' : ''}}">
-                                            <input type="radio" id="status2" name="status" value="2">已付款</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == 3 ? 'active' : ''}}">
-                                            <input type="radio" id="status3" name="status" value="3">已发货</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == 4 ? 'active' : ''}}">
-                                            <input type="radio" id="status4" name="status" value="4">已收货</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == 5 ? 'active' : ''}}">
-                                            <input type="radio" id="status5" name="status" value="5">已完成</label>
-                                        <label class="btn btn-sm btn-white {{ $input['status'] == -1 ? 'active' : ''}}">
-                                            <input type="radio" id="status-1" name="status" value="-1">已取消</label>
+                                        @php !isset($input['position']) ? $input['position'] = '' : '';@endphp
+                                        <label class="btn btn-sm btn-white {{ $input['position']=='' ? 'active' : ''}}">
+                                            <input type="radio" id="all" name="position" value="">全部</label>
+                                        <label class="btn btn-sm btn-white {{ $input['position'] == 'banner' ? 'active' : ''}}">
+                                            <input type="radio" id="position1" name="position" value="1">首页banner</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 m-b-xs">
@@ -62,7 +44,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input type="text" placeholder="请输入订单号" class="input-sm form-control" name="sn" value="{{ $input['sn'] or '' }}"> <span
+                                        <input type="text" placeholder="请输入广告标题" class="input-sm form-control" name="title" value="{{ $input['title'] or '' }}"> <span
                                                 class="input-group-btn">
                                             <button class="btn btn-sm btn-primary"> 搜索</button> </span>
                                     </div>
@@ -73,9 +55,12 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>订单号</th>
-                                    <th>用户</th>
-                                    <th>金额</th>
+                                    <th>#</th>
+                                    <th>标题</th>
+                                    <th>子标题</th>
+                                    <th>图片</th>
+                                    <th>广告位</th>
+                                    <th>排序</th>
                                     <th>创建时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
@@ -84,16 +69,19 @@
                                 <tbody>
                                     @foreach($list as $item)
                                         <tr>
-                                            <td class="center">{{ $item->order_sn }}</td>
-                                            <td>{{ $item->user->nickname }}</td>
-                                            <td>{{ $item->amount }}</td>
+                                            <td class="center">{{ $item->id }}</td>
+                                            <td>{{ $item->title }}</td>
+                                            <td>{{ $item->sub_title }}</td>
+                                            <td>{{ $item->image }}</td>
+                                            <td>{{ $item->position }}</td>
+                                            <td>{{ $item->sort }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
-                                                {{ \App\Http\Models\Order::getStatusName($item) }}
+                                                {{ $item->status == 1 ? '开启' : '关闭' }}
                                             </td>
                                             <td>
-                                                <a class="btn btn-info" href="{{ url('Admin/Order/detail',['sn'=>$item->order_sn]) }}"><i class="fa fa-edit"></i> 查看</a>
-                                                <a class="btn btn-danger" onclick="cancel_order({{ $item->order_sn }})"><i class="fa fa-trash"></i> 取消</a>
+                                                <a class="btn btn-info" href="{{ url('Admin/Advertisement/edit',['id'=>$item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
+                                                <a class="btn btn-danger" onclick="delete_adv({{ $item->id }})"><i class="fa fa-trash"></i> 取消</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -112,10 +100,10 @@
 @section('javascript')
     <script src="{{ asset('Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
-        function cancel_order(sn)
+        function delete_adv(id)
         {
             swal({
-                title: "您确定要取消这条订单吗",
+                title: "您确定要删除这条广告吗",
                 text: "删除后将无法恢复，请谨慎操作！",
                 type: "warning",
                 showCancelButton: true,
@@ -124,8 +112,8 @@
                 cancelButtonText: "取消",
                 closeOnConfirm: false
             }, function () {
-                var URL = '{{ url('Admin/Order/cancelOrder') }}';
-                var data = {_method:"DELETE",sn:sn};
+                var URL = '{{ url('Admin/Advertisement/destroy') }}';
+                var data = {_method:"DELETE",id:id};
                 $.post(URL, data, function (result) {
                     if (result.status == 200)
                     {

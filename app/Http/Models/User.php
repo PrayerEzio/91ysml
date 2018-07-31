@@ -9,6 +9,8 @@ class User extends Model
 {
     use SoftDeletes;
 
+    protected $dates = ['deleted_at'];
+
     protected $table = 'users';
 
     protected $fillable = ['nickname', 'email', 'password', 'register_ip', 'status'];

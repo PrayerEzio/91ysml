@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 abstract class CommonController extends Controller
 {
+    public $top_navbar = '';
+
     public function __construct()
     {
         parent::__construct();

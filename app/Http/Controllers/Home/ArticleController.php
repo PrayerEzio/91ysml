@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class ArticleController extends CommonController
 {
+    public $top_navbar;
+
     public function __construct()
     {
         parent::__construct();
