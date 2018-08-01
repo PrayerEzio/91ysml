@@ -16,24 +16,24 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="post" action="" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="{{ isset($data->id) ? 'PUT' : 'post' }}" action="{{ url('Admin/Advertisement') }}" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">广告位</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control m-b" name="category_id">
+                                    <select class="form-control m-b" name="position">
                                         <option value="banner">首页banner</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">商品标题</label>
+                                <label class="col-sm-2 control-label">标题</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="title" value="{{ $data->title or '' }}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">商品副标题</label>
+                                <label class="col-sm-2 control-label">副标题</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="sub_title" value="{{ $data->sub_title or '' }}"> <span class="help-block m-b-none"></span>
                                 </div>

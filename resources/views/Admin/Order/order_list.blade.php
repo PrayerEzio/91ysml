@@ -1,7 +1,7 @@
 @extends('Admin.main')
 @section('title', "首页-Sramer")
 @section('css')
-    <link href="{{ asset('Admin') }}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 @endsection
 @section('body')
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -110,7 +110,7 @@
     </div>
 @endsection
 @section('javascript')
-    <script src="{{ asset('Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="{{ asset('assets/Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
         function cancel_order(sn)
         {

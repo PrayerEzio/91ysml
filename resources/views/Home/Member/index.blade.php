@@ -73,20 +73,20 @@
 </div>
 
 <div class="container channel-cover">
-    <img src="{{asset('Home')}}/images/coverSucicakes.jpg" class="cover-image">
+    <img src="{{ asset('assets/Home') }}/images/coverSucicakes.jpg" class="cover-image">
     <div class="hidden-xs channel-info">
         <h1 class="text-red">Sucicakes</h1>
-        <img src="{{asset('Home')}}/images/premium.png" class="pull-left">
+        <img src="{{ asset('assets/Home') }}/images/premium.png" class="pull-left">
         <h4 style="margin-left: 10px; float: left;">Premium Seller</h4>
         <div class="clearfix maya-small-padding"></div>
-        <img src="{{asset('Home')}}/images/halal35.png">
+        <img src="{{ asset('assets/Home') }}/images/halal35.png">
     </div>
 </div>
 
 <div class="container hidden-xs bg-white" style="padding-bottom: 20px;">
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-2 hidden-xs">
-            <p class=""><img src="{{asset('Home')}}/images/sucicakes_logo.png" width="100"></p>
+            <p class=""><img src="{{ asset('assets/Home') }}/images/sucicakes_logo.png" width="100"></p>
         </div>
 
         <div class="col-md-3">
@@ -108,7 +108,7 @@
 
     <div class="row">
         <div class="col-md-2">
-            <!--<img src="{{asset('Home')}}/images/sucicakes_logo.png">-->
+            <!--<img src="{{ asset('assets/Home') }}/images/sucicakes_logo.png">-->
             <!--&lt;!&ndash;<a href="channelEdit.html" class="btn button-red">Edit</a>&ndash;&gt;-->
         </div>
         <div class="col-md-3">
@@ -135,10 +135,10 @@
 <div class="container visible-xs" style="padding-top: 15px; background: white; padding-bottom: 10px; border-bottom: 1px solid #E7EAEA;">
     <div class="row">
         <div class="col-xs-1" style="padding-left: 5px;">
-            <img src="{{asset('Home')}}/images/premium_badge.png" style="margin-top: 10px;">
+            <img src="{{ asset('assets/Home') }}/images/premium_badge.png" style="margin-top: 10px;">
         </div>
         <div class="col-xs-3 less-padding-left">
-            <img src="{{asset('Home')}}/images/sucicakes_logo.png" width="100%">
+            <img src="{{ asset('assets/Home') }}/images/sucicakes_logo.png" width="100%">
         </div>
         <div class="col-xs-8 less-padding-left">
             <p class="helvetica-18 text-bold less-margin less-padding" style="margin-top: 10px;">Sucicakes</p>

@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="col-md-10 col-md-offset-1 first-letter">
-                        {{ $article->body }}
+                        {!! $article->body !!}
                     </div>
 
                 </div>

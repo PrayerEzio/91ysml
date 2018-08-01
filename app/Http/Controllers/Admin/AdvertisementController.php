@@ -22,7 +22,7 @@ class AdvertisementController extends CommonController
         if (!empty($input['start'])) $where[] = ['created_at','>',$input['start'].' 00:00:00'];
         if (!empty($input['end'])) $where[] = ['created_at','<=',$input['end'].' 23:59:59'];
         $list = $advertisement->where($where)->orderBy('created_at','desc')->paginate(10);
-        return view('Admin.Advertisement.index')->with(compact('list'));
+        return view('Admin.Advertisement.index')->with(compact('list','input'));
     }
 
     /**
@@ -45,7 +45,7 @@ class AdvertisementController extends CommonController
     {
         if ($request->file('image'))
         {
-            $file = $request->file('avatar');
+            $file = $request->file('image');
             $advertisement->image = $qiniuService->upload($file);
         }
         $advertisement->position = $request->position;
@@ -57,7 +57,7 @@ class AdvertisementController extends CommonController
         if ($res)
         {
             $alert = ['success','操作成功'];
-            return redirect('/Admin/Advertisement/index')->with('alert',$alert);
+            return redirect('/Admin/Advertisement')->with('alert',$alert);
         }else {
             return redirect()->back()->withInput()->withErrors('保存失败！');
         }

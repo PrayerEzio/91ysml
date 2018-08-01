@@ -25,7 +25,7 @@ class IndexController extends Controller
 
     public function index()
     {
-        return view('Test.Index.index');
+        phpinfo();
     }
 
     public function attachPermissions(AdminRole $adminRole,AdminPermission $adminPermission)

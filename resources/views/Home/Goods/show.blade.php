@@ -90,7 +90,7 @@
         </div>
 
         <div class="col-md-6" style="position: relative;">
-            <div class="bookmarked"><img src="{{asset('Home')}}/images/bookmarked.png" width="86"> </div>
+            <div class="bookmarked"><img src="{{ asset('assets/Home') }}/images/bookmarked.png" width="86"> </div>
             <h1>{{ $goods->name }}</h1>
 
             {{--<div class="row">
@@ -98,7 +98,7 @@
                     <a href="channelDetail.html" class="text-secondary"><h4>By Sucicakes</h4></a>
                     <h4>Location: Kebon Jeruk, Jakarta Barat</h4>
                 </div>
-                <div class="col-md-2"><img src="{{asset('Home')}}/images/halal.png" width="60"> </div>
+                <div class="col-md-2"><img src="{{ asset('assets/Home') }}/images/halal.png" width="60"> </div>
             </div>--}}
 
 

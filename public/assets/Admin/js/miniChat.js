@@ -2,7 +2,7 @@ if(window.WebSocket){
     //var swoole_host = document.getElementById('swoole_host').value;
     //var swoole_port = document.getElementById('swoole_port').value;
     //var webSocket = new WebSocket("ws://"+swoole_host+":"+swoole_port");
-    var webSocket = new WebSocket("ws://47.92.70.130:9502");
+    var webSocket = new WebSocket("ws://47.99.33.85:9502");
     webSocket.onopen = function (event,$req) {
         var token = document.getElementById('token').value;
         var data = {'token':token};

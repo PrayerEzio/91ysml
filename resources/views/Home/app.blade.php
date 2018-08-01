@@ -41,19 +41,19 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{asset('Home')}}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{asset('Home')}}/css/kimi.css" rel="stylesheet">
-    <link href="{{asset('Home')}}/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/kimi.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- owl carousel -->
-    <link rel="stylesheet" href="{{asset('Home')}}/css/owl_carousel/owl.carousel.css">
-    <link rel="stylesheet" href="{{asset('Home')}}/css/owl_carousel/owl.theme.default.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/owl_carousel/owl.carousel.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/owl_carousel/owl.theme.default.css">
 
     <!--tipue search-->
-    <link rel="stylesheet" href="{{asset('Home')}}/css/tipuesearch/tipuesearch.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/tipuesearch/tipuesearch.css">
 
-    <link rel="stylesheet" href="{{asset('Home')}}/css/prism/prism.css">
-    <link href="{{ asset('Admin') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/prism/prism.css">
+    <link href=" {{ asset('assets/Admin') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <style type="text/css">
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -76,24 +76,24 @@
 </div>
 
 
-<script src="{{asset('Home')}}/js/jquery.min.js"></script>
+<script src="{{ asset('assets/Home') }}/js/jquery.min.js"></script>
 
 <!-- owl carousel -->
-<script src="{{asset('Home')}}/js/owl_carousel/owl.carousel.js"></script>
+<script src="{{ asset('assets/Home') }}/js/owl_carousel/owl.carousel.js"></script>
 
 <!--boostrap js-->
-<script>window.jQuery || document.write('<script src="{{asset('Home')}}/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="{{asset('Home')}}/js/bootstrap.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ asset('assets/Home') }}/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="{{ asset('assets/Home') }}/js/bootstrap.min.js"></script>
 
 <!--tipuesearch-->
-<script src="{{asset('Home')}}/js/tipusearch/tipuesearch_content.js"></script>
-<script src="{{asset('Home')}}/js/tipusearch/tipuesearch_set.js"></script>
-<script src="{{asset('Home')}}/js/tipusearch/tipuesearch.js"></script>
-<script src="{{asset('Home')}}/js/prism/prism.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/toastr/toastr.min.js"></script>
+<script src="{{ asset('assets/Home') }}/js/tipusearch/tipuesearch_content.js"></script>
+<script src="{{ asset('assets/Home') }}/js/tipusearch/tipuesearch_set.js"></script>
+<script src="{{ asset('assets/Home') }}/js/tipusearch/tipuesearch.js"></script>
+<script src="{{ asset('assets/Home') }}/js/prism/prism.js"></script>
+<script src=" {{ asset('assets/Admin') }}/js/plugins/toastr/toastr.min.js"></script>
 
 <!--kimi basic js-->
-<script src="{{asset('Home')}}/js/kimi.js"></script>
+<script src="{{ asset('assets/Home') }}/js/kimi.js"></script>
 <script>
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 </script>

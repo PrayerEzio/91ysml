@@ -40,16 +40,16 @@
     <title>Kimi Themes</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{asset('Home')}}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{asset('Home')}}/css/kimi.css" rel="stylesheet">
-    <link href="{{asset('Home')}}/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/kimi.css" rel="stylesheet">
+    <link href="{{ asset('assets/Home') }}/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- owl carousel -->
-    <link rel="stylesheet" href="{{asset('Home')}}/css/owl_carousel/owl.carousel.css">
-    <link rel="stylesheet" href="{{asset('Home')}}/css/owl_carousel/owl.theme.default.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/owl_carousel/owl.carousel.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/owl_carousel/owl.theme.default.css">
 
     <!--tipue search-->
-    <link rel="stylesheet" href="{{asset('Home')}}/css/tipuesearch/tipuesearch.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/tipuesearch/tipuesearch.css">
 
-    <link rel="stylesheet" href="{{asset('Home')}}/css/prism/prism.css">
+    <link rel="stylesheet" href="{{ asset('assets/Home') }}/css/prism/prism.css">
 </head>

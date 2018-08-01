@@ -31,27 +31,27 @@ class ArticleController extends CommonController
         return view('Admin.Article.show')->with(compact('article'));
     }
 
-    public function add(Request $request,ArticleCate $articleCate,QiniuService $qiniuService)
+    public function add(Request $request,ArticleCate $articleCate,Article $article,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
             if ($request->file('image'))
             {
-                $data['image'] = $qiniuService->upload($request->file('image'));
+                $article->image = $qiniuService->upload($request->file('image'));
             }
-            $data['category_id'] = $request->category_id;
-            $data['title'] = $request->title;
-            $data['slug'] = str_slug($data['title']);
-            $data['author'] = $request->author;
-            $data['tag'] = $request->tag;
-            $data['description'] = $request->description;
-            $data['seo_title'] = $request->seo_title;
-            $data['seo_keywords'] = $request->seo_keywords;
-            $data['seo_description'] = $request->seo_description;
-            $data['status'] = $request->status == 'on' ? 1 : 0;
-            $data['body'] = $request->body;
-            $data['sort'] = $request->sort;
-            $res = Article::create($data);
+            $article->category_id = $request->category_id;
+            $article->title = $request->title;
+            $article->slug = str_slug($article->title);
+            $article->author = $request->author;
+            $article->tag = $request->tag;
+            $article->description = $request->description;
+            $article->seo_title = $request->seo_title;
+            $article->seo_keywords = $request->seo_keywords;
+            $article->seo_description = $request->seo_description;
+            $article->status = $request->status == 'on' ? 1 : 0;
+            $article->body = $request->body;
+            $article->sort = $request->sort;
+            $res =$article->save();
             if ($res)
             {
                 $alert = ['success','操作成功'];
@@ -69,24 +69,24 @@ class ArticleController extends CommonController
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data['id'] = $request->id;
+            $article = $article->findOrFail($request->id);
             if ($request->file('image'))
             {
-                $data['image'] = $qiniuService->upload($request->file('image'));
+                $article->image = $qiniuService->upload($request->file('image'));
             }
-            $data['category_id'] = $request->category_id;
-            $data['title'] = $request->title;
-            $data['slug'] = str_slug($data['title']);
-            $data['author'] = $request->author;
-            $data['tag'] = $request->tag;
-            $data['description'] = $request->description;
-            $data['seo_title'] = $request->seo_title;
-            $data['seo_keywords'] = $request->seo_keywords;
-            $data['seo_description'] = $request->seo_description;
-            $data['status'] = $request->status == 'on' ? 1 : 0;
-            $data['body'] = $request->body;
-            $data['sort'] = $request->sort;
-            $res = Article::update($data);
+            $article->category_id = $request->category_id;
+            $article->title = $request->title;
+            $article->slug = str_slug($article->title);
+            $article->author = $request->author;
+            $article->tag = $request->tag;
+            $article->description = $request->description;
+            $article->seo_title = $request->seo_title;
+            $article->seo_keywords = $request->seo_keywords;
+            $article->seo_description = $request->seo_description;
+            $article->status = $request->status == 'on' ? 1 : 0;
+            $article->body = $request->body;
+            $article->sort = $request->sort;
+            $res =$article->save();
             if ($res)
             {
                 $alert = ['success','操作成功'];

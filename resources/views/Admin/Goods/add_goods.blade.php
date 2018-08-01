@@ -1,7 +1,7 @@
 @extends('Admin.main')
 @section('title', "首页-Sramer")
 @section('css')
-    <link href="{{ asset('Admin') }}/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href=" {{ asset('assets/Admin') }}/css/plugins/chosen/chosen.css" rel="stylesheet">
 @endsection()
 @section('body')
     <div class="wrapper wrapper-content  animated fadeInRight blog">
@@ -184,7 +184,7 @@
     </div>
 @endsection
 @section('javascript')
-    <script src="{{ asset('Admin') }}/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src=" {{ asset('assets/Admin') }}/js/plugins/chosen/chosen.jquery.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
         var ue = UE.getEditor('container');

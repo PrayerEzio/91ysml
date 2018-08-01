@@ -1,7 +1,7 @@
 @extends('Admin.main')
 @section('title', "首页-Sramer")
 @section('css')
-    <link href="{{ asset('Admin') }}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 @endsection
 @section('body')
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -32,7 +32,7 @@
                                         <label class="btn btn-sm btn-white {{ $input['position']=='' ? 'active' : ''}}">
                                             <input type="radio" id="all" name="position" value="">全部</label>
                                         <label class="btn btn-sm btn-white {{ $input['position'] == 'banner' ? 'active' : ''}}">
-                                            <input type="radio" id="position1" name="position" value="1">首页banner</label>
+                                            <input type="radio" id="position1" name="position" value="banner">首页banner</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 m-b-xs">
@@ -72,7 +72,11 @@
                                             <td class="center">{{ $item->id }}</td>
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->sub_title }}</td>
-                                            <td>{{ $item->image }}</td>
+                                            <td>
+                                                <div class="image">
+                                                    <img alt="image" style="height: 40px" class="img-responsive" src="{{ $item->image }}">
+                                                </div>
+                                            </td>
                                             <td>{{ $item->position }}</td>
                                             <td>{{ $item->sort }}</td>
                                             <td>{{ $item->created_at }}</td>
@@ -81,7 +85,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-info" href="{{ url('Admin/Advertisement/edit',['id'=>$item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
-                                                <a class="btn btn-danger" onclick="delete_adv({{ $item->id }})"><i class="fa fa-trash"></i> 取消</a>
+                                                <a class="btn btn-danger" onclick="delete_adv({{ $item->id }})"><i class="fa fa-trash"></i> 删除</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -98,7 +102,7 @@
     </div>
 @endsection
 @section('javascript')
-    <script src="{{ asset('Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="{{ asset('assets/Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
         function delete_adv(id)
         {
@@ -112,19 +116,19 @@
                 cancelButtonText: "取消",
                 closeOnConfirm: false
             }, function () {
-                var URL = '{{ url('Admin/Advertisement/destroy') }}';
-                var data = {_method:"DELETE",id:id};
+                var URL = '{{ url('Admin/Advertisement') }}/'+id;
+                var data = {_method:"DELETE"};
                 $.post(URL, data, function (result) {
                     if (result.status == 200)
                     {
-                        swal("订单取消成功！", result.message, "success");
+                        swal("广告删除成功！", result.message, "success");
                     }else {
-                        swal("订单取消失败！", result.message, "error");
+                        swal("广告删除失败！", result.message, "error");
                     }
                 });
             })
         }
-        $('input:radio[name="status"]').change(function () {
+        $('input:radio[name="position"]').change(function () {
             $("#filter_form").submit();
         });
         $('.input-daterange').datepicker({

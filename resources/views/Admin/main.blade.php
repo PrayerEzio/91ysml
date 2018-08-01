@@ -9,38 +9,38 @@
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="{{ asset('Admin') }}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('Admin') }}/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{ asset('Admin') }}/css/animate.min.css" rel="stylesheet">
-    <link href="{{ asset('Admin') }}/css/style.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/animate.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/style.min.css" rel="stylesheet">
     <!-- Data Tables -->
-    <link href="{{ asset('Admin') }}/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
     <!-- Sweet Alert -->
-    <link href="{{ asset('Admin') }}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <!-- toastr Alert -->
-    <link href="{{ asset('Admin') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-    <link href="{{ asset('Admin') }}/css/plugins/switchery/switchery.css" rel="stylesheet">
-    <link href="{{ asset('Admin') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="{{ asset('Vendor') }}/layui/css/layui.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="{{ asset('assets/Vendor') }}/layui/css/layui.css" rel="stylesheet">
     <base target="_self">
     @yield('css')
 </head>
 <body class="gray-bg">
     @yield('body')
 </body>
-<script src="{{ asset('Admin') }}/js/jquery.min.js"></script>
-<script src="{{ asset('Admin') }}/js/bootstrap.min.js"></script>
-<script src="{{ asset('Admin') }}/js/content.min.js?v=1.0.0"></script>
-<script src="{{ asset('Admin') }}/js/plugins/jeditable/jquery.jeditable.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/dataTables/jquery.dataTables.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/toastr/toastr.min.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/sweetalert/sweetalert.min.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/prettyfile/bootstrap-prettyfile.js" type="text/javascript" charset="utf-8"></script>
-<script src="{{ asset('Admin') }}/js/plugins/iCheck/icheck.min.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/switchery/switchery.js"></script>
-<script src="{{ asset('Admin') }}/js/plugins/cropper/cropper.min.js"></script>
-<script src="{{ asset('Vendor') }}/layui/layui.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/jquery.min.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/content.min.js?v=1.0.0"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/toastr/toastr.min.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/prettyfile/bootstrap-prettyfile.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/iCheck/icheck.min.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/switchery/switchery.js"></script>
+<script src="{{ asset('assets/Admin') }}/js/plugins/cropper/cropper.min.js"></script>
+<script src="{{ asset('assets/Vendor') }}/layui/layui.js"></script>
 <script>
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 </script>

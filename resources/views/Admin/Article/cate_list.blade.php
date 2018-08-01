@@ -1,7 +1,7 @@
 @extends('Admin.main')
 @section('title', "首页-Sramer")
 @section('css')
-    <link href="{{ asset('Admin') }}/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <link href=" {{ asset('assets/Admin') }}/css/plugins/jsTree/style.min.css" rel="stylesheet">
 @endsection
 @section('body')
     <div class="wrapper wrapper-content  animated fadeInRight">
@@ -19,7 +19,7 @@
     </div>
 @endsection
 @section('javascript')
-    <script src="{{ asset('Admin') }}/js/plugins/jsTree/jstree.min.js"></script>
+    <script src=" {{ asset('assets/Admin') }}/js/plugins/jsTree/jstree.min.js"></script>
     <script>
         $(document).ready(
             getArticleCategoryList()

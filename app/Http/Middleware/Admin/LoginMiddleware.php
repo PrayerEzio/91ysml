@@ -16,9 +16,9 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->session()->get('admin_info.id'))
+        if (!$request->session()->has('admin_info.id'))
         {
-            return redirect()->route('admin.login.index');//redirect()->action('Admin\LoginController@index');
+            return redirect()->route('admin.login.index');
         }
         return $next($request);
     }

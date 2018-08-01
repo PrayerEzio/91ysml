@@ -19,7 +19,7 @@
                 <p class="help-text hidden-sm hidden-md" id="helpText">有任何疑问? 请联系我们的邮箱 <a href="mailto:service@91ysml.net" class="text-secondary">service@91ysml.net</a> </p>
             </div>
             <div class="col-md-4 col-sm-4">
-                <p class="text-center logo-container"><a href="index.html"><img src="{{asset('Home')}}/images/logo.png" width="100"></a></p>
+                <p class="text-center logo-container"><a href="index.html"><img src="{{ asset('assets/Home') }}/images/logo.png" width="100"></a></p>
             </div>
             <div class="col-md-4 less-padding-right">
                 @if (session('user_info'))
@@ -41,7 +41,7 @@
             </button>
         </div>
         <div class="visible-xs logo-center">
-            <p class="text-center logo-container visible-xs"><a href="index.html"><img src="{{asset('Home')}}/images/logo.png" width="90"></a></p>
+            <p class="text-center logo-container visible-xs"><a href="index.html"><img src="{{ asset('assets/Home') }}/images/logo.png" width="90"></a></p>
         </div>
         <div class="visible-xs pull-right">
             <button class="pull-left search-button-mobile" id="buttonOpenSearchbarMobile"><i class="fa fa-search" aria-hidden="true"></i></button>
