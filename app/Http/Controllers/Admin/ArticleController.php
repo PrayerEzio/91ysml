@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 use App\Http\Models\Article;
-use App\Http\Models\ArticleCate;
+use App\Http\Models\ArticleCategory;
 use App\Http\Service\QiniuService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class ArticleController extends CommonController
         return view('Admin.Article.show')->with(compact('article'));
     }
 
-    public function add(Request $request,ArticleCate $articleCate,Article $article,QiniuService $qiniuService)
+    public function add(Request $request,ArticleCategory $articleCategory,Article $article,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
@@ -60,12 +60,12 @@ class ArticleController extends CommonController
             }
             return redirect("/Admin/Article/index")->with('alert',$alert);
         }else {
-            $article_cates = $articleCate->get();
+            $article_cates = $articleCategory->get();
             return view('Admin.Article.add')->with(compact('article_cates'));
         }
     }
 
-    public function edit(Request $request,ArticleCate $articleCate,Article $article,QiniuService $qiniuService)
+    public function edit(Request $request,ArticleCategory $articleCategory,Article $article,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
@@ -95,22 +95,22 @@ class ArticleController extends CommonController
             }
             return redirect("/Admin/Article/index")->with('alert',$alert);
         }else {
-            $article_cates = $articleCate->get();
+            $article_cates = $articleCategory->get();
             $id = $request->id;
             $article = $article->findOrFail($id);
             return view('Admin.Article.add')->with(compact('article_cates','article'));
         }
     }
 
-    public function addCate(Request $request,ArticleCate $articleCate,$id)
+    public function addCate(Request $request,ArticleCategory $articleCategory,$id)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $articleCate->name = $request->name;
-            $articleCate->parent_id = $id;
-            $articleCate->sort = $request->sort;
-            $articleCate->status = $request->status == 'on' ? 1 : 0;
-            $res = $articleCate->save();
+            $articleCategory->name = $request->name;
+            $articleCategory->parent_id = $id;
+            $articleCategory->sort = $request->sort;
+            $articleCategory->status = $request->status == 'on' ? 1 : 0;
+            $res = $articleCategory->save();
             if ($res)
             {
                 $alert = ['success','操作成功'];
@@ -123,16 +123,16 @@ class ArticleController extends CommonController
         }
     }
 
-    public function editCate(Request $request,ArticleCate $articleCate,$id)
+    public function editCate(Request $request,ArticleCategory $articleCategory,$id)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $articleCate = $articleCate->findOrFail($id);
-            $articleCate->name = $request->name;
-            $articleCate->parent_id = $request->parent_id;
-            $articleCate->sort = $request->sort;
-            $articleCate->status = $request->status == 'on' ? 1 : 0;
-            $res = $articleCate->save();
+            $articleCategory = $articleCategory->findOrFail($id);
+            $articleCategory->name = $request->name;
+            $articleCategory->parent_id = $request->parent_id;
+            $articleCategory->sort = $request->sort;
+            $articleCategory->status = $request->status == 'on' ? 1 : 0;
+            $res = $articleCategory->save();
             if ($res)
             {
                 $alert = ['success','操作成功'];
@@ -141,8 +141,8 @@ class ArticleController extends CommonController
             }
             return redirect("/Admin/Article/cateList")->with('alert',$alert);
         }else {
-            $article_cates = $articleCate->get();
-            $data = $articleCate->findOrFail($request->id);
+            $article_cates = $articleCategory->get();
+            $data = $articleCategory->findOrFail($request->id);
             return view('Admin.Article.add_cate')->with(compact('article_cates','data'));
         }
     }
@@ -171,13 +171,13 @@ class ArticleController extends CommonController
         }
     }
 
-    public function deleteCate(Request $request,ArticleCate $articleCate)
+    public function deleteCate(Request $request,ArticleCategory $articleCategory)
     {
         $res = false;
-        $child_count = $articleCate->where('parent_id',$request->id)->count();
+        $child_count = $articleCategory->where('parent_id',$request->id)->count();
         if (!$child_count)
         {
-            $res = $articleCate->destroy($request->id);
+            $res = $articleCategory->destroy($request->id);
         }
         if ($res)
         {

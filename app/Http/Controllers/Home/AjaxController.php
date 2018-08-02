@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Models\Address;
-use App\Http\Models\ArticleCate;
+use App\Http\Models\ArticleCategory;
 use App\Http\Models\GoodsCategory;
 use App\Http\Models\Order;
 use App\Http\Models\Region;
@@ -69,9 +69,9 @@ class AjaxController extends CommonController
         }
     }
 
-    public function getArticleCategoryList(Request $request,ArticleCate $articleCate)
+    public function getArticleCategoryList(Request $request,ArticleCategory $articleCategory)
     {
-        $data = $articleCate->where('status','=',1)->orderBy('sort')->get();
+        $data = $articleCategory->where('status','=',1)->orderBy('sort')->get();
         if ($request->ajax()) {
             return response([
                 'status'  => 200,
