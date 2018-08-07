@@ -67,7 +67,7 @@
                                         <td>{{ $goods->category->name }}</td>
                                         <td>{{ $goods->created_at }}</td>
                                         <td>
-                                            <a class="btn btn-info"><i class="fa fa-edit"></i> 编辑</a>
+                                            <a class="btn btn-info" href="{{ url('Admin/Goods/editGoods',['id'=>$goods->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
                                             <a class="btn btn-danger"><i class="fa fa-trash"></i> 删除</a>
                                         </td>
                                     </tr>

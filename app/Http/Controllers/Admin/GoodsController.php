@@ -114,6 +114,10 @@ class GoodsController extends CommonController
             DB::beginTransaction(); //事务开始
             try {
                 $fillable_filed = ['category_id','goods_no','name','sub_title','tag','description','seo_title','seo_keywords','seo_description','sort','detail'];
+                if ($request->file('picture'))
+                {
+                    $goodsCategory->image = $qiniuService->upload($request->file('picture'));
+                }
                 foreach ($fillable_filed as $item)
                 {
                     $goods->$item = $request->$item;
@@ -131,7 +135,6 @@ class GoodsController extends CommonController
                     $product->position = $item['position'];
                     $product->status = 1;
                     $product->save();
-                    $attribute_list = [];
                     foreach ($item['attribute'] as $item)
                     {
                         $product->attributes()->attach($item);
@@ -160,14 +163,51 @@ class GoodsController extends CommonController
         }
     }
 
-    public function editGoods(Request $request,GoodsCategory $goodsCategory,Goods $goods)
+    public function editGoods($id,Request $request,Goods $goods,GoodsCategory $goodsCategory,AttributeCategory $attributeCategory,Attribute $attribute,QiniuService $qiniuService)
     {
         if (strtolower($request->method()) == 'post')
         {
-            $data = $goods->findOrFail($request->id);
-            $data->category_id = $request->category_id;
-            $data->value = $request->value;
-            $res = $data->save();
+            DB::beginTransaction(); //事务开始
+            try {
+                $goods = $goods->findOrFail($request->id);
+                $fillable_filed = ['category_id','goods_no','name','sub_title','tag','description','seo_title','seo_keywords','seo_description','sort','detail'];
+                if ($request->file('picture'))
+                {
+                    $goodsCategory->image = $qiniuService->upload($request->file('picture'));
+                }
+                foreach ($fillable_filed as $item)
+                {
+                    $goods->$item = $request->$item;
+                }
+                $goods->status = $request->status == 'on' ? 1 : 0;
+                $goods->save();
+                foreach ($request->product as $key => $item)
+                {
+                    $product = new Product();
+                    if ($item['id'])
+                    {
+                        $product = $product->findOrFail($item['id']);
+                    }
+                    $product->goods_id = $goods->id;
+                    $product->product_no = $item['product_no'];
+                    $product->mkt_price = $item['mkt_price'];
+                    $product->price = $item['price'];
+                    $product->stock = $item['stock'];
+                    $product->position = $item['position'];
+                    $product->status = 1;
+                    $product->save();
+                    foreach ($item['attribute'] as $item)
+                    {
+                        $product->attributes()->attach($item);
+                    }
+                }
+                DB::commit(); //提交事务
+                $res = true;
+            } catch(QueryException $ex) {
+                DB::rollback(); //回滚事务
+                //异常处理
+                $res = false;
+            }
             if ($res)
             {
                 $alert = ['success','操作成功'];
@@ -177,8 +217,11 @@ class GoodsController extends CommonController
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
             $cate_list = $goodsCategory->get();
-            $data = $goods->findOrFail($request->id);
-            return view('Admin.Goods.add_goods')->with(compact('cate_list','data'));
+            $cate_list = $this->unlimitedForLayer($cate_list);
+            $attribute_category_list = $attributeCategory->get();
+            $attribute_list = $attribute->get();
+            $goods_infoi = $goods->findOrFail($id);
+            return view('Admin.Goods.add_goods')->with(compact('goods_info','cate_list','attribute_category_list','attribute_list'));
         }
     }
 

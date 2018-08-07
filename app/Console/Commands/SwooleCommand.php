@@ -47,6 +47,10 @@ class SwooleCommand extends Command
                 $this->info('swoole websocket server started.');
                 $this->serv = $swooleService->httpServer();
                 break;
+            case 'stop':
+                break;
+            case 'restart':
+                break;
         }
     }
 }

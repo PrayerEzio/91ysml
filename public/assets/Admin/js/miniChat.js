@@ -1,29 +1,36 @@
 if(window.WebSocket){
-    //var swoole_host = document.getElementById('swoole_host').value;
-    //var swoole_port = document.getElementById('swoole_port').value;
-    //var webSocket = new WebSocket("ws://"+swoole_host+":"+swoole_port");
-    var webSocket = new WebSocket("ws://47.99.33.85:9502");
+    var swoole_host = $('#swoole_host').val();
+    var swoole_port = $('#swoole_port').val();
+    var token = $('#token').val();
+    var webSocket = new WebSocket("ws://"+swoole_host+":"+swoole_port);
+    //var token = document.getElementById('token').value;
+    var user_id = 0;
     webSocket.onopen = function (event,$req) {
-        var token = document.getElementById('token').value;
-        var data = {'token':token};
-        webSocket.send(data);
+        var data = {'type':'connect','token':token,'user_id':user_id,'room_id':1188};
+        webSocket.send(JSON.stringify(data));
     };
     webSocket.onmessage = function (event) {
         var content = document.getElementById('miniChat_content');
         var data = JSON.parse(event.data);
         var html;
-        if (data.source != 'system')
+        console.log(data);
+        switch (data.type)
         {
-            html = '<div class="left"><div class="author-name">'+data.user_name+'<small class="chat-date">'+data.time+'</small></div><div class="chat-message active">'+data.message+'</div></div></p>'
-        }else {
-            html = '<div class="center">'+data.message+'</div>';
+            case 'message':
+                html = '<div class="left"><div class="author-name">'+data.user.nickname+'<small class="chat-date">'+data.time+'</small></div><div class="chat-message active">'+data.message+'</div></div></p>'
+                break;
+            case 'join':
+                html = '<div class="center">'+data.user.nickname+'加入房间</div>';
+                break;
         }
         content.innerHTML = content.innerHTML.concat(html);
     }
 
     var sendMessage = function(){
-        var data = document.getElementById('minichat_message').value;
-        webSocket.send(data);
+        var message = document.getElementById('minichat_message').value;
+        var data = {'type':'message','message':message,'token':token,'user_id':user_id,'room_id':1188};
+        webSocket.send(JSON.stringify(data));
+        $('.minichat_message').val('');
     }
 }else{
     console.log("您的浏览器不支持WebSocket");
