@@ -108,7 +108,41 @@
                                 <div class="col-sm-10">
                                     <button class="btn btn-info btn-sm" type="button" onclick="generateProductList();">批量生成产品</button>
                                     <div id="product_list">
-
+                                        @isset($goods_info)
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>货号</th>
+                                                    @foreach($goods_info->product_attributes_category as $item)
+                                                        <th>{{ $item }}</th>
+                                                    @endforeach
+                                                    <th>标牌价</th>
+                                                    <th>销售价</th>
+                                                    <th>库存</th>
+                                                    <th>仓位</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($goods_info->products as $key => $product)
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" value="{{ $product->id }}" name="product[{{$key}}][id]">
+                                                        <input type="" value="{{ $product->product_no }}" name="product[{{$key}}][product_no]">
+                                                    </td>
+                                                    @foreach($product->attributes as $k => $attribute)
+                                                        <td><input type="hidden" name="product[{{$key}}][attribute][{{$k}}]" value="{{ $attribute->id }}">{{ $attribute->value }}</td>
+                                                    @endforeach
+                                                    <td><input type="" value="{{ $product->mkt_price }}" name="product[{{$key}}][mkt_price]"></td>
+                                                    <td><input type="" value="{{ $product->price }}" name="product[{{$key}}][price]"></td>
+                                                    <td><input type="" value="{{ $product->stock }}" name="product[{{$key}}][stock]"></td>
+                                                    <td><input type="" value="{{ $product->position }}" name="product[{{$key}}][position]"></td>
+                                                    <td><button class="btn btn-danger btn-sm" type="button" onclick="delete_product(this)">删除</button></td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                        @endisset
                                     </div>
                                 </div>
                             </div>
@@ -129,13 +163,7 @@
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-10">
                                     <div class="col-sm-10">
-                                        <input type="checkbox" id="status" name="status"
-                                        @if(isset($goods_info->status))
-                                            @if($goods_info->status == 1)
-                                                'checked'
-                                            @endif
-                                        @endif
-                                        >
+                                        <input type="checkbox" id="status" name="status" checked>
                                     </div>
                                 </div>
                             </div>
@@ -146,37 +174,6 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- Modal -->
-                        <div class="modal fade" id="selectAttributes" tabindex="-1" role="dialog" aria-labelledby="selectAttributesLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">选择属性</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row form-horizontal">
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">商品标题</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="name" value="{{ $goods_info->name or '' }}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">商品副标题</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="sub_title" value="{{ $goods_info->sub_title or '' }}"> <span class="help-block m-b-none"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -315,5 +312,14 @@
         {
             $(obj).parent().parent().remove();
         }
+
+        $(window).load(function(){
+            var product_attributes_category = {
+                @foreach ($goods_info->product_attributes_category as $key => $item)
+                    {{$key}} : "{{ $item }}",
+                @endforeach
+            };
+            console.log(product_attributes_category);
+        });
     </script>
 @endsection

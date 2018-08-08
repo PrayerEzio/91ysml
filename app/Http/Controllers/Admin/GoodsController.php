@@ -181,13 +181,12 @@ class GoodsController extends CommonController
                 }
                 $goods->status = $request->status == 'on' ? 1 : 0;
                 $goods->save();
+                $product = new Product();
+                $product->whereGoodsId($goods->id)->delete();
+                //软删除旧产品 新增新产品
                 foreach ($request->product as $key => $item)
                 {
                     $product = new Product();
-                    if ($item['id'])
-                    {
-                        $product = $product->findOrFail($item['id']);
-                    }
                     $product->goods_id = $goods->id;
                     $product->product_no = $item['product_no'];
                     $product->mkt_price = $item['mkt_price'];
@@ -196,6 +195,7 @@ class GoodsController extends CommonController
                     $product->position = $item['position'];
                     $product->status = 1;
                     $product->save();
+                    //重写所有规格
                     foreach ($item['attribute'] as $item)
                     {
                         $product->attributes()->attach($item);
@@ -220,7 +220,19 @@ class GoodsController extends CommonController
             $cate_list = $this->unlimitedForLayer($cate_list);
             $attribute_category_list = $attributeCategory->get();
             $attribute_list = $attribute->get();
-            $goods_infoi = $goods->findOrFail($id);
+            $goods_info = $goods->findOrFail($id);
+            $product_attributes_category = [];
+            foreach ($goods_info->products as $product)
+            {
+                foreach ($product->attributes as $attribute)
+                {
+                    if (!in_array($attribute->category->name,$product_attributes_category))
+                    {
+                        $product_attributes_category[] = $attribute->category->name;
+                    }
+                }
+            }
+            $goods_info->product_attributes_category = $product_attributes_category;
             return view('Admin.Goods.add_goods')->with(compact('goods_info','cate_list','attribute_category_list','attribute_list'));
         }
     }
