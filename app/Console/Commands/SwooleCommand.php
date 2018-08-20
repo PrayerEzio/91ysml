@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Service\SwooleService;
+use App\Http\Services\SwooleService;
 use Illuminate\Console\Command;
 
 class SwooleCommand extends Command

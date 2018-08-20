@@ -103,19 +103,21 @@ $admin_private_group = function(){
         Route::get('/about_us','IndexController@about_us');
         Route::get('/billboard','IndexController@billboard');
     });
-    Route::group(['prefix' => 'Mail'],function(){
-        Route::get('/','MailController@inbox');
-        Route::get('/inbox','MailController@inbox');
-        Route::get('/index','MailController@inbox');
-        Route::get('/detail','MailController@mail_detail');
-        Route::get('/mail_detail','MailController@mail_detail');
-        Route::get('/mail_compose','MailController@mail_compose');
-    });
     Route::group(['prefix' => 'Auth'],function(){
         $controller = 'Auth';
         Route::get('/admin_list',"{$controller}Controller@admin_list");
         Route::get('/permission_list',"{$controller}Controller@permission_list");
+        Route::get('/permission_create',"{$controller}Controller@permission_create");
+        Route::post('/permission_create',"{$controller}Controller@permission_create");
+        Route::get('/permission_edit/{id}',"{$controller}Controller@permission_edit");
+        Route::post('/permission_edit/{id}',"{$controller}Controller@permission_edit");
+        Route::delete('/permission_delete',"{$controller}Controller@permission_delete");
         Route::get('/role_list',"{$controller}Controller@role_list");
+        Route::get('/role_create',"{$controller}Controller@role_create");
+        Route::post('/role_create',"{$controller}Controller@role_create");
+        Route::get('/role_edit/{id}',"{$controller}Controller@role_edit");
+        Route::post('/role_edit/{id}',"{$controller}Controller@role_edit");
+        Route::delete('/role_delete',"{$controller}Controller@role_delete");
         Route::get('/admin_show/{id}',"{$controller}Controller@admin_show");
         Route::post('/admin_store/{id}',"{$controller}Controller@admin_store");
         Route::post('/admin_avatar_upload',"{$controller}Controller@admin_avatar_upload");
@@ -173,9 +175,10 @@ $admin_private_group = function(){
     });
     Route::group(['prefix' => 'Order'],function(){
         $controller = 'Order';
-        Route::get('/orderList',"{$controller}Controller@orderList");
+        Route::get('/orderList',"{$controller}Controller@orderList")->name("Admin.{$controller}.orderList");
         Route::get('/detail/{sn}',"{$controller}Controller@detail")->name("Admin.{$controller}.detail");
         Route::delete('/cancelOrder/{sn}',"{$controller}Controller@cancelOrder")->name("Admin.{$controller}.cancelOrder");
+        Route::post('/nextStatus',"{$controller}Controller@nextStatus")->name("Admin.{$controller}.nextStatus");
     });
     Route::group(['prefix' => 'Ajax'],function(){
         $controller = 'Ajax';

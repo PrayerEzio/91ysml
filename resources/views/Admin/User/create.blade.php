@@ -53,6 +53,43 @@
                                     <input type="password" class="form-control" name="password" value="{{ $data->passwrod or '' }}">
                                 </div>
                             </div>
+                            @isset($data->address)
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">地址列表</label>
+                                    <div class="col-sm-10">
+                                        <div id="address_list">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>姓名</th>
+                                                    <th>手机</th>
+                                                    <th>省份</th>
+                                                    <th>城市</th>
+                                                    <th>区/县</th>
+                                                    <th>地址</th>
+                                                    <th>标签</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($data->address as $key => $address)
+                                                    <tr>
+                                                        <td>{{ $address->name }}</td>
+                                                        <td>{{ $address->phone }}</td>
+                                                        <td>{{ $address->province->name }}</td>
+                                                        <td>{{ $address->city->name }}</td>
+                                                        <td>{{ $address->district->name }}</td>
+                                                        <td>{{ $address->address }}</td>
+                                                        <td>{{ $address->tag }}</td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            @endisset
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-10">
@@ -60,10 +97,10 @@
                                         <input type="checkbox" id="status" name="status"
                                         @if(isset($data->status))
                                             @if($data->status == 1)
-                                                'checked'
+                                                checked
                                             @endif
                                         @else
-                                            'checked'
+                                            checked
                                         @endif
                                         >
                                     </div>

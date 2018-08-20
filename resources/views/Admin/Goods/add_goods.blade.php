@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商品分类</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control m-b" name="category_id">
+                                    <select class="form-control m-b" name="category_id" id="category_id">
                                         @foreach ($cate_list as $cate)
                                             <option value="{{ $cate->id }}">{{ $cate->name }}</option>
                                             @foreach($cate->child as $sec_cate)
@@ -314,6 +314,7 @@
         }
 
         $(window).load(function(){
+            $("#category_id").val({{ $goods_info->category_id }});
             var product_attributes_category = {
                 @foreach ($goods_info->product_attributes_category as $key => $item)
                     {{$key}} : "{{ $item }}",

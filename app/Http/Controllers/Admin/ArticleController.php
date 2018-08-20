@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Models\Article;
 use App\Http\Models\ArticleCategory;
-use App\Http\Service\QiniuService;
+use App\Http\Services\QiniuService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;

@@ -14,7 +14,7 @@ use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
 use App\Http\Models\Product;
-use App\Http\Service\QiniuService;
+use App\Http\Services\QiniuService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,11 +54,11 @@ class GoodsController extends CommonController
     {
         if (strtolower($request->method()) == 'post')
         {
+            $goodsCategory = $goodsCategory->findOrFail($id);
             if ($request->file('image'))
             {
                 $goodsCategory->image = $qiniuService->upload($request->file('image'));
             }
-            $goodsCategory = $goodsCategory->findOrFail($id);
             $goodsCategory->name = $request->name;
             $goodsCategory->parent_id = $request->parent_id;
             $goodsCategory->sort = $request->sort;
@@ -116,7 +116,7 @@ class GoodsController extends CommonController
                 $fillable_filed = ['category_id','goods_no','name','sub_title','tag','description','seo_title','seo_keywords','seo_description','sort','detail'];
                 if ($request->file('picture'))
                 {
-                    $goodsCategory->image = $qiniuService->upload($request->file('picture'));
+                    $goods->picture = $qiniuService->upload($request->file('picture'));
                 }
                 foreach ($fillable_filed as $item)
                 {
@@ -173,7 +173,7 @@ class GoodsController extends CommonController
                 $fillable_filed = ['category_id','goods_no','name','sub_title','tag','description','seo_title','seo_keywords','seo_description','sort','detail'];
                 if ($request->file('picture'))
                 {
-                    $goodsCategory->image = $qiniuService->upload($request->file('picture'));
+                    $goods->picture = $qiniuService->upload($request->file('picture'));
                 }
                 foreach ($fillable_filed as $item)
                 {

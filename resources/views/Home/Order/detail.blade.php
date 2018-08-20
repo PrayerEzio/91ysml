@@ -90,10 +90,9 @@
             <!--breadcrumb start-->
             <ol class="breadcrumb hidden-xs">
                 <li><a href="{{ url('/index') }}">{{ __('Home/common.index') }}</a></li>
-                <li><a href="{{ url('/Cart/index') }}">{{ __('Home/common.cart') }}</a></li>
-                <li>Customer Information</li>
-                <li>Shipping Mehtod</li>
-                <li>Payment Method</li>
+                <li><a href="{{ url('/Member/index') }}">{{ __('Home/common.member_center') }}</a></li>
+                <li><a href="{{ url('/Order/getList') }}">{{ __('Home/common.order_list') }}</a></li>
+                <li>{{ __('Home/common.order_detail') }}</li>
             </ol>
             <div class="clearfix"></div>
 
@@ -147,9 +146,13 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @foreach($order_product->products->attributes as $attribute)
-                                                {{ $attribute->value }}
-                                            @endforeach
+                                            @isset($order_product->attributes)
+                                                @foreach($order_product->attributes as $attribute)
+                                                    {{ $attribute->value }}
+                                                @endforeach
+                                            @else
+                                                /
+                                            @endisset
                                         </td>
                                         <td>{{ $order_product->qty }}</td>
                                         <td>&yen;{{ $order_product->price }}</td>

@@ -15,6 +15,10 @@ class User extends Model
 
     protected $fillable = ['nickname', 'email', 'password', 'register_ip', 'status'];
 
+    protected $hidden = [
+        'password', 'token',
+    ];
+
     public function scopeUserId($query,$user_id)
     {
         return $query->where('id',$user_id);
@@ -23,5 +27,10 @@ class User extends Model
     public function orders()
     {
         return $this->hasMany('App\Http\Models\Order','user_id','id');
+    }
+
+    public function address()
+    {
+        return $this->hasMany('App\Http\Models\Address','user_id','id');
     }
 }

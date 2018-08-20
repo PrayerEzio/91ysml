@@ -21,4 +21,9 @@ class OrderProduct extends Model
     {
         return $this->belongsTo('App\Http\Models\Product','product_id','id');
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany('App\Http\Models\Attribute','product_attribute','product_id','attribute_id', 'product_id');
+    }
 }

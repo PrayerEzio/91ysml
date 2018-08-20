@@ -102,8 +102,9 @@ class OrderController extends CommonController
             }
             $order->products()->createMany($product_list);
             $order->logs()->create([
+                'title' => '创建订单',
                 'operator' => "用户id-{$user_id}",
-                'content' => '创建订单',
+                'content' => '创建订单成功',
                 'ip' => $request->getClientIp(),
                 'level' => 0,
                 'status' => 1,
@@ -145,6 +146,7 @@ class OrderController extends CommonController
                 }
                 $order_info->save();
                 $order_info->logs()->create([
+                    'title' => "支付订单",
                     'operator' => "用户id-{$this->getUserId()}",
                     'content' => "支付订单-{$request->payment_method}",
                     'ip' => $request->getClientIp(),

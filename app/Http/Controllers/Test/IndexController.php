@@ -7,7 +7,7 @@ use App\Http\Models\AdminPermission;
 use App\Http\Models\AdminRole;
 use App\Http\Models\Article;
 use App\Http\Models\ArticleCategory;
-use App\Http\Repository\AdminRepository;
+use App\Http\Repositories\AdminRepository;
 use Carbon\Carbon;
 use Crypt;
 use Illuminate\Support\Facades\DB;

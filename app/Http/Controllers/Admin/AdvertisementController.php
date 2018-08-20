@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Advertisement;
-use App\Http\Service\QiniuService;
+use App\Http\Services\QiniuService;
 use Illuminate\Http\Request;
 
 class AdvertisementController extends CommonController

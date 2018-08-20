@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\User;
-use App\Http\Service\QiniuService;
+use App\Http\Services\QiniuService;
 use Illuminate\Http\Request;
 
 class UserController extends CommonController

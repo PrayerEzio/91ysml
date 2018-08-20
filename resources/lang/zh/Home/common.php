@@ -62,4 +62,6 @@ return [
     'Requester' => '收货人',
     'Delivery Address' => '收货地址',
     'Payment Method' => '支付方式',
+    'order_list' => '订单列表',
+    'order_detail' => '订单详情'
 ];

@@ -57,7 +57,7 @@
                                         <input type="checkbox" id="status" name="status"
                                         @if(isset($data->status))
                                             @if($data->status == 1)
-                                                'checked'
+                                                checked
                                             @endif
                                         @endif
                                         >
