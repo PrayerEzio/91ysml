@@ -13,7 +13,6 @@ if(window.WebSocket){
         var content = document.getElementById('miniChat_content');
         var data = JSON.parse(event.data);
         var html;
-        console.log(data);
         switch (data.type)
         {
             case 'message':

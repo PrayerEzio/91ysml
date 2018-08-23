@@ -21,33 +21,35 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        <form id="filter_form" method="get" action="">
                         <div class="row">
                             <div class="col-sm-5 m-b-xs">
-                                <select class="input-sm form-control input-s-sm inline">
+                                {{--<select class="input-sm form-control input-s-sm inline">
                                     <option value="0">请选择</option>
                                     <option value="1">选项1</option>
                                     <option value="2">选项2</option>
                                     <option value="3">选项3</option>
-                                </select>
+                                </select>--}}
                             </div>
                             <div class="col-sm-4 m-b-xs">
-                                <div data-toggle="buttons" class="btn-group">
+                                {{--<div data-toggle="buttons" class="btn-group">
                                     <label class="btn btn-sm btn-white">
                                         <input type="radio" id="option1" name="options">天</label>
                                     <label class="btn btn-sm btn-white active">
                                         <input type="radio" id="option2" name="options">周</label>
                                     <label class="btn btn-sm btn-white">
                                         <input type="radio" id="option3" name="options">月</label>
-                                </div>
+                                </div>--}}
                             </div>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span
+                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control" name="keyword" value="{{ $input['keyword'] or '' }}"> <span
                                             class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
                                 </div>
                             </div>
                         </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>

@@ -103,8 +103,11 @@ class GoodsController extends CommonController
 
     public function goodsList(Request $request,Goods $goods)
     {
-        $list = $goods->paginate(10);
-        return view('Admin.Goods.goods_list')->with(compact('list'));
+        $where = [];
+        $input = $request->all();
+        if (!empty($input['keyword'])) $where[] = ['name','like',"%{$input['keyword']}%"];
+        $list = $goods->where($where)->orderBy('created_at','desc')->paginate(10);
+        return view('Admin.Goods.goods_list')->with(compact('list','input'));
     }
 
     public function addGoods(Request $request,Goods $goods,GoodsCategory $goodsCategory,AttributeCategory $attributeCategory,Attribute $attribute,QiniuService $qiniuService)

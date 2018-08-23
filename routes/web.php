@@ -36,6 +36,7 @@ $test_group = function(){
         Route::get('/getOrder/{order_sn}','IndexController@getOrder')->name('test.index.get_order');
         Route::get('/cart','IndexController@cart')->name('test.index.cart');
         Route::get('/test','IndexController@test')->name('test.index.test');
+        Route::get('/webhook','IndexController@webhook')->name('test.index.webhook');
     });
 };
 
@@ -179,6 +180,11 @@ $admin_private_group = function(){
         Route::get('/detail/{sn}',"{$controller}Controller@detail")->name("Admin.{$controller}.detail");
         Route::delete('/cancelOrder/{sn}',"{$controller}Controller@cancelOrder")->name("Admin.{$controller}.cancelOrder");
         Route::post('/nextStatus',"{$controller}Controller@nextStatus")->name("Admin.{$controller}.nextStatus");
+    });
+    Route::group(['prefix' => 'SystemLog'],function(){
+        $controller = 'SystemLog';
+        Route::get('/index',"{$controller}Controller@index")->name("Admin.{$controller}.index");
+        Route::post('/detail/{id}',"{$controller}Controller@detail")->name("Admin.{$controller}.detail");
     });
     Route::group(['prefix' => 'Ajax'],function(){
         $controller = 'Ajax';

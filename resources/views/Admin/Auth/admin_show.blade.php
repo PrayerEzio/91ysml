@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control" placeholder="请输入密码" name="password" value="{{ $admin_info->password }}">
+                                    <input type="password" class="form-control" placeholder="请输入密码" name="password" value="">
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -52,7 +52,7 @@
                                 <div class="col-sm-10">
                                     @foreach($role_list as $item)
                                         <label class="checkbox-inline i-checks">
-                                            <input type="checkbox" class="role" name="role[]" value="{{ $item->name }}" @isset($data) @if($data->hasRole($item->name)) checked @endif @endisset>{{ $item->display_name }}</label>
+                                            <input type="checkbox" class="role" name="role[]" value="{{ $item->name }}" @isset($admin_info) @if($admin_info->hasRole($item->name)) checked @endif @endisset>{{ $item->display_name }}</label>
                                     @endforeach
                                 </div>
                             </div>

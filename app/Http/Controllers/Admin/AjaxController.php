@@ -20,9 +20,4 @@ class AjaxController extends CommonController
             ]);
         }
     }
-
-    public function get()
-    {
-
-    }
 }

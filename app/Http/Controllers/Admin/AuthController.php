@@ -50,12 +50,13 @@ class AuthController extends CommonController
         return view('Admin.Auth.admin_show')->with(compact('admin_info','role_list'));
     }
 
-    public function admin_store($id,Request $request,QiniuService $qiniuService,AdminService $adminService,User $user,Role $role)
+    public function admin_store($id,Request $request,QiniuService $qiniuService,AdminService $adminService,Admin $admin,Role $role)
     {
         $adminService->edit($id,$request,$qiniuService);
-        $user = $user->firstOrFail($id);
-        $user->removeRole($role->all());
-        $user->assignRole($request->role);
+        $admin = $admin->findOrFail($id);
+        $role_list = $admin->getRoleNames();
+        if (!empty($role_list->toArray())) $admin->removeRole($role_list);
+        if (!empty($request->role)) $admin->syncRoles($request->role);
         return redirect()->action('Admin\AuthController@admin_show',['id'=>$id]);
     }
 

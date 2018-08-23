@@ -14,15 +14,15 @@ class WebhookController extends CommonController
         parent::__construct();
     }
 
-    public function github(Request $request,Schedule $schedule)
+    public function github(Request $request)
     {
-        if ($request->post()) {
-            $this->system_log('Github webhook.', 'post请求已被接受,start git cmd.', Route::currentRouteAction(), 0, 'github');
-            $cmd = 'sudo cd '.base_path().';sudo git checkout master;sudo git pull origin master:master;';
-            //$output = shell_exec($cmd);
-            $output = Artisan::call();
-            dd($output);
-            $this->system_log('Github webhook.', $output, Route::currentRouteAction(), 0, 'github');
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if ($request->post() && strpos($user_agent,'GitHub-Hookshot') === 0)
+        {
+            $this->system_log('Github webhook.', $request, Route::currentRouteAction(), 0, 'github', $request->ip());
+            $cmd = 'sudo cd '.base_path().';sudo git checkout master;';//sudo git pull origin master:master;
+            $output = shell_exec($cmd);
+            $this->system_log('Github webhook.', $output, Route::currentRouteAction(), 0, 'github', $request->ip());
         }
     }
 }

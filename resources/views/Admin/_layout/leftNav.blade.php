@@ -157,10 +157,18 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">会员 </span><span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">会员</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="{{ url('Admin/User') }}">会员列表</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">日志</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ url('Admin/SystemLog/index') }}">系统日志</a>
                     </li>
                 </ul>
             </li>
