@@ -100,7 +100,7 @@
                                 </tbody>
                             </table>
                             <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
-                                {{ $list->links() }}
+                                {{ $list->appends($input)->links() }}
                             </div>
                         </div>
                     </div>

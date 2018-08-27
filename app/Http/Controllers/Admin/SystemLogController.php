@@ -12,11 +12,10 @@ class SystemLogController extends Controller
     {
         $where = [];
         $input = $request->all();
-        if (!empty($input['keyword'])) $where[] = ['title','like',"%{$input['keyword']}%"];
-        if (!empty($input['status'])) $where[] = ['status','=',$input['status']];
-        if (!empty($input['start'])) $where[] = ['created_at','>',$input['start'].' 00:00:00'];
-        if (!empty($input['end'])) $where[] = ['created_at','<=',$input['end'].' 23:59:59'];
-        $list = $systemLog->orderBy('id','desc')->paginate(10);
+        !empty($input['keyword']) ? $where[] = ['title','like',"%{$input['keyword']}%"] : $input['keyword'] = '';
+        !empty($input['start']) ? $where[] = ['created_at','>',$input['start'].' 00:00:00'] : $input['start'] = '';
+        !empty($input['end']) ? $where[] = ['created_at','<=',$input['end'].' 23:59:59'] : $input['end'] = '';
+        $list = $systemLog->where($where)->orderBy('id','desc')->paginate(10);
         return view('Admin.SystemLog.index')->with(compact('list','input'));
     }
 

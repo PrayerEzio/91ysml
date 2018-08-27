@@ -112,5 +112,5 @@
             </li>
         </ul>
     </div>
-    <a href="{{ url('admin/logout') }}" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+    <a href="{{ url('admin/logout') }}" class="roll-nav roll-right J_tabExit"><i class="fa fa-sign-out"></i> 退出</a>
 </div>

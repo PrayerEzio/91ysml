@@ -186,6 +186,11 @@ $admin_private_group = function(){
         Route::get('/index',"{$controller}Controller@index")->name("Admin.{$controller}.index");
         Route::post('/detail/{id}',"{$controller}Controller@detail")->name("Admin.{$controller}.detail");
     });
+    Route::group(['prefix' => 'System'],function(){
+        $controller = 'System';
+        Route::get('/phpinfo',"{$controller}Controller@phpinfo")->name("Admin.{$controller}.phpinfo");
+        Route::get('/tz',"{$controller}Controller@tz")->name("Admin.{$controller}.tz");
+    });
     Route::group(['prefix' => 'Ajax'],function(){
         $controller = 'Ajax';
         Route::post('/getAttributesList',"{$controller}Controller@getAttributesList")->name("Admin.{$controller}.getOrderDetail");
