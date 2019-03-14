@@ -84,7 +84,7 @@
                                                 {{ $item->status == 1 ? '开启' : '关闭' }}
                                             </td>
                                             <td>
-                                                <a class="btn btn-info" href="{{ url('Admin/Advertisement/edit',['id'=>$item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
+                                                <a class="btn btn-info" href="{{ url("/Admin/Advertisement/{$item->id}/edit" ) }}"><i class="fa fa-edit"></i> 编辑</a>
                                                 <a class="btn btn-danger" onclick="delete_adv({{ $item->id }})"><i class="fa fa-trash"></i> 删除</a>
                                             </td>
                                         </tr>

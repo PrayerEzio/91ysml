@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">商品编号</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="goods_no" id="goods_no" value="{{ $goods_info->goods_no or '' }}">
+                                    <input type="text" class="form-control" name="goods_sn" id="goods_sn" value="{{ $goods_info->goods_sn or '' }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -57,6 +57,13 @@
                                 <label class="col-sm-2 control-label">图片</label>
                                 <div class="col-sm-10">
                                     <input type="file" class="form-control" name="picture" value="{{ $goods_info->picture or '' }}">
+                                    <img src="{{ $goods_info->picture or '' }}" height="100px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">每包件数</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="wholesale_number" value="{{ $goods_info->wholesale_number or 1 }}"> <span class="help-block m-b-none"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -107,7 +114,7 @@
                                 <label class="col-sm-2 control-label">产品列表</label>
                                 <div class="col-sm-10">
                                     <button class="btn btn-info btn-sm" type="button" onclick="generateProductList();">批量生成产品</button>
-                                    <div id="product_list">
+                                    <div id="product_list" class="table-responsive">
                                         @isset($goods_info)
                                         <table class="table">
                                             <thead>
@@ -128,7 +135,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" value="{{ $product->id }}" name="product[{{$key}}][id]">
-                                                        <input type="" value="{{ $product->product_no }}" name="product[{{$key}}][product_no]">
+                                                        <input type="" value="{{ $product->product_sn }}" name="product[{{$key}}][product_sn]">
                                                     </td>
                                                     @foreach($product->attributes as $k => $attribute)
                                                         <td><input type="hidden" name="product[{{$key}}][attribute][{{$k}}]" value="{{ $attribute->id }}">{{ $attribute->value }}</td>
@@ -256,7 +263,7 @@
         }
 
         function generateProductList() {
-            var goods_no = $('#goods_no').val();
+            var goods_sn = $('#goods_sn').val();
             var arr = [];
             $.each(attributeCategoryArray,function(index,value){
                 var attribute_selector = '#attribute_'+value;
@@ -270,7 +277,7 @@
                         tarr.push(sarr[j].concat(arr[i][k]));
                 sarr = tarr;
             }
-            var product_list_table_html = '<table class="table">\n' +
+            var product_list_table_html = '<table class="table table-striped">\n' +
                 '                            <thead>\n' +
                 '                                <tr>\n' +
                 '                                    <th>货号</th>\n';
@@ -293,7 +300,7 @@
                     attribute_value_code += attributeList[value[attr_key]]['value_code'];
                 });
                 product_list_table_html += '         <tr>\n' +
-                    '                                    <td><input type="" value="'+goods_no+attribute_value_code+'" name="product['+index+'][product_no]"></td>\n';
+                    '                                    <td><input type="" value="'+goods_sn+attribute_value_code+'" name="product['+index+'][product_sn]"></td>\n';
                 product_list_table_html += attribute_list_table_html;
                 product_list_table_html +=
                     '                                    <td><input type="" name="product['+index+'][mkt_price]"></td>\n' +
@@ -314,13 +321,14 @@
         }
 
         $(window).load(function(){
-            $("#category_id").val({{ $goods_info->category_id }});
+            $("#category_id").val({{ $goods_info->category_id or '' }});
             var product_attributes_category = {
-                @foreach ($goods_info->product_attributes_category as $key => $item)
-                    {{$key}} : "{{ $item }}",
-                @endforeach
+                @isset($goods_info)
+                    @foreach ($goods_info->product_attributes_category as $key => $item)
+                        {{$key}} : "{{ $item }}",
+                    @endforeach
+                @endisset
             };
-            console.log(product_attributes_category);
         });
     </script>
 @endsection

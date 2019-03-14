@@ -7,29 +7,147 @@
             -webkit-appearance: none !important;
             margin: 0;
         }
-        ul,li{ padding:0px; margin:0px;}
-        #panel{ width:500px; margin:30px auto;}
 
+        ul, li {
+            padding: 0px;
+            margin: 0px;
+        }
 
-        .goods_attr{ overflow:hidden;}
-        .goods_attr .label {font: 12px/30px '宋体';color: #777;width: 50px;;padding-right: 10px;float: left; display:block;}
-        .goods_attr ul {float:left;width:300px;}
+        /*#panel{ margin:30px auto;}*/
 
-        .goods_attr li{color:#333;overflow:hidden;position:relative;float:left;text-align:center; vertical-align:middle; border:1px solid #999;text-indent:0; cursor:pointer}
-        .goods_attr li.b{border:1px dotted #CCC;color:#DDD; pointer:none;}
-        .goods_attr li.b img {opacity:0.4;}
-        .goods_attr li.sel{ border:1px solid #c80a28;color:#333;}
+        .tb-promo-item-bd {
+            margin: 20px auto;
+        }
 
-        .goods_attr li.text{margin:5px 10px 5px 0; height:23px;line-height:23px;text-indent:0;padding:0 23px;font-style:normal;}
-        .goods_attr li.img{ margin-right:10px;width:35px;height:35px; line-height:35px;text-align:center;}
+        .tb-logistic {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .tb-logistic .tb-property-type {
+            padding-left: 10px;
+            display: inline;
+            float: left;
+            width: 80px;
+            color: #6c6c6c;
+            line-height: 24px;
+        }
+
+        .price {
+            color: rgb(255, 68, 0);
+            display: inline;
+            font-family: verdana, arial;
+            font-size: 26px;
+            font-stretch: 100%;
+            font-style: normal;
+            font-variant-caps: normal;
+            font-variant-east-asian: normal;
+            font-variant-ligatures: normal;
+            font-variant-numeric: normal;
+            font-weight: 700;
+            height: auto;
+            line-height: 26px;
+            list-style-image: none;
+            list-style-position: outside;
+            list-style-type: none;
+            text-align: left;
+            text-size-adjust: 100%;
+            width: auto;
+        }
+
+        .wl-areainfo, .wl-serviceinfo {
+            font-size: 12px;
+            color: #3c3c3c;
+            line-height: 24px;
+            word-break: keep-all;
+            float: left;
+        }
+
+        .label {
+            text-align: left;
+        }
+
+        .goods_attr {
+            overflow: hidden;
+        }
+
+        .goods_attr .label {
+            font: 12px/30px '宋体';
+            color: #777;
+            width: 80px;;
+            padding-right: 10px;
+            float: left;
+            display: block;
+        }
+
+        .goods_attr ul {
+            float: left;
+            width: 300px;
+        }
+
+        .goods_attr li {
+            color: #333;
+            overflow: hidden;
+            position: relative;
+            float: left;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #999;
+            text-indent: 0;
+            cursor: pointer
+        }
+
+        .goods_attr li.b {
+            border: 1px dotted #CCC;
+            color: #DDD;
+            pointer: none;
+        }
+
+        .goods_attr li.b img {
+            opacity: 0.4;
+        }
+
+        .goods_attr li.sel {
+            border: 1px solid #c80a28;
+            color: #333;
+        }
+
+        .goods_attr li.text {
+            margin: 5px 10px 5px 0;
+            height: 23px;
+            line-height: 23px;
+            text-indent: 0;
+            padding: 0 23px;
+            font-style: normal;
+        }
+
+        .goods_attr li.img {
+            margin-right: 10px;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+        }
+
+        .container img{
+            max-width:100%;
+        }
+
+        .thumbnail img {
+            width : 120px;
+        }
+
+        .container {
+            background: white; padding-bottom: 0px;
+        }
     </style>
 @endsection
 @section('body')
     <div class="container kimi-container">
         <ol class="breadcrumb hidden-xs">
-            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ url('/') }}">{{ __('Home/common.index') }}</a></li>
             @foreach($goods_category as $item)
-            <li><a href="{{ url('/category',['id'=>$item->id]) }}">{{ $item->name }}</a></li>
+                <li><a href="{{ url('/category',['id'=>$item->id]) }}">{{ $item->name }}</a></li>
             @endforeach
             <li>{{ $goods->name }}</li>
         </ol>
@@ -54,16 +172,18 @@
                                                 <img src="{{ $goods->picture }}">
                                             </div>
                                             @foreach ($goods->pictures as $key => $picture)
-                                            <div class="item" data-slide-number="{{ $key+1 }}">
-                                                <img src="{{ $picture->url }}">
-                                            </div>
+                                                <div class="item" data-slide-number="{{ $key+1 }}">
+                                                    <img src="{{ $picture->url }}">
+                                                </div>
                                             @endforeach
                                         </div>
                                         <!-- Carousel nav -->
-                                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                        <a class="left carousel-control" href="#myCarousel" role="button"
+                                           data-slide="prev">
                                             <span class="glyphicon glyphicon-chevron-left"></span>
                                         </a>
-                                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                        <a class="right carousel-control" href="#myCarousel" role="button"
+                                           data-slide="next">
                                             <span class="glyphicon glyphicon-chevron-right"></span>
                                         </a>
                                     </div>
@@ -78,9 +198,9 @@
                             <img src="{{ $goods->picture }}">
                         </a>
                         @foreach ($goods->pictures as $key => $picture)
-                        <a class="thumbnail" id="carousel-selector-{{ $key+1 }}">
-                            <img src="{{ $picture->url }}">
-                        </a>
+                            <a class="thumbnail" id="carousel-selector-{{ $key+1 }}">
+                                <img src="{{ $picture->url }}">
+                            </a>
                         @endforeach
                     </div>
                 </div>
@@ -90,8 +210,8 @@
         </div>
 
         <div class="col-md-6" style="position: relative;">
-            <div class="bookmarked"><img src="{{ asset('assets/Home') }}/images/bookmarked.png" width="86"> </div>
-            <h1>{{ $goods->name }}</h1>
+            <div class="bookmarked"><img src="{{ asset('assets/Home') }}/images/bookmarked.png" width="86"></div>
+            <h3>{{ $goods->name }}</h3>
 
             {{--<div class="row">
                 <div class="col-md-10">
@@ -101,57 +221,81 @@
                 <div class="col-md-2"><img src="{{ asset('assets/Home') }}/images/halal.png" width="60"> </div>
             </div>--}}
 
-
             <p class="product-description">{{ $goods->sub_title }}</p>
-            <p class="product-description">Min-order: 10 pcs</p>
+
+            <div id="J_Promo" class="tb-promo-mod">
+                <div id="J_PromoHd" class="tb-promo-hd tb-promo-item">
+                    <div class="tb-promo-item-bd"><strong class="tb-promo-price"><em
+                                    class="price">¥</em><em id="J_PromoPriceNum" class="price" id="price">{{ $goods->min_price }}</em></strong><span
+                                id="J_PromoTips" class="tb-promo-tips"></span></div>
+                    <div class="tb-promo-item-ft"></div>
+                </div>
+                <div id="J_PromoBd" class="tb-promo-bd"></div>
+            </div>
 
             <div class="product-detail-tag-container">
                 <div id="panel">
                     <div id="panel_sel">
 
                     </div>
+                </div>
+            </div>
 
+            <div class="tb-logistic tb-clearfix">
+                <span class="tb-name tb-property-type">批次件数</span>
+                <div class="tb-logistic-info">
+                    <div class="wl-areainfo clearfix">
+                        <span class="wl-areacon">
+                            <span>{{ $goods->wholesale_number }}</span>
+                        </span>
+                    </div>
                 </div>
             </div>
 
             <div class="clearfix"></div>
 
             <div class="row">
-                <div class="col-md-12">
-                    <h3>价格 ¥<span id="price">{{ $goods->min_price }}</span></h3>
-                </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-12" style="padding-top: 18px;">
-                    <p class="pull-left" style="line-height: 35px; margin-right: 20px;">Quantity</p>
-                        <div class="form-group pull-left"><button class="btn btn-default" id="quantity_dec" onclick="quantity_dec()">-</button></div>
-                        <div class="form-group pull-left">
-                            <input type="number" class="form-control number-input" id="quantity" name="quantity" value="1" style="width: 60px; border: none; font-weight: bold; font-size: 20px;" min="1" max="1">
-                        </div>
-                        <div class="form-group"><button class="btn btn-default" id="quantity_inc" onclick="quantity_inc()">+</button></div>
+                    <p class="pull-left" style="line-height: 35px; margin-right: 20px;">购买件数</p>
+                    <div class="form-group pull-left">
+                        <button class="btn btn-default" id="quantity_dec" onclick="quantity_dec()">-</button>
+                    </div>
+                    <div class="form-group pull-left">
+                        <input type="number" class="form-control number-input" id="quantity" name="quantity"
+                               value="{{ $goods->wholesale_number }}" disabled="disabled"
+                               style="width: 60px; border: none; font-weight: bold; font-size: 20px;"
+                               min="{{ $goods->wholesale_number }}" max="1"
+                               wholesale_number="{{ $goods->wholesale_number }}">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" id="quantity_inc" onclick="quantity_inc()">+</button>
+                    </div>
                     <p>(剩余库存: <span id="stock">0</span> )</p>
                     <input type="hidden" id="product_id" value="0">
+                    <input type="hidden" id="wholesale_number" value="{{ $goods->wholesale_number }}">
                 </div>
             </div>
 
             <div class="product-detail-action-button-container">
-                <button onclick="add_cart()" class="btn button-add-to-bag" style="margin-right: 10px;">{{ __('Home/common.add_to_cart') }}</button>
-                <button class="btn btn-default button-black button-learn-more" id="bookmarkButton">{{ __('Home/common.set_favourite') }}</button>
-                <button class="btn btn-default button-black button-learn-more" id="deleteBookmarkButton" style="display: none;">{{ __('Home/common.delete_favourite') }}</button>
+                <button onclick="add_cart()" class="btn button-add-to-bag"
+                        style="margin-right: 10px;">{{ __('Home/common.add_to_cart') }}</button>
+                <button class="btn btn-default button-black button-learn-more"
+                        id="bookmarkButton">{{ __('Home/common.set_favourite') }}</button>
+                <button class="btn btn-default button-black button-learn-more" id="deleteBookmarkButton"
+                        style="display: none;">{{ __('Home/common.delete_favourite') }}</button>
             </div>
-
-
         </div>
     </div><!-- /.container -->
 
-    <div class="container" style="background: white; padding-bottom: 50px;">
+    <div class="line"></div>
+
+    <div class="container">
         {!! $goods->detail !!}
     </div>
 @endsection
 @section('javascript')
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
 
             // bookmark
             $('.bookmarked').hide();
@@ -162,7 +306,6 @@
                 $('#bookmarkButton').hide();
                 $('#deleteBookmarkButton').show();
             });
-
 
 
             // Delete bookmark
@@ -192,7 +335,7 @@
             // When the carousel slides, auto update the text
             $('#myCarousel').on('slid.bs.carousel', function (e) {
                 var id = $('.item.active').data('slide-number');
-                $('#carousel-text').html($('#slide-content-'+id).html());
+                $('#carousel-text').html($('#slide-content-' + id).html());
             });
         });
     </script>
@@ -202,16 +345,21 @@
         */
         var keys = {
             @foreach($attribute_list as $key => $attribute)
-                '{{ $key }}' : [
-                    @foreach ($attribute as $item)
-                        '{{ $item }}',
-                    @endforeach ],
+            '{{ $key }}': [
+                @foreach ($attribute as $item)
+                    '{{ $item }}',
+                @endforeach ],
             @endforeach
         };
         //SKU，Stock Keeping Uint(库存量单位)
-        var sku_list=[
-            @foreach($goods->products as $product)
-                {'id':'{{$product->id}}','num':'{{$product->stock}}','price':'{{$product->price}}','attrs':'{{$product->attribute_string}}'},
+        var sku_list = [
+                @foreach($goods->products as $product)
+            {
+                'id': '{{$product->id}}',
+                'num': '{{$product->stock}}',
+                'price': '{{$product->price}}',
+                'attrs': '{{$product->attribute_string}}'
+            },
             @endforeach
         ];
 
@@ -219,40 +367,41 @@
         /**init start */
 
         //显示html结构
-        function show_attr_item(){
-            var html='';
-            for(k in keys){
-                html+='<div class="goods_attr" > <span class="label">'+k+'</span>';
-                html+='<ul>'
-                for(k2 in keys[k]){
-                    _attr_id=keys[k][k2];
-                    html+='<li class="text" val="'+_attr_id+'" >';
-                    html+='<span>'+_attr_id+'</span>';
-                    html+='<s></s>';
-                    html+='</li>'
+        function show_attr_item() {
+            var html = '';
+            for (k in keys) {
+                html += '<div class="goods_attr" > <span class="label">' + k + '</span>';
+                html += '<ul>'
+                for (k2 in keys[k]) {
+                    _attr_id = keys[k][k2];
+                    html += '<li class="text" val="' + _attr_id + '" >';
+                    html += '<span>' + _attr_id + '</span>';
+                    html += '<s></s>';
+                    html += '</li>'
                 }
-                html+='</ul>';
-                html+='</div>';
+                html += '</ul>';
+                html += '</div>';
             }
             $('#panel_sel').html(html);
         }
+
         show_attr_item()
 
         /**init end */
 
         //获取所有包含指定节点的路线
-        function filterProduct(ids){
-            var result=[];
-            $(sku_list).each(function(k,v){
-                _attr='|'+v['attrs']+'|';
-                _all_ids_in=true;
-                for( k in ids){
-                    if(_attr.indexOf('|'+ids[k]+'|')==-1){
-                        _all_ids_in=false;
+        function filterProduct(ids) {
+            var result = [];
+            $(sku_list).each(function (k, v) {
+                _attr = '|' + v['attrs'] + '|';
+                _all_ids_in = true;
+                for (k in ids) {
+                    if (_attr.indexOf('|' + ids[k] + '|') == -1) {
+                        _all_ids_in = false;
                         break;
                     }
                 }
-                if(_all_ids_in){
+                if (_all_ids_in) {
                     result.push(v);
                 }
 
@@ -262,149 +411,142 @@
 
         //获取 经过已选节点 所有线路上的全部节点
         // 根据已经选择得属性值，得到余下还能选择的属性值
-        function filterAttrs(ids){
-            var products=filterProduct(ids);
+        function filterAttrs(ids) {
+            var products = filterProduct(ids);
             //console.log(products);
-            var result=[];
-            $(products).each(function(k,v){
-                result=result.concat(v['attrs'].split('|'));
-
+            var result = [];
+            $(products).each(function (k, v) {
+                result = result.concat(v['attrs'].split('|'));
             });
             return result;
         }
 
-        function getItemByAttr(attr)
-        {
+        function getItemByAttr(attr) {
             var item = [];
-            sku_list.forEach(function(k,v){
-                if (attr == k['attrs'])
-                {
+            sku_list.forEach(function (k, v) {
+                if (attr == k['attrs']) {
                     item = k;
                 }
             });
             return item;
         }
 
-        function change_stock_and_price(attr)
-        {
+        var wholesale_number = $('#wholesale_number').val();
+
+        function change_stock_and_price(attr) {
             var item = getItemByAttr(attr);
             //console.log(attr+' '+item);
-            if (item['id'])
-            {
+            if (item['id']) {
                 $('#stock').html(item['num']);
                 $('#price').html(item['price']);
                 $('#product_id').val(item['id']);
-                $('#quantity').attr('max',item['num']);
-                $('#quantity').val(1);
+                $('#quantity').attr('max', item['num']);
+                $('#quantity').val(wholesale_number);
             }
         }
 
         //已选择的节点数组
-        function _getSelAttrId(){
+        function _getSelAttrId() {
 
-            var list=[];
-            $('.goods_attr li.sel').each(function(){
+            var list = [];
+            $('.goods_attr li.sel').each(function () {
                 list.push($(this).attr('val'));
             });
             return list;
         }
 
-        $('#quantity').on('input',function (){
-            $(this).val()>$(this).attr('max')*1?$(this).val($(this).attr('max')*1):$(this).val();
-            $(this).val()<$(this).attr('min')*1?$(this).val($(this).attr('min')*1):$(this).val();
+        $('#quantity').on('input', function () {
+            $(this).val() > $(this).attr('max') * 1 ? $(this).val($(this).attr('max') * 1) : $(this).val();
+            $(this).val() < $(this).attr('min') * 1 ? $(this).val($(this).attr('min') * 1) : $(this).val();
         });
 
-        function quantity_dec()
-        {
+        function quantity_dec() {
             var quantity_num = $('#quantity').val();
-            if (quantity_num > $('#quantity').attr('min')*1)
-            {
-                var num = quantity_num*1-1;
+            if (quantity_num > $('#quantity').attr('min') * 1) {
+                var num = quantity_num * 1 - wholesale_number * 1;
                 $('#quantity').val(num);
             }
         }
 
-        function quantity_inc()
-        {
+        function quantity_inc() {
             var quantity_num = $('#quantity').val();
-            if (quantity_num < $('#quantity').attr('max')*1)
-            {
-                var num = quantity_num*1+1;
+            if (quantity_num < $('#quantity').attr('max') * 1) {
+                var num = quantity_num * 1 + wholesale_number * 1;
                 $('#quantity').val(num);
             }
         }
 
-        $('.goods_attr li').click(function(){
-            if($(this).hasClass('b')){
-                return ;//被锁定了
+        $('.goods_attr li').click(function () {
+            if ($(this).hasClass('b')) {
+                return;//被锁定了
             }
-            if($(this).hasClass('sel')){
+            if ($(this).hasClass('sel')) {
                 $(this).removeClass('sel');
-            }else{
+            } else {
                 $(this).siblings().removeClass('sel');
                 $(this).addClass('sel');
 
             }
-            var select_ids=_getSelAttrId();
+            var select_ids = _getSelAttrId();
             var select_attr_string = select_ids.join('|');
             change_stock_and_price(select_attr_string);
 
 
-
             //已经选择了的规格
-            var $_sel_goods_attr=$('li.sel').parents('.goods_attr');
+            var $_sel_goods_attr = $('li.sel').parents('.goods_attr');
 
             // step 1
-            var all_ids=filterAttrs(select_ids);
+            var all_ids = filterAttrs(select_ids);
 
             //获取未选择的
-            var $other_notsel_attr=$('.goods_attr').not($_sel_goods_attr);
+            var $other_notsel_attr = $('.goods_attr').not($_sel_goods_attr);
 
             //设置为选择属性中的不可选节点
-            $other_notsel_attr.each(function(){
-                set_block($(this),all_ids);
+            $other_notsel_attr.each(function () {
+                set_block($(this), all_ids);
 
             });
 
             //step 2
             //设置已选节点的同级节点是否可选
-            $_sel_goods_attr.each(function(){
+            $_sel_goods_attr.each(function () {
                 update_2($(this));
             });
 
 
         });
 
-        function update_2($goods_attr){
+        function update_2($goods_attr) {
             // 若该属性值 $li 是未选中状态的话，设置同级的其他属性是否可选
-            var select_ids=_getSelAttrId();
-            var $li=$goods_attr.find('li.sel');
+            var select_ids = _getSelAttrId();
+            var $li = $goods_attr.find('li.sel');
 
-            var select_ids2=del_array_val(select_ids,$li.attr('val'));
+            var select_ids2 = del_array_val(select_ids, $li.attr('val'));
 
-            var all_ids=filterAttrs(select_ids2);
+            var all_ids = filterAttrs(select_ids2);
 
-            set_block($goods_attr,all_ids);
+            set_block($goods_attr, all_ids);
         }
 
-        function set_block($goods_attr,all_ids){
+        function set_block($goods_attr, all_ids) {
             //根据 $goods_attr下的所有节点是否在可选节点中（all_ids） 来设置可选状态
-            $goods_attr.find('li').each(function(k2,li2){
+            $goods_attr.find('li').each(function (k2, li2) {
 
-                if($.inArray($(li2).attr('val'),all_ids)==-1){
+                if ($.inArray($(li2).attr('val'), all_ids) == -1) {
                     $(li2).addClass('b');
-                }else{
+                } else {
                     $(li2).removeClass('b');
                 }
 
             });
 
         }
-        function del_array_val(arr,val){
+
+        function del_array_val(arr, val) {
             //去除 数组 arr中的 val ，返回一个新数组
-            var a=[];
-            for(k in arr){
-                if(arr[k]!=val){
+            var a = [];
+            for (k in arr) {
+                if (arr[k] != val) {
                     a.push(arr[k]);
                 }
             }
@@ -412,18 +554,16 @@
         }
     </script>
     <script>
-        function add_cart()
-        {
+        function add_cart() {
             var id = $("#product_id").val();
             var qty = $("#quantity").val();
-            var data = {'id':id,'qty':qty};
+            var data = {'id': id, 'qty': qty};
             var url = '{{ url('/Cart/add') }}';
-            $.post(url,data,function(result){
-                if (result.status == 200)
-                {
+            $.post(url, data, function (result) {
+                if (result.status == 200) {
                     get_cart_list();
                 }
-            },'json');
+            }, 'json');
         }
     </script>
 @endsection

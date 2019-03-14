@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Home;
 use App\Http\Models\User;
 use Illuminate\Http\Request;
 use Crypt;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends CommonController

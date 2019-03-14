@@ -38,6 +38,17 @@ $test_group = function(){
         Route::get('/test','IndexController@test')->name('test.index.test');
         Route::get('/webhook','IndexController@webhook')->name('test.index.webhook');
     });
+    Route::group(['prefix' => 'Chubao'],function(){
+        Route::get('/getChannelCode','ChubaoController@getChannelCode');
+        Route::get('/getToken','ChubaoController@getToken');
+        Route::get('/getRoomList','ChubaoController@getRoomList');
+        Route::get('/enterRoom/{room_id}','ChubaoController@enterRoom');
+        Route::get('/leaveRoom/{room_id}','ChubaoController@leaveRoom');
+        Route::get('/sitDown/{room_id}','ChubaoController@sitDown');
+        Route::get('/standUp/{room_id}','ChubaoController@standUp');
+        Route::get('/dropCoin/{room_id}','ChubaoController@dropCoin');
+        Route::get('/test','ChubaoController@test');
+    });
 };
 
 $home_public_group = function(){
@@ -45,10 +56,10 @@ $home_public_group = function(){
     Route::get('/category/{id}','IndexController@category');
     Route::get('/articles','ArticleController@index');
     Route::get('/article/{id}','ArticleController@show');
-    Route::get('/product/{id}','GoodsController@show');
+    Route::get('/product/{goods_sn}','GoodsController@show');
     Route::group(['prefix' => 'Goods'],function(){
         Route::get('/','GoodsController@index');
-        Route::get('/{id}','GoodsController@show');
+        Route::get('/{goods_sn}','GoodsController@show');
     });
     Route::group(['prefix' => 'Cart'],function(){
         Route::post('/index','CartController@index')->name('Home.Cart.index');
@@ -87,7 +98,14 @@ $home_private_group = function (){
         Route::delete('/cancelOrder/{sn}','OrderController@cancelOrder')->name('Home.Order.cancelOrder');
     });
     Route::group(['prefix' => 'Member'],function(){
-        Route::get('/index','MemberController@index')->name('Home.Member.index');
+        $controller = 'Member';
+        Route::get('/index',"{$controller}Controller@index")->name("Home.{$controller}.index");
+        Route::post('/index',"{$controller}Controller@index")->name("Home.{$controller}.update");
+        Route::get('/wallet',"{$controller}Controller@wallet")->name("Home.{$controller}.wallet");
+        Route::get('/collect_list',"{$controller}Controller@collectList")->name("Home.{$controller}.collect_list");
+        Route::get('/address_list',"{$controller}Controller@addressList")->name("Home.{$controller}.address_list");
+        Route::get('/reset_password',"{$controller}Controller@resetPassword")->name("Home.{$controller}.reset_password");
+        Route::get('/logout',"{$controller}Controller@logout")->name("Home.{$controller}.logout");
     });
     Route::group(['prefix' => 'Ajax'],function(){
         Route::post('/saveAddress','AjaxController@saveAddress')->name('Home.Ajax.saveAddress');
@@ -147,6 +165,10 @@ $admin_private_group = function(){
         Route::post('/addGoods',"{$controller}Controller@addGoods");
         Route::get('/editGoods/{id}',"{$controller}Controller@editGoods");
         Route::post('/editGoods/{id}',"{$controller}Controller@editGoods");
+        Route::get('/addGoodsPicture/{goods_id}',"{$controller}Controller@addGoodsPicture");
+        Route::post('/addGoodsPicture/{goods_id}',"{$controller}Controller@addGoodsPicture");
+        Route::get('/editGoodsPicture/{id}',"{$controller}Controller@editGoodsPicture");
+        Route::post('/editGoodsPicture/{id}',"{$controller}Controller@editGoodsPicture");
         Route::get('/addCategory',"{$controller}Controller@addCategory");
         Route::post('/addCategory',"{$controller}Controller@addCategory");
         Route::get('/addCategory/{id}',"{$controller}Controller@addCategory");
@@ -156,7 +178,10 @@ $admin_private_group = function(){
         Route::get('/goodsCategoryList',"{$controller}Controller@goodsCategoryList");
         Route::get('/goodsList/{id}',"{$controller}Controller@goodsList");
         Route::get('/goodsList',"{$controller}Controller@goodsList");
+        Route::get('/goodsPictureList/{goods_id}',"{$controller}Controller@goodsPictureList");
+        Route::get('/goodsPictureList',"{$controller}Controller@goodsPictureList");
         Route::delete('/deleteGoods',"{$controller}Controller@deleteGoods");
+        Route::delete('/deleteGoodsPicture',"{$controller}Controller@deleteGoodsPicture");
         Route::delete('/deleteGoodsCategory',"{$controller}Controller@deleteGoodsCategory");
     });
     Route::group(['prefix' => 'Attribute'],function(){
@@ -197,6 +222,8 @@ $admin_private_group = function(){
     });
     Route::resource('User', 'UserController');
     Route::resource('Advertisement', 'AdvertisementController');
+    Route::resource('Album', 'AlbumController');
+    Route::resource('AlbumPicture', 'AlbumPictureController');
     /*Route::group(['prefix' => 'User'],function(){
         $controller = 'User';
         Route::resource('User', 'UserController');

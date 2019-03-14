@@ -943,7 +943,8 @@ a.default-userProductList-CardList-thumbnail:hover{
 }
 
 .carousel-inner>.item>img, .carousel-inner>.item>a>img {
-    width: 100%;
+    width: 400px;
+    height: 400px;
 }
 
 a.thumbnail{
@@ -1024,7 +1025,7 @@ input#file-upload[type="file"], input#file-upload-mobile[type="file"] {
 }
 
 .product-detail-tag-container{
-    margin: 20px 0;
+    /*margin: 20px 0;*/
     overflow: auto;
 }
 
@@ -1038,7 +1039,7 @@ input#file-upload[type="file"], input#file-upload-mobile[type="file"] {
     padding: 8px 20px;
     border-radius: 2px;
     background: white;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 .product-description{

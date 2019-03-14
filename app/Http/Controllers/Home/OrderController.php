@@ -51,18 +51,7 @@ class OrderController extends CommonController
         $address_id = $request->address_id;
         if (empty($request->address_id))
         {
-            $address = new Address();
-            $address->user_id = $this->getUserId();
-            $address->name = $request->name;
-            $address->phone = $request->phone;
-            $address->province_id = $request->province_id;
-            $address->city_id = $request->city_id;
-            $address->district_id = $request->district_id;
-            $address->address = $request->address;
-            $address->tag = $request->tag;
-            $address->status = 1;
-            $address->save();
-            $address_id = $address->id;
+            return abort('500','没有收货地址信息.');
         }
         $cart_list = Cart::content();
         if (empty($cart_list))
@@ -77,7 +66,7 @@ class OrderController extends CommonController
             $order->order_sn = $order_sn;
             $order->user_id = $user_id;
             $order->address_id = $address_id;
-            $order->amount = Cart::total();
+            $order->amount = floatval(Cart::total());
             $order->status = 1;
             $order->save();
             foreach ($cart_list as $key => $item)
@@ -94,8 +83,8 @@ class OrderController extends CommonController
                     ->decrement('stock',$item->qty);
                 $temp_item['product_id'] = $product_info->id;
                 $temp_item['goods_name'] = $product_info->goods->name;
-                $temp_item['mkt_price'] = $product_info->mkt_price ? $product_info->mkt_price : 0.00;
-                $temp_item['price'] = $product_info->price ? $product_info->price : 0.00;
+                $temp_item['mkt_price'] = $product_info->mkt_price ? floatval($product_info->mkt_price) : 0.00;
+                $temp_item['price'] = $product_info->price ? floatval($product_info->price) : 0.00;
                 $temp_item['qty'] = $item->qty;
                 $temp_item['picture'] = $product_info->goods->picture;
                 $product_list[] = $temp_item;
@@ -123,7 +112,7 @@ class OrderController extends CommonController
     {
         $order_info = $order->orderSn($sn)->userId($this->getUserId())->status(1)->first();
         if (empty($order_info)) return abort(500);
-        if ($request->method() == 'POST')
+        if ($request->isMethod('post'))
         {
             DB::beginTransaction(); //事务开始
             try {
@@ -158,7 +147,6 @@ class OrderController extends CommonController
             } catch(QueryException $ex) {
                 DB::rollback(); //回滚事务
                 //异常处理
-                dd($ex);
                 return redirect()->back()->withInput()->with('alert',['error','支付失败']);
             }
         }else {
@@ -166,10 +154,17 @@ class OrderController extends CommonController
         }
     }
 
-    public function getList(Order $order)
+    public function getList(Request $request,Order $order)
     {
-        $order_list = $order->userId($this->getUserId())->paginate(10);
-        return view('Home.Order.getList')->with(compact('order_list'));
+        $where = [];
+        $input = $request->all();
+        !empty($input['sn']) ? $where[] = ['order_sn','like',"%{$input['sn']}%"] : $input['sn'] = '';
+        !empty($input['status']) ? $where[] = ['status','=',$input['status']] : $input['status'] = '';
+        !empty($input['start']) ? $where[] = ['created_at','>',$input['start'].' 00:00:00'] : $input['start'] = '';
+        !empty($input['end']) ? $where[] = ['created_at','<=',$input['end'].' 23:59:59'] : $input['end'] = '';
+        $where[] = ['user_id',$this->getUserId()];
+        $order_list = $order->where($where)->orderBy('created_at','desc')->paginate(10);
+        return view('Home.Order.getList')->with(compact('order_list','input'));
     }
 
     public function detail($sn,Order $order)
@@ -183,7 +178,7 @@ class OrderController extends CommonController
     public function cancelOrder($sn,Order $order)
     {
         $order_info = $order->orderSn($sn)->userId($this->getUserId())->whereIn('status',[1,2])->first();
-        if (mpty($order_info)) {
+        if (empty($order_info)) {
             return response([
                 'status'  => 404,
                 'message' => __('Operation fail.'),

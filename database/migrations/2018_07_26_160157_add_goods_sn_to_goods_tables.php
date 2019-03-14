@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddGoodsNoToGoodsTables extends Migration
+class AddGoodsSnToGoodsTables extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddGoodsNoToGoodsTables extends Migration
     public function up()
     {
         Schema::table('goods', function (Blueprint $table) {
-            $table->char('goods_no');
+            $table->char('goods_sn');
             $table->text('tag')->nullable();
             $table->text('description')->nullable();
             $table->text('seo_title')->nullable();
@@ -22,7 +22,7 @@ class AddGoodsNoToGoodsTables extends Migration
             $table->text('seo_description')->nullable();
         });
         Schema::table('products', function (Blueprint $table) {
-            $table->char('product_no');
+            $table->char('product_sn');
             $table->decimal('mkt_price',8,2)->unsigned();
             $table->text('position')->nullable();
         });
@@ -36,10 +36,10 @@ class AddGoodsNoToGoodsTables extends Migration
     public function down()
     {
         Schema::table('goods', function (Blueprint $table) {
-            $table->dropColumn(['goods_no','tag','description','seo_title','seo_keywords','seo_description']);
+            $table->dropColumn(['goods_sn','tag','description','seo_title','seo_keywords','seo_description']);
         });
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn(['product_no','mkt_price','position']);
+            $table->dropColumn(['product_sn','mkt_price','position']);
         });
     }
 }

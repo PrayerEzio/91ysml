@@ -3,6 +3,8 @@
 <footer class="container-fluid">
     <div class="col-md-6 menu-footer">
         <h4>优圣美俪订货平台</h4>
+        <a href="{{ url('articles') }}" class="text-roboto-light text-white">{{ __('Home/common.articles') }}</a>
+        <a href="{{ url('questions') }}" class="text-roboto-light text-white">{{ __('Home/common.FAQs') }}</a>
         <a href="{{ url('about_us') }}" class="text-roboto-light text-white">{{ __('Home/common.about_us') }}</a>
         <a href="{{ url('contact_us') }}" class="text-roboto-light text-white">{{ __('Home/common.contact_us') }}</a>
         <a href="{{ url('Member/index') }}" class="text-roboto-light text-white">{{ __('Home/common.member_center') }}</a>

@@ -91,7 +91,7 @@
                     <h3> <i class="fa fa-comments-o"></i> 最新通知</h3>
                     <small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>
                 </div>
-                <div>
+                {{--<div>
                     <div class="sidebar-message">
                         <a href="#">
                             <div class="pull-left text-center">
@@ -202,14 +202,14 @@
                             </div>
                         </a>
                     </div>
-                </div>
+                </div>--}}
             </div>
             <div id="tab-3" class="tab-pane">
                 <div class="sidebar-title">
                     <h3> <i class="fa fa-cube"></i> 最新任务</h3>
                     <small><i class="fa fa-tim"></i> 您当前有14个任务，10个已完成</small>
                 </div>
-                <ul class="sidebar-list">
+                {{--<ul class="sidebar-list">
                     <li>
                         <a href="#">
                             <div class="small pull-right m-t-xs">9小时以后</div>
@@ -282,7 +282,7 @@
                             </div>
                         </a>
                     </li>
-                </ul>
+                </ul>--}}
             </div>
         </div>
     </div>

@@ -25,7 +25,7 @@
     <div>
         <!--breadcrumb start-->
         <ol class="breadcrumb hidden-xs">
-            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ url('/') }}">{{ __('Home/common.index') }}</a></li>
             @foreach($parents_list as $item)
                 <li><a href="{{ url('/category',['id'=>$item->id]) }}">{{ $item->name }}</a></li>
             @endforeach

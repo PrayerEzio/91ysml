@@ -31,7 +31,7 @@ class QiniuService
         return $auth->uploadToken($bucket);
     }
 
-    public function upload($file,$key = '')
+    public function upload($file,$key = '',$dir = 'demo')
     {
         if (!is_file($file) || !$file->isValid())
         {
@@ -43,7 +43,7 @@ class QiniuService
         if (empty($key))
         {
             $file_name = Crypt::encrypt($file->getClientOriginalName());
-            $key = 'demo/'.$file_name.'.'.$file->getClientOriginalExtension();
+            $key = "{$dir}/".$file_name.'.'.$file->getClientOriginalExtension();
         }
         $uploadManager = new UploadManager();
         list($result['ret'],$result['error_msg']) = $uploadManager->putFile($token,$key,$filePath);

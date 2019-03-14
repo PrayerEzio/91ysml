@@ -19,7 +19,7 @@
                 <p class="help-text hidden-sm hidden-md" id="helpText">有任何疑问? 请联系我们的邮箱 <a href="mailto:service@91ysml.net" class="text-secondary">service@91ysml.net</a> </p>
             </div>
             <div class="col-md-4 col-sm-4">
-                <p class="text-center logo-container"><a href="index.html"><img src="{{ asset('assets/Home') }}/images/logo.png" width="100"></a></p>
+                <p class="text-center logo-container"><a href="index.html"><img src="{{ asset('assets/Home') }}/images/logo.png" height="50px"></a></p>
             </div>
             <div class="col-md-4 less-padding-right">
                 @if (session('user_info'))
@@ -63,11 +63,16 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 @php isset($top_navbar) ? '' : $top_navbar = '';@endphp
-                <li @if ($top_navbar == __('Home/common.shop'))class="active"@endif><a href="{{ url('/') }}">{{ __('Home/common.shop') }}</a></li>
-                <li @if ($top_navbar == __('Home/common.articles'))class="active"@endif><a href="{{ url('articles') }}">{{ __('Home/common.articles') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.shop'))class="active"@endif><a href="{{ url('/') }}">{{ __('Home/common.index') }}</a></li>
+                {{--<li @if ($top_navbar == __('Home/common.articles'))class="active"@endif><a href="{{ url('articles') }}">{{ __('Home/common.articles') }}</a></li>
                 <li @if ($top_navbar == __('Home/common.FAQs'))class="active"@endif><a href="questions.html">{{ __('Home/common.FAQs') }}</a></li>
                 <li @if ($top_navbar == __('Home/common.about_us'))class="active"@endif><a href="{{ url('about_us') }}">{{ __('Home/common.about_us') }}</a></li>
-                <li @if ($top_navbar == __('Home/common.contact_us'))class="active"@endif><a href="{{ url('contact_us') }}">{{ __('Home/common.contact_us') }}</a></li>
+                <li @if ($top_navbar == __('Home/common.contact_us'))class="active"@endif><a href="{{ url('contact_us') }}">{{ __('Home/common.contact_us') }}</a></li>--}}
+                @foreach($goods_category_list as $goods_category)
+                    <li @if ($top_navbar == "goods_category_{$goods_category->id}")class="active"@endif>
+                        <a href="{{ url('category',['id'=>$goods_category->id]) }}">{{ $goods_category->name }}</a>
+                    </li>
+                @endforeach
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

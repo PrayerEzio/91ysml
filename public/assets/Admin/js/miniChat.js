@@ -19,7 +19,10 @@ if(window.WebSocket){
                 html = '<div class="left"><div class="author-name">'+data.user.nickname+'<small class="chat-date">'+data.time+'</small></div><div class="chat-message active">'+data.message+'</div></div></p>'
                 break;
             case 'join':
-                html = '<div class="center">'+data.user.nickname+'加入房间</div>';
+                html = '<div class="center">'+data.user.nickname+'加入了房间</div>';
+                break;
+            case 'leave':
+                html = '<div class="center">'+data.user.nickname+'离开了房间</div>';
                 break;
         }
         content.innerHTML = content.innerHTML.concat(html);

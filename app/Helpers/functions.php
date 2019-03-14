@@ -1,6 +1,26 @@
 <?php
+
+function getCurrentRoute()
+{
+    $route['route'] = \Illuminate\Support\Facades\Route::currentRouteAction();
+    $route_array = explode('\\',$route['route']);
+    $c_a = $route_array[count($route_array)-1];
+    list($route['controller'],$route['action']) = explode('@',$c_a);
+    $route['module'] = count($route_array) == 5 ? $route_array[3] : '';
+    return $route;
+}
+
+/*
+ * php输入毫秒部分的代码
+ * */
+function msectime() {
+    list($msec, $sec) = explode(' ', microtime());
+    $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
+    return $msectime;
+}
+
 /**
- * 计算中文字符串长度
+ * 计算中文字符串长度d
  * @param string $string 字符串
  * @return number 字符串长度
  */
@@ -175,6 +195,76 @@ function xml_to_array($xml)
     return $array_data;
 }
 
+function http_json_post_data($url, $data_string) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json; charset=utf-8",
+            "Content-Length: " . strlen($data_string))
+    );
+    ob_start();
+    curl_exec($ch);
+    $return_content = ob_get_contents();
+    ob_end_clean();
+    $return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    return array($return_code, $return_content);
+}
+
+/**
+ * 模拟POST提交
+ * @param string $url 地址
+ * @param string $data 提交的数据
+ * @return string 返回结果
+ */
+function post_url($url, $data)
+{
+    $curl = curl_init(); // 启动一个CURL会话
+    curl_setopt($curl, CURLOPT_URL, $url); // 要访问的地址
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); // 对认证证书来源的检查
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); // 从证书中检查SSL加密算法是否存在
+    curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)'); // 模拟用户使用的浏览器
+    //curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1); // 使用自动跳转
+    //curl_setopt($curl, CURLOPT_AUTOREFERER, 1);    // 自动设置Referer
+    curl_setopt($curl, CURLOPT_POST, 1);             // 发送一个常规的Post请求
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);   // Post提交的数据包x
+    curl_setopt($curl, CURLOPT_TIMEOUT, 30);         // 设置超时限制 防止死循环
+    curl_setopt($curl, CURLOPT_HEADER, 0);           // 显示返回的Header区域内容
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);   // 获取的信息以文件流的形式返回
+    $tmpInfo = curl_exec($curl); // 执行操作
+    if(curl_errno($curl))
+    {
+        echo 'Errno'.curl_error($curl);//捕抓异常
+    }
+    curl_close($curl); // 关闭CURL会话
+    return $tmpInfo; // 返回数据
+}
+
+/**
+ * 	作用：格式化参数，签名过程需要使用
+ */
+function formatBizQueryParaMap($paraMap, $urlencode = false)
+{
+    $buff = "";
+    ksort($paraMap);
+    foreach ($paraMap as $k => $v)
+    {
+        if($urlencode)
+        {
+            $v = urlencode($v);
+        }
+        //$buff .= strtolower($k) . "=" . $v . "&";
+        $buff .= $k . "=" . $v . "&";
+    }
+    $reqPar = '';
+    if (strlen($buff) > 0)
+    {
+        $reqPar = substr($buff, 0, strlen($buff)-1);
+    }
+    return $reqPar;
+}
+
 /**
  * 调用api接口
  * @param url $apiurl api.muxiangdao.cn/Article/articleList
@@ -201,7 +291,6 @@ function get_api($apiurl, $param, $format = 'array')
     }
     $obj = json_decode($json);
     $array = object_to_array($obj);
-    $xml = array_to_xml($array);
     switch ($format) {
         case 'array':
             $data = $array;
@@ -217,9 +306,6 @@ function get_api($apiurl, $param, $format = 'array')
             break;
         case 'json':
             $data = $json;
-            break;
-        case 'xml':
-            $data = $xml;
             break;
         default:
             $data = $array;
@@ -322,4 +408,18 @@ function ch_num($num, $mode = true)
         $retval = join('', array_reverse($out)) . $retval;
     }
     return $retval;
+}
+
+function system_log($title, $content, $type, $level = 0, $operator_type = 'system', $ip = 'unknown', $operator_id = 0)
+{
+    $system_log = new \App\Http\Models\SystemLog();
+    $system_log->type = $type;
+    $system_log->level = $level;
+    $system_log->title = $title;
+    $system_log->content = $content;
+    $system_log->operator_type = $operator_type;
+    $system_log->operator_id = $operator_id;
+    $system_log->ip = $ip;
+    $system_log->save();
+    return $system_log->id;
 }

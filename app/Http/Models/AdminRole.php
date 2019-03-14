@@ -3,8 +3,9 @@
 namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Contracts\Role;
 
-class AdminRole extends Model
+abstract class AdminRole extends Model implements Role
 {
     protected $table = 'roles';
 

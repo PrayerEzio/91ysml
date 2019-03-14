@@ -97,7 +97,7 @@
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                                 <h4 class="modal-title">日志详情</h4>
-                                                <small class="font-bold">Github webhook.</small>
+                                                <small class="font-bold" id="log_title">正在获取.</small>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
@@ -142,6 +142,7 @@
             $.post(URL, data, function (result) {
                 if (result.status == 200)
                 {
+                    $("#log_title").html(result.data.title);
                     $("#log_type").html(result.data.type);
                     $("#log_level").html(result.data.level);
                     $("#log_operator_type").html(result.data.operator_type);

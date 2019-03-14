@@ -6,8 +6,8 @@
     <div class="kimi-container">
         <!--breadcrumb start-->
         <ol class="breadcrumb hidden-xs">
-            <li><a href="index.html">Home</a></li>
-            <li>Articles</li>
+            <li><a href="{{ url('/') }}">{{ __('Home/common.index') }}</a></li>
+            <li>{{ __('Home/common.articles') }}</li>
         </ol>
 
         <div class="row">

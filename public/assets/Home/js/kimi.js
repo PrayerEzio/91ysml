@@ -16,7 +16,7 @@ function get_cart_list()
             {
                 html += '<div class="row">\n' +
                     '                                    <div class="col-xs-12 text-center">\n' +
-                    '                                        <img src="/Home/images/IG_8.svg" width="50">\n' +
+                    '                                        <img src="http://alpha.91ysml.net/assets/Home/images/IG_8.svg" width="50">\n' +
                     '                                        <div class="maya-tiny-padding"></div>\n' +
                     '                                        <p class="text-roboto-light">您的购物车空空如也</p>\n' +
                     '                                    </div>\n' +
@@ -35,7 +35,7 @@ function get_cart_list()
                 });
                 html += '<hr>';
                 html += '<div class="row">\n' +
-                    '                                    <div class="col-sm-6 col-xs-6 less-padding"><h4><small>Total</small><br><span>RMB '+result.data.total+'</span></h4></div>\n' +
+                    '                                    <div class="col-sm-6 col-xs-6 less-padding"><h4><small>总计</small><br><span>'+result.data.total+' 元</span></h4></div>\n' +
                     '                                    <div class="col-sm-6 col-xs-6 less-padding">\n' +
                     '                                        <a href="/Cart/index" class="button-green-top-nav btn pull-right btn-block text-oswald text-uppercase">查看购物车</a>\n' +
                     '                                    </div>\n' +

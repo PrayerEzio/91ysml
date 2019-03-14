@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Models\User;
 use App\Http\Services\QiniuService;
 use Illuminate\Http\Request;
+use Crypt;
 
 class UserController extends CommonController
 {
@@ -45,7 +46,8 @@ class UserController extends CommonController
         $user->nickname = $request->nickname;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->amount = $request->amount;
+        $user->store_name = $request->store_name;
+        $user->balance = $request->balance;
         $user->password = Crypt::encrypt($request->password);
         $user->status = $request->status == 'on' ? 1 : 0;
         $res = $user->save();
@@ -64,9 +66,10 @@ class UserController extends CommonController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        dd($request->method());
+        dd("this is show action id:{$id}");
     }
 
     /**
@@ -99,7 +102,8 @@ class UserController extends CommonController
         $user->nickname = $request->nickname;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->amount = $request->amount;
+        $user->store_name = $request->store_name;
+        $user->balance = $request->balance;
         $user->password = Crypt::encrypt($request->password);
         $user->status = $request->status == 'on' ? 1 : 0;
         $res = $user->save();

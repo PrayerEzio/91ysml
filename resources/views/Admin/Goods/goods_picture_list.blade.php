@@ -6,7 +6,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>商品列表
+                        <h5>商品图片列表
                             <small></small>
                         </h5>
                         <div class="ibox-tools">
@@ -15,54 +15,38 @@
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
-                                    <a href="{{ url('Admin/Goods/addGoods') }}"><i class="fa fa-plus"></i> 新增</a>
+                                    <a href="{{ url('Admin/Goods/addGoodsPicture',['goods_id'=>$goods_id]) }}"><i class="fa fa-plus"></i> 新增</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('Admin/Goods/goodsList') }}"><i class="fa fa-plus"></i> 返回</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form id="filter_form" method="get" action="">
-                            <div class="row">
-                                <div class="col-sm-6 m-b-xs">
-                                </div>
-                                <div class="col-sm-3 m-b-xs">
-                                    <input type="text" placeholder="请输入商品编号" class="input-sm form-control" name="goods_sn" value="{{ $input['goods_sn'] or '' }}"> <span
-                                            class="input-group-btn">
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="input-group">
-                                        <input type="text" placeholder="请输入关键词" class="input-sm form-control" name="keyword" value="{{ $input['keyword'] or '' }}"> <span
-                                                class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary"> 搜索</button> </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>商品编号</th>
-                                    <th>商品名称</th>
-                                    <th>所属分类</th>
+                                    <th>图片预览</th>
+                                    <th>排序</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($list as $goods)
+                                @foreach($list as $goods_picture)
                                     <tr>
-                                        <td class="center">{{ $goods->id }}</td>
-                                        <td>{{ $goods->goods_sn }}</td>
-                                        <td>{{ $goods->name }}</td>
-                                        <td>{{ $goods->category->name }}</td>
-                                        <td>{{ $goods->created_at }}</td>
+                                        <td class="center">{{ $goods_picture->id }}</td>
                                         <td>
-                                            <a class="btn btn-default" target="_blank" href="{{ url('/product',['id'=>$goods->id]) }}"><i class="fa fa-eye"></i> 查看</a>
-                                            <a class="btn btn-info" href="{{ url('Admin/Goods/editGoods',['id'=>$goods->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
-                                            <a class="btn btn-warning" href="{{ url('Admin/Goods/goodsPictureList',['goods_id'=>$goods->id]) }}"><i class="fa fa-file-picture-o"></i> 图片列表</a>
-                                            <a class="btn btn-danger" onclick="delete_goods({{ $goods->id }})"><i class="fa fa-trash"></i> 删除</a>
+                                            <img src="{{ $goods_picture->url }}" height="100px">
+                                        </td>
+                                        <td>{{ $goods_picture->sort }}</td>
+                                        <td>{{ $goods_picture->created_at }}</td>
+                                        <td>
+                                            <a class="btn btn-info" href="{{ url('Admin/Goods/editGoodsPicture',['id'=>$goods_picture->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
+                                            <a class="btn btn-danger" onclick="delete_goods_picture({{ $goods_picture->id }})"><i class="fa fa-trash"></i> 删除</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -81,10 +65,10 @@
 @section('javascript')
     <script src="{{ asset('assets/Admin') }}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script>
-        function delete_goods(id)
+        function delete_goods_picture(id)
         {
             swal({
-                title: "您确定要删除这条商品吗",
+                title: "您确定要删除这条商品图片吗",
                 text: "删除后将无法恢复，请谨慎操作！",
                 type: "warning",
                 showCancelButton: true,
@@ -93,14 +77,14 @@
                 cancelButtonText: "取消",
                 closeOnConfirm: false
             }, function () {
-                var URL = '{{ url('Admin/Goods/deleteGoods') }}';
+                var URL = '{{ url('Admin/Goods/deleteGoodsPicture') }}';
                 var data = {_method:"DELETE",id:id};
                 $.post(URL, data, function (result) {
                     if (result.status == 200)
                     {
-                        swal("商品删除成功！", result.message, "success");
+                        swal("商品图片删除成功！", result.message, "success");
                     }else {
-                        swal("商品删除失败！", result.message, "error");
+                        swal("商品图片删除失败！", result.message, "error");
                     }
                 });
             })

@@ -28,7 +28,7 @@ class OrderController extends CommonController
 
     public function cancelOrder($sn,Order $order,Request $request)
     {
-        if ($request->method() == 'DELETE')
+        if ($request->isMethod('delete'))
         {
             $order_info = $order->orderSn($sn)->first();
             DB::beginTransaction(); //事务开始

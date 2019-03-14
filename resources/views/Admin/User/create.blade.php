@@ -14,8 +14,9 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="{{ isset($data->id) ? 'PUT' : 'post' }}" action="{{ url('Admin/User') }}" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ isset($data->id) ? url('Admin/User',['id'=>$data->id]) : url('Admin/User') }}" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <input type="hidden" name="_method" value="{{ isset($data->id) ? 'PUT' : 'POST' }}">
                             <input type="hidden" name="id" value="{{ $data->id or 0 }}">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">昵称</label>
@@ -39,6 +40,12 @@
                                 <label class="col-sm-2 control-label">手机</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="phone" value="{{ $data->phone or '' }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">店铺名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="store_name" value="{{ $data->store_name or '' }}">
                                 </div>
                             </div>
                             <div class="form-group">

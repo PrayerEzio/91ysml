@@ -19,10 +19,10 @@ class WebhookController extends CommonController
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         if ($request->post() && strpos($user_agent,'GitHub-Hookshot') === 0)
         {
-            $this->system_log('Github webhook.', $request, Route::currentRouteAction(), 0, 'github', $request->ip());
+            system_log('Github webhook.', $request, Route::currentRouteAction(), 0, 'github', $request->ip());
             $cmd = 'sudo cd '.base_path().';sudo git checkout master;';//sudo git pull origin master:master;
             $output = shell_exec($cmd);
-            $this->system_log('Github webhook.', $output, Route::currentRouteAction(), 0, 'github', $request->ip());
+            system_log('Github webhook.', $output, Route::currentRouteAction(), 0, 'github', $request->ip());
         }
     }
 }

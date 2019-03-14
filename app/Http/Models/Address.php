@@ -32,4 +32,9 @@ class Address extends Model
     {
         return $this->belongsTo('App\Http\Models\Region','district_id','id');
     }
+
+    public function scopeUserId($query,$user_id)
+    {
+        return $query->where('user_id',$user_id);
+    }
 }

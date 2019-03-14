@@ -16,7 +16,7 @@ class AttributeController extends CommonController
 
     public function addCategory(Request $request,AttributeCategory $attributeCategory)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $attributeCategory->name = $request->name;
             $res = $attributeCategory->save();
@@ -34,7 +34,7 @@ class AttributeController extends CommonController
 
     public function editCategory(Request $request,AttributeCategory $attributeCategory)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $data = $attributeCategory->findOrFail($request->id);
             $data->name = $request->name;
@@ -54,7 +54,7 @@ class AttributeController extends CommonController
 
     public function deleteAttributeCategory(Request $request,AttributeCategory $attributeCategory)
     {
-        if ($request->method() == 'DELETE')
+        if ($request->isMethod('delete'))
         {
             $res = $attributeCategory->destroy($request->id);
             if ($res)
@@ -76,7 +76,7 @@ class AttributeController extends CommonController
 
     public function addAttribute(Request $request,AttributeCategory $attributeCategory,Attribute $attribute)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $attribute->category_id = $request->category_id;
             $attribute->value = $request->value;
@@ -97,7 +97,7 @@ class AttributeController extends CommonController
 
     public function editAttribute(Request $request,AttributeCategory $attributeCategory,Attribute $attribute)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $data = $attribute->findOrFail($request->id);
             $data->category_id = $request->category_id;
@@ -120,7 +120,7 @@ class AttributeController extends CommonController
 
     public function deleteAttribute(Request $request,Attribute $attribute)
     {
-        if ($request->method() == 'DELETE')
+        if ($request->isMethod('delete'))
         {
             $res = $attribute->destroy($request->id);
             if ($res)

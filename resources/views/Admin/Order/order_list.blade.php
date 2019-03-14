@@ -26,14 +26,6 @@
                     <div class="ibox-content">
                         <form id="filter_form" method="get" action="">
                             <div class="row">
-                                {{--<div class="col-sm-5 m-b-xs">
-                                    <select class="input-sm form-control input-s-sm inline">
-                                        <option value="0">请选择</option>
-                                        <option value="1">选项1</option>
-                                        <option value="2">选项2</option>
-                                        <option value="3">选项3</option>
-                                    </select>
-                                </div>--}}
                                 <div class="col-sm-4 m-b-xs">
                                     <div data-toggle="buttons" class="btn-group">
                                         @php !isset($input['status']) ? $input['status'] = '' : '';@endphp

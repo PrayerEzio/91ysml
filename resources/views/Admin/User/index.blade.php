@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                             @foreach($list as $item)
-                                <tr>
+                                <tr id="item_{{ $item->id }}">
                                     <td class="center">{{ $item->id }}</td>
                                     <td>{{ $item->nickname or '' }}</td>
                                     <td>{{ $item->email or '' }}</td>
@@ -81,11 +81,12 @@
                 cancelButtonText: "取消",
                 closeOnConfirm: false
             }, function () {
-                var URL = '{{ url('Admin/User') }}';
+                var URL = '{{ url('Admin/User') }}/'+id;
                 var data = {_method:"DELETE",id:id};
                 $.post(URL, data, function (result) {
                     if (result.status == 200)
                     {
+                        $("#item_"+id).remove();
                         swal("删除成功！", result.message, "success");
                     }else {
                         swal("删除失败！", result.message, "error");

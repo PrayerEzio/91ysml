@@ -52,6 +52,7 @@ class CartController extends CommonController
             $options['attributes'][$attribute->category->name] = $attribute->value;
         }
         $options['picture'] = $product->goods->picture;
+        $options['wholesale_number'] = $product->goods->wholesale_number;
         Cart::instance($this->_cart_name)->add(['id'=>$product->id,'name'=>$product->goods->name,'qty'=>$request->qty,'price'=>$product->price,'options'=>$options]);
         if ($request->ajax()) {
             return response([
@@ -65,6 +66,7 @@ class CartController extends CommonController
 
     public function update(Request $request,Product $product)
     {
+        $this->cart = Cart::instance($this->_cart_name);
         $rowId = $request->rowId;
         $qty = $request->qty;
         $cart_info = $this->cart->get($rowId);
@@ -86,6 +88,7 @@ class CartController extends CommonController
 
     public function delete(Request $request)
     {
+        $this->cart = Cart::instance($this->_cart_name);
         $this->cart->remove($request->rowId);
         if ($request->ajax()) {
             return response([

@@ -33,7 +33,7 @@ class ArticleController extends CommonController
 
     public function add(Request $request,ArticleCategory $articleCategory,Article $article,QiniuService $qiniuService)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             if ($request->file('image'))
             {
@@ -67,7 +67,7 @@ class ArticleController extends CommonController
 
     public function edit(Request $request,ArticleCategory $articleCategory,Article $article,QiniuService $qiniuService)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $article = $article->findOrFail($request->id);
             if ($request->file('image'))
@@ -104,7 +104,7 @@ class ArticleController extends CommonController
 
     public function addCate(Request $request,ArticleCategory $articleCategory,$id)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $articleCategory->name = $request->name;
             $articleCategory->parent_id = $id;
@@ -125,7 +125,7 @@ class ArticleController extends CommonController
 
     public function editCate(Request $request,ArticleCategory $articleCategory,$id)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $articleCategory = $articleCategory->findOrFail($id);
             $articleCategory->name = $request->name;

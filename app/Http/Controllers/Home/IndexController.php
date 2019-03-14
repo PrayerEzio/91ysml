@@ -24,7 +24,7 @@ class IndexController extends CommonController
         $goods_category_model = new GoodsCategory();
         $goods_category_list = $goods_category_model->parent(0)->get();
         $goods_model = new Goods();
-        $goods_list = $goods_model->has('products')->paginate(9);
+        $goods_list = $goods_model->has('products')->status(1)->paginate(9);
         $product_model = new Product();
         foreach ($goods_list as $key => $item)
         {
@@ -53,7 +53,7 @@ class IndexController extends CommonController
             $min_price_product = $product_model->where('stock', '>', 0)->where('goods_id',$item->id)->active()->orderBy('price')->first();
             $goods_list[$key]['min_price'] = $min_price_product->price;
         }
-        $top_navbar = $this->top_navbar;
+        $top_navbar = "goods_category_{$request->id}";
         return view('Home.Index.category')->with(compact('parents_list','goods_count','category_info','goods_category_list','current_goods_category_list','goods_list','top_navbar'));
     }
 }

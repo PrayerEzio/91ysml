@@ -53,16 +53,22 @@ class AuthController extends CommonController
     public function admin_store($id,Request $request,QiniuService $qiniuService,AdminService $adminService,Admin $admin,Role $role)
     {
         $adminService->edit($id,$request,$qiniuService);
-        $admin = $admin->findOrFail($id);
-        $role_list = $admin->getRoleNames();
-        if (!empty($role_list->toArray())) $admin->removeRole($role_list);
-        if (!empty($request->role)) $admin->syncRoles($request->role);
-        return redirect()->action('Admin\AuthController@admin_show',['id'=>$id]);
+        $admin_info = $admin->findOrFail($id);
+        $role_list = $admin_info->getRoleNames();
+        if (!empty($role_list->toArray())) {
+            foreach ($role_list as $item)
+            {
+                $admin_info->removeRole($item);
+            }
+        }
+        if (!empty($request->role)) $admin_info->syncRoles($request->role);
+        $alert = ['success','操作成功'];
+        return redirect('/Admin/Auth/admin_list')->with('alert',$alert);
     }
 
     public function permission_create(Request $request,Permission $permission)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $permission->name = $request->name;
             $permission->guard_name = 'web';
@@ -83,7 +89,7 @@ class AuthController extends CommonController
 
     public function permission_edit(Request $request,Permission $permission)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $permission = $permission->findOrFail($request->id);
             $permission->name = $request->name;
@@ -125,7 +131,7 @@ class AuthController extends CommonController
 
     public function role_create(Request $request,Role $role,Permission $permission)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $role->name = $request->name;
             $role->guard_name = 'web';
@@ -148,7 +154,7 @@ class AuthController extends CommonController
 
     public function role_edit(Request $request,Role $role,Permission $permission)
     {
-        if (strtolower($request->method()) == 'post')
+        if ($request->isMethod('post'))
         {
             $role = $role->findOrFail($request->id);
             $role->name = $request->name;

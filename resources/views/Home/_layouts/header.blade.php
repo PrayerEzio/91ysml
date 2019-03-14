@@ -41,6 +41,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('assets/Home') }}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/Admin') }}/css/style.min.css" rel="stylesheet">
     <link href="{{ asset('assets/Home') }}/css/kimi.css" rel="stylesheet">
     <link href="{{ asset('assets/Home') }}/css/font-awesome.min.css" rel="stylesheet">
 

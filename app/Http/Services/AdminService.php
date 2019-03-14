@@ -21,7 +21,12 @@ class AdminService
     public function edit($id,Request $request,QiniuService $qiniuService)
     {
         $data = $request->only('nickname','email','password','position','status');
-        $data['avatar'] = $qiniuService->upload($request->file('avatar'),'');
+        if ($request->file('avatar'))
+        {
+            $data['avatar'] = $qiniuService->upload($request->file('avatar'),'');
+        }else {
+            unset($data['avatar']);
+        }
         if ($data['password'])
         {
             $data['password'] = Crypt::encrypt($data['password']);

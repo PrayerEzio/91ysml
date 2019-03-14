@@ -6,7 +6,7 @@
         <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span><img alt="image" class="img-circle" style="height: 75px;" src="{{ session('admin_info.avatar') }}" /></span>
+                    <span><img alt="image" class="img-circle" style="height: 75px;width: 75px;" src="{{ session('admin_info.avatar') }}" /></span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs"><strong class="font-bold">{{ session('admin_info.nickname') }}</strong></span>
@@ -118,6 +118,17 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="{{ url('Admin/User') }}">会员列表</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-image"></i> <span class="nav-label">相册</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ url('Admin/Album') }}">相册列表</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{ url('Admin/Album/create') }}">创建相册</a>
                     </li>
                 </ul>
             </li>

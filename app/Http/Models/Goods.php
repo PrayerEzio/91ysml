@@ -32,4 +32,14 @@ class Goods extends Model
     {
         return $this->hasMany('App\Http\Models\GoodsComment','goods_id','id');
     }
+
+    public function scopeGoodsSn($query,$goods_sn)
+    {
+        return $query->where('goods_sn',$goods_sn);
+    }
+
+    public function scopeStatus($query,$status)
+    {
+        return $query->where('status',$status);
+    }
 }

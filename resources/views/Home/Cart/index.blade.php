@@ -31,11 +31,11 @@
 
                             <div class="col-md-3 col-xs-7">
                                 <p>{{ __('Home/common.Quantity') }}</p>
-                                <div class="form-group pull-left"><button class="btn btn-default" onclick="quantity_dec('{{ $item->rowId }}')">-</button></div>
+                                <div class="form-group pull-left"><button class="btn btn-default" onclick="quantity_dec('{{ $item->rowId }}',{{ $item->options->wholesale_number }})">-</button></div>
                                 <div class="form-group pull-left">
-                                    <input type="number" class="form-control number-input" id="{{ $item->rowId }}-qty" onchange="update_quantity('{{ $item->rowId }}',$(this).val())" value="{{ $item->qty }}" style="width: 60px;">
+                                    <input type="number" class="form-control number-input" id="{{ $item->rowId }}-qty" onchange="update_quantity('{{ $item->rowId }}',$(this).val())" value="{{ $item->qty }}" style="width: 60px;" disabled="disabled">
                                 </div>
-                                <div class="form-group"><button class="btn btn-default" onclick="quantity_inc('{{ $item->rowId }}')">+</button></div>
+                                <div class="form-group"><button class="btn btn-default" onclick="quantity_inc('{{ $item->rowId }}',{{ $item->options->wholesale_number }})">+</button></div>
                             </div>
                             <div class="col-md-2 col-xs-5">
                                 <p class="text-right">{{ __('Home/common.Subtotal') }}</p>
@@ -76,16 +76,16 @@
 @endsection
 @section('javascript')
     <script>
-        function quantity_dec(rowId)
+        function quantity_dec(rowId,wholesale_number)
         {
             var qty = $('#'+rowId+'-qty').val();
-            update_quantity(rowId,qty*1-1);
+            update_quantity(rowId,qty*1 - wholesale_number * 1);
         }
 
-        function quantity_inc(rowId)
+        function quantity_inc(rowId,wholesale_number)
         {
             var qty = $('#'+rowId+'-qty').val();
-            update_quantity(rowId,qty*1+1);
+            update_quantity(rowId,qty*1 + wholesale_number * 1);
         }
 
         function update_quantity(rowId,qty)
@@ -98,6 +98,10 @@
                     $('#'+rowId+'-qty').val(qty);
                     $('#'+rowId+'-subtotal').html(($('#'+rowId+'-price').html()*1*qty).toFixed(2));
                     get_cart_list();
+                    if (qty == 0)
+                    {
+                        $("[rowId='"+rowId+"']").remove();
+                    }
                 }else {
                     alert(result.message);
                 }
