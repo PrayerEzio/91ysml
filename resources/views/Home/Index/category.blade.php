@@ -32,9 +32,9 @@
         </ol>
 
         <div class="row">
-            <div class="col-md-12">
+            {{--<div class="col-md-12">
                 <p class="text-roboto-light">{{ $goods_count }} Products in Category <strong>{{ $category_info->name }}</strong></p>
-            </div>
+            </div>--}}
 
             @foreach($goods_list as $item)
                 <div class="col-sm-6 col-md-4" data-behavior="sample_code">
