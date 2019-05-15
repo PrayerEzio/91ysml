@@ -122,6 +122,14 @@ $admin_private_group = function(){
         Route::get('/about_us','IndexController@about_us');
         Route::get('/billboard','IndexController@billboard');
     });
+    Route::group(['prefix' => 'Statistics'], function () {
+        $controller = 'Statistics';
+        Route::get('/index', "{$controller}Controller@index");
+        Route::post('/recharge', "{$controller}Controller@recharge");
+        Route::post('/order', "{$controller}Controller@order");
+        Route::post('/order_chart', "{$controller}Controller@order_chart");
+        Route::post('/user', "{$controller}Controller@user");
+    });
     Route::group(['prefix' => 'Auth'],function(){
         $controller = 'Auth';
         Route::get('/admin_list',"{$controller}Controller@admin_list");
@@ -234,11 +242,11 @@ $admin_private_group = function(){
 $admin_public_group = function(){
     Route::group(['prefix' => 'Login'],function(){
         Route::get('/','LoginController@index')->name('admin.login.index');
-        Route::post('/','LoginController@index');
+        Route::post('/', 'LoginController@loginHandle');
         Route::get('/index','LoginController@index');
+        Route::post('/index', 'LoginController@loginHandle');
         Route::get('/register','LoginController@register');
-        Route::post('/index','LoginController@index');
-        Route::post('/register','LoginController@register');
+        Route::post('/register', 'LoginController@registerHandle');
         Route::get('/github', 'LoginController@redirectToProvider');
         Route::get('/github/callback', 'LoginController@handleProviderCallback');
     });

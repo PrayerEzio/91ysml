@@ -14,15 +14,6 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        {{--<li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
-                        </li>
-                        <li><a class="J_menuItem" href="profile.html">个人资料</a>
-                        </li>
-                        <li><a class="J_menuItem" href="contacts.html">联系我们</a>
-                        </li>
-                        <li><a class="J_menuItem" href="mailbox.html">信箱</a>
-                        </li>
-                        <li class="divider"></li>--}}
                         <li><a href="{{ url('Admin/index/logout') }}">安全退出</a>
                         </li>
                     </ul>
@@ -31,11 +22,13 @@
                 </div>
             </li>
             <li>
-                <a href="#">
+                <a class="J_menuItem" href="{{ url('Admin/Statistics/index',[],config('crucis.http_secure')) }}"
+                   data-id="{{ url('Admin/Statistics/index',[],config('crucis.http_secure')) }}">
                     <i class="fa fa-chart-pie"></i>
                     <span class="nav-label">统计</span>
-                    <span class="fa arrow"></span>
                 </a>
+            </li>
+            <li>
                 <ul class="nav nav-second-level">
                     <li>
                         <a class="J_menuItem" href="" data-index="0">访问统计</a>

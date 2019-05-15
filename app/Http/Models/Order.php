@@ -48,6 +48,11 @@ class Order extends Model
         return $query->where('status',$status);
     }
 
+    public function scopeOrderType($query,$order_type)
+    {
+        return $query->where('order_type',$order_type);
+    }
+
     static public function getStatusName($order)
     {
         if (empty($order)) return '';

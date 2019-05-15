@@ -1,5 +1,215 @@
 <?php
 
+/**
+ * 获取子级ID
+ * @param array $array 集合数组
+ * @param int $pid 父级ID
+ * @param string $idKey 索引键名
+ * @param string $pidKey 父级关联键名
+ * @return Ambigous <multitype:, multitype:unknown >
+ */
+function getChildsId($array, $pid = 0, $id_name = 'id', $pid_name = 'parent_id', $loop = 999999)
+{
+    $arr = array();
+    if (!$loop) {
+        return $arr;
+    }
+    $loop--;
+    foreach ($array as $v) {
+        if ($v[$pid_name] == $pid) {
+            $arr[] = $v[$id_name];
+            $arr = array_merge($arr, getChildsId($array, $v[$id_name], $id_name, $pid_name, $loop));
+        }
+    }
+    return $arr;
+}
+
+function unlimitedForLayer($cate, $child_name = 'child', $pid_name = 'parent_id', $id_name = 'id', $pid = 0)
+{
+    $arr = array();
+    foreach ($cate as $v) {
+        if ($v[$pid_name] == $pid) {
+            $v[$child_name] = unlimitedForLayer($cate, $child_name, $pid_name, $id_name, $v[$id_name]);
+            $arr[] = $v;
+        }
+    }
+    return $arr;
+}
+
+//传递一个子分类ID返回所有的父级分类
+function getParents($cate, $id, $pid_name = 'parent_id', $id_name = 'id')
+{
+    $arr = array();
+    foreach ($cate as $v) {
+        if ($v[$id_name] == $id) {
+            $arr[] = $v;
+            $arr = array_merge(getParents($cate, $v[$pid_name], $pid_name, $id_name), $arr);
+        }
+    }
+    return $arr;
+}
+
+function bubbleSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    for ($i = 0; $i < $len - 1; ++$i) {
+        for ($j = 0; $j < $len - 1 - $i; ++$j) {
+            if ($array[$j] > $array[$j + 1]) {
+                $temp = $array[$j];
+                $array[$j] = $array[$j + 1];
+                $array[$j + 1] = $temp;
+            }
+        }
+    }
+    return $array;
+}
+
+function selectionSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    for ($i = 0; $i < $len - 1; ++$i) {
+        $minIndex = $i;
+        for ($j = $i; $j < $len; ++$j) {
+            if ($array[$minIndex] > $array[$j]) {
+                $minIndex = $j;
+            }
+        }
+        $temp = $array[$minIndex];
+        $array[$minIndex] = $array[$i];
+        $array[$i] = $temp;
+    }
+    return $array;
+}
+
+function insertionSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    for ($i = 1; $i < $len; ++$i) {
+        for ($j = $i; $j > 0; --$j) {
+            if ($array[$j] < $array[$j - 1]) {
+                $temp = $array[$j];
+                $array[$j] = $array[$j - 1];
+                $array[$j - 1] = $temp;
+            }
+        }
+    }
+    return $array;
+}
+
+function shellSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    for ($gap = floor($len / 2); $gap > 0; $gap = floor($gap / 2)) {
+        for ($i = $gap; $i < $len; $i++) {
+            $j = $i;
+            $current = $array[$i];
+            while ($j - $gap >= 0 && $current < $array[$j - $gap]) {
+                $array[$j] = $array[$j - $gap];
+                $j = $j - $gap;
+            }
+            $array[$j] = $current;
+        }
+    }
+    return $array;
+}
+
+function mergeSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    $mid = intval($len / 2);
+    $left = array_slice($array, 0, $mid);
+    $right = array_slice($array, $mid);
+    $left = mergeSort($left);
+    $right = mergeSort($right);
+    $temp = [];
+    while (count($left) && count($right)) {
+        $temp[] = $left[0] < $right[0] ? array_shift($left) : array_shift($right);
+    }
+    $array = array_merge($temp, $left, $right);
+    return $array;
+}
+
+function quickSort($array)
+{
+    $len = count($array);
+    if ($len <= 1) {
+        return $array;
+    }
+    $v = $array[0];
+    $up = $low = [];
+    for ($i = 1; $i < $len; ++$i) {
+        $array[$i] > $v ? $up[] = $array[$i] : $low[] = $array[$i];
+    }
+    $low = quickSort($low);
+    $up = quickSort($up);
+    return array_merge($low, [$v], $up);
+}
+
+/**
+ * 获取上层最小整10数 例如 6->10
+ * @param $number
+ * @return float|int
+ */
+function getMinimumWholeDecimal($number, $is_carry = true)
+{
+    if (!is_numeric($number)) return false;
+    $number_length = strlen(number_format($number, 2)) - 4;
+    $number_length = $number_length - 2;
+    if ($number_length <= 0) {
+        $number_length = 1;
+    }
+    if ($is_carry) {
+        return ceil($number / pow(10, $number_length)) * pow(10, $number_length);
+    } else {
+        return floor($number / pow(10, $number_length)) * pow(10, $number_length);
+    }
+}
+
+/**
+ * 	作用：产生随机字符串，不长于32位
+ */
+function createNoncestr($length = 32)
+{
+    $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    $str ="";
+    for ( $i = 0; $i < $length; $i++ )  {
+        $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+    }
+    return $str;
+}
+
+function is_mobile_number($string) {
+    return !!preg_match('/^1[3|4|5|7|8]\d{9}$/', $string);
+}
+
+function build_url($url,$param)
+{
+    if (strpos($url,"?"))
+    {
+        $temp = explode("?",$url);
+        $url = $temp[0];
+        parse_str($temp[1],$origin_param);
+        $param = array_merge($param,$origin_param);
+    }
+    $query = http_build_query($param);
+    return "{$url}?{$query}";
+}
+
 function getCurrentRoute()
 {
     $route['route'] = \Illuminate\Support\Facades\Route::currentRouteAction();
@@ -242,6 +452,28 @@ function post_url($url, $data)
 }
 
 /**
+ * 去除多维数组中的空值
+ * @author
+ * @return mixed
+ * @param $arr 目标数组
+ * @param array $values 去除的值  默认 去除  '',null,false,0,'0',[]
+ */
+function filter_array($arr, $values = ['', null, false, 0, '0',[]]) {
+    foreach ($arr as $k => $v) {
+        if (is_array($v) && count($v)>0) {
+            $arr[$k] = filter_array($v, $values);
+        }
+        foreach ($values as $value) {
+            if ($v === $value) {
+                unset($arr[$k]);
+                break;
+            }
+        }
+    }
+    return $arr;
+}
+
+/**
  * 	作用：格式化参数，签名过程需要使用
  */
 function formatBizQueryParaMap($paraMap, $urlencode = false)
@@ -290,7 +522,7 @@ function get_api($apiurl, $param, $format = 'array')
         $json = substr($json, $start);
     }
     $obj = json_decode($json);
-    $array = object_to_array($obj);
+    $array = json_decode($json, 1);
     switch ($format) {
         case 'array':
             $data = $array;

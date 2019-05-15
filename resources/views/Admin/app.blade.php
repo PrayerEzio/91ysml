@@ -27,13 +27,13 @@
         <div id="page-wrapper" class="gray-bg dashbard-1">
             @include('Admin._layout.rightTop')
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{ url('Admin/Index/about_us') }}" frameborder="0" data-id="{{ url('Admin/Index/about_us') }}" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{ url('Admin/Statistics/index',[],config('crucis.http_secure')) }}" frameborder="0" data-id="{{ url('Admin/Index/about_us') }}" seamless></iframe>
             </div>
             @include('Admin._layout.footer')
         </div>
         <!--右侧部分结束-->
         @include('Admin._layout.rightSidebar')
-        @include('Admin._layout.miniChat')
+        {{--@include('Admin._layout.miniChat')--}}
     </div>
 </body>
 <script src="{{ asset('assets/Admin') }}/js/jquery.min.js?v=2.1.4"></script>
