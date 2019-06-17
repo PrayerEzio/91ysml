@@ -30,20 +30,32 @@ class OrderController extends CommonController
     {
         if ($request->isMethod('delete'))
         {
-            $order_info = $order->orderSn($sn)->first();
+            $order_info = $order->orderSn($sn)->whereIn('status',[1,2])->first();
             DB::beginTransaction(); //事务开始
             try{
-                //处理取消订单 根据订单状态回滚库存等相关数据 并记录日志
-                switch ($order_info->status)
+                //1.改变订单状态
+                $order_info->status = -1;
+                $order_info->save();
+                //2.回滚库存
+                foreach ($order_info->products as $order_product)
                 {
-                    default:
+                    $product_model = new Product();
+                    $product_model->where('id',$order_product->product_id)->increment('stock',$order_product->qty);
+                }
+                //3.进行退款操作 判断是否已经付款
+                switch ($order->status)
+                {
+                    case 2:
+                        $user_model = new User();
+                        $user_model->userId('id',$order->user_id)->increment('amount',$order->amount);
                         break;
                 }
                 DB::commit();//提交事务
                 return response([
                     'status'  => 200,
-                    'message' => __('Operation success.'),
+                    'message' => __('Operation succeed.'),
                 ]);
+                system_log('AdminCancelOvertimeOrder', "[{$order_info->order_sn}]admin cancel order success!", 'app\Http\Controllers\Admin\OrderController@cancelOrder', 0, 'Admin-id:'.$this->getAdminId(), $request->getClientIp());
             } catch(QueryException $ex) {
                 DB::rollback(); //回滚事务
                 //异常处理
@@ -51,6 +63,7 @@ class OrderController extends CommonController
                     'status'  => 500,
                     'message' => __('Operation fail.'),
                 ]);
+                system_log('AdminCancelOvertimeOrder', "[{$order_info->order_sn}]admin cancel order failed!".$ex->getMessage(), 'app\Http\Controllers\Admin\OrderController@cancelOrder', 9, 'Admin-id:'.$this->getAdminId(), $request->getClientIp());
             }
         }
     }

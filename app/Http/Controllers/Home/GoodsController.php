@@ -17,13 +17,17 @@ class GoodsController extends CommonController
 
     public function show($goods_sn,Goods $goods)
     {
-        $goods = $goods->has('products')->goodsSn($goods_sn)->status(1)->first();
+        $goods = $goods->has('products')->with(['products' => function ($query) {
+            $query->with(['attributes' => function ($query) {
+                $query->orderBy('category_id', 'asc');
+            }])->orderBy('product_sn', 'asc');
+        }])->goodsSn($goods_sn)->status(1)->first();
         if (empty($goods)) abort(404);
         $goods_category_model = new GoodsCategory();
         $goods_category_list = $goods_category_model->get();
-        $goods_category = $this->getParents($goods_category_list,$goods->category_id);
+        $goods_category = getParents($goods_category_list,$goods->category_id);
         $product_model = new Product();
-        $min_price_product = $product_model->where('stock', '>', 0)->where('goods_id',$goods->id)->active()->orderBy('price')->first();
+        $min_price_product = $product_model->where('goods_id',$goods->id)->active()->orderBy('price')->first();
         $goods->min_price = $min_price_product->price;
         $attribute_list = [];
         foreach ($goods->products as $key => $product)

@@ -1,13 +1,13 @@
 @extends('Admin.main')
-@section('title', "首页-Sramer")
+
 @section('body')
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <h1 class="logo-name">H+</h1>
+                <h1 class="logo-name">Crucis</h1>
             </div>
-            <h3>欢迎注册 H+</h3>
-            <p>创建一个H+新账户</p>
+            <h3>欢迎注册 Crucis</h3>
+            <p>创建一个Crucis新账户</p>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">注 册</button>
-                <p class="text-muted text-center"><small>已经有账户了？</small><a href="{{ url('Admin/Login/index') }}">点此登录</a>
+                <p class="text-muted text-center"><small>已经有账户了？</small><a href="{{ url('Admin/Login/index',[],config('crucis.http_secure')) }}">点此登录</a>
                 </p>
             </form>
         </div>

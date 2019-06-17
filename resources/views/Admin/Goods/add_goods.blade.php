@@ -114,6 +114,7 @@
                                 <label class="col-sm-2 control-label">产品列表</label>
                                 <div class="col-sm-10">
                                     <button class="btn btn-info btn-sm" type="button" onclick="generateProductList();">批量生成产品</button>
+                                    <input type="hidden" id="products_count" value="{{ count($goods_info->products) }}">
                                     <div id="product_list" class="table-responsive">
                                         @isset($goods_info)
                                         <table class="table">
@@ -130,20 +131,20 @@
                                                     <th>操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="product_list_tbody">
                                             @foreach($goods_info->products as $key => $product)
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" value="{{ $product->id }}" name="product[{{$key}}][id]">
-                                                        <input type="" value="{{ $product->product_sn }}" name="product[{{$key}}][product_sn]">
+                                                        <input type="" value="{{ $product->product_sn }}" id="product_input_{{ $key }}_product_sn" keyboard_num="{{ $key }}" keyboard_item="product_sn" name="product[{{$key}}][product_sn]">
                                                     </td>
                                                     @foreach($product->attributes as $k => $attribute)
                                                         <td><input type="hidden" name="product[{{$key}}][attribute][{{$k}}]" value="{{ $attribute->id }}">{{ $attribute->value }}</td>
                                                     @endforeach
-                                                    <td><input type="" value="{{ $product->mkt_price }}" name="product[{{$key}}][mkt_price]"></td>
-                                                    <td><input type="" value="{{ $product->price }}" name="product[{{$key}}][price]"></td>
-                                                    <td><input type="" value="{{ $product->stock }}" name="product[{{$key}}][stock]"></td>
-                                                    <td><input type="" value="{{ $product->position }}" name="product[{{$key}}][position]"></td>
+                                                    <td><input type="" value="{{ $product->mkt_price }}" id="product_input_{{ $key }}_mkt_price" keyboard_num="{{ $key }}" keyboard_item="mkt_price" name="product[{{$key}}][mkt_price]"></td>
+                                                    <td><input type="" value="{{ $product->price }}" id="product_input_{{ $key }}_price" keyboard_num="{{ $key }}" keyboard_item="price" name="product[{{$key}}][price]"></td>
+                                                    <td><input type="" value="{{ $product->stock }}" id="product_input_{{ $key }}_stock" keyboard_num="{{ $key }}" keyboard_item="stock" name="product[{{$key}}][stock]"></td>
+                                                    <td><input type="" value="{{ $product->position }}" id="product_input_{{ $key }}_position" keyboard_num="{{ $key }}" keyboard_item="position" name="product[{{$key}}][position]"></td>
                                                     <td><button class="btn btn-danger btn-sm" type="button" onclick="delete_product(this)">删除</button></td>
                                                 </tr>
                                             @endforeach
@@ -277,42 +278,53 @@
                         tarr.push(sarr[j].concat(arr[i][k]));
                 sarr = tarr;
             }
-            var product_list_table_html = '<table class="table table-striped">\n' +
-                '                            <thead>\n' +
-                '                                <tr>\n' +
-                '                                    <th>货号</th>\n';
-            $.each(attributeCategoryArray,function(index,value){
-                product_list_table_html += '             <th>'+attributeCategoryList[value]+'</th>\n';
-            });
-            product_list_table_html += '             <th>标牌价</th>\n' +
-                '                                    <th>销售价</th>\n' +
-                '                                    <th>库存</th>\n' +
-                '                                    <th>仓位</th>\n' +
-                '                                    <th>操作</th>\n' +
-                '                                </tr>\n' +
-                '                            </thead>\n' +
-                '                            <tbody>\n';
+            var product_list_table_html = '';
+            var products_count = $("#products_count").val();
+            if (products_count*1 == 0) {
+                product_list_table_html += '<table class="table table-striped">\n' +
+                    '                            <thead>\n' +
+                    '                                <tr>\n' +
+                    '                                    <th>货号</th>\n';
+                $.each(attributeCategoryArray,function(index,value){
+                    product_list_table_html += '             <th>'+attributeCategoryList[value]+'</th>\n';
+                });
+                product_list_table_html += '             <th>标牌价</th>\n' +
+                    '                                    <th>销售价</th>\n' +
+                    '                                    <th>库存</th>\n' +
+                    '                                    <th>仓位</th>\n' +
+                    '                                    <th>操作</th>\n' +
+                    '                                </tr>\n' +
+                    '                            </thead>\n' +
+                    '                            <tbody id="product_list_tbody">\n';
+            }
+            var list_key = products_count*1-1;
             $.each(sarr,function(index,value){
+                list_key++;
                 var attribute_value_code = '';
                 var attribute_list_table_html = '';
                 $.each(attributeCategoryArray,function(attr_key,attr_item){
-                    attribute_list_table_html += '         <td><input type="hidden" name="product['+index+'][attribute]['+attr_key+']" value="'+attributeList[value[attr_key]]['id']+'">'+attributeList[value[attr_key]]['value']+'</td>\n';
+                    attribute_list_table_html += '         <td><input type="hidden" name="product['+list_key+'][attribute]['+attr_key+']" value="'+attributeList[value[attr_key]]['id']+'">'+attributeList[value[attr_key]]['value']+'</td>\n';
                     attribute_value_code += attributeList[value[attr_key]]['value_code'];
                 });
                 product_list_table_html += '         <tr>\n' +
-                    '                                    <td><input type="" value="'+goods_sn+attribute_value_code+'" name="product['+index+'][product_sn]"></td>\n';
+                    '                                    <td><input type="" value="'+goods_sn+attribute_value_code+'" id="product_input_'+list_key+'_product_sn" keyboard_num="'+list_key+'" keyboard_item="product_sn" name="product['+list_key+'][product_sn]"></td>\n';
                 product_list_table_html += attribute_list_table_html;
                 product_list_table_html +=
-                    '                                    <td><input type="" name="product['+index+'][mkt_price]"></td>\n' +
-                    '                                    <td><input type="" name="product['+index+'][price]"></td>\n' +
-                    '                                    <td><input type="" name="product['+index+'][stock]"></td>\n' +
-                    '                                    <td><input type="" name="product['+index+'][position]"></td>\n' +
+                    '                                    <td><input type="" id="product_input_'+list_key+'_mkt_price" keyboard_num="'+list_key+'" keyboard_item="mkt_price" name="product['+list_key+'][mkt_price]"></td>\n' +
+                    '                                    <td><input type="" id="product_input_'+list_key+'_price" keyboard_num="'+list_key+'" keyboard_item="price" name="product['+list_key+'][price]"></td>\n' +
+                    '                                    <td><input type="" id="product_input_'+list_key+'_stock" keyboard_num="'+list_key+'" keyboard_item="stock" name="product['+list_key+'][stock]"></td>\n' +
+                    '                                    <td><input type="" id="product_input_'+list_key+'_position" keyboard_num="'+list_key+'" keyboard_item="position" name="product['+list_key+'][position]"></td>\n' +
                     '                                    <td><button class="btn btn-danger btn-sm" type="button" onclick="delete_product(this)">删除</button></td>\n' +
                     '                                </tr>';
             });
-            product_list_table_html += '     </tbody>\n' +
-                '                        </table>';
-            $("#product_list").html(product_list_table_html)
+            $("#products_count").val(list_key+1);
+            if (products_count*1 == 0) {
+                product_list_table_html += '     </tbody>\n' +
+                    '                        </table>';
+                $("#product_list").html(product_list_table_html)
+            } else {
+                $("#product_list_tbody").append(product_list_table_html)
+            }
         }
 
         function delete_product(obj)
@@ -329,6 +341,25 @@
                     @endforeach
                 @endisset
             };
+        });
+        $(document).keydown(function(event){
+            if(event.keyCode == 38){
+                var keyboard_num = $("input:focus").attr('keyboard_num');
+                var keyboard_item = $("input:focus").attr('keyboard_item');
+                var next_keyboard_num = keyboard_num*1-1;
+                if (typeof(keyboard_num) != "undefined" && typeof(keyboard_item) != 'undefined') {
+                    var next_keyboard_id = "#product_input_"+next_keyboard_num+"_"+keyboard_item;
+                    $(next_keyboard_id).focus();
+                }
+            }else if (event.keyCode == 40){
+                var keyboard_num = $("input:focus").attr('keyboard_num');
+                var keyboard_item = $("input:focus").attr('keyboard_item');
+                var next_keyboard_num = keyboard_num*1+1;
+                if (typeof(keyboard_num) != "undefined" && typeof(keyboard_item) != 'undefined') {
+                    var next_keyboard_id = "#product_input_"+next_keyboard_num+"_"+keyboard_item;
+                    $(next_keyboard_id).focus();
+                }
+            }
         });
     </script>
 @endsection

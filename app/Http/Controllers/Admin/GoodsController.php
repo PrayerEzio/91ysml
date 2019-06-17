@@ -14,6 +14,7 @@ use App\Http\Models\AttributeCategory;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsCategory;
 use App\Http\Models\GoodsPicture;
+use App\Http\Models\MatOrderProduct;
 use App\Http\Models\Product;
 use App\Http\Services\QiniuService;
 use Illuminate\Http\Request;
@@ -102,14 +103,40 @@ class GoodsController extends CommonController
         }
     }
 
-    public function goodsList(Request $request,Goods $goods)
+    public function goodsList(Request $request,Goods $goods,GoodsCategory $goodsCategory)
     {
         $where = [];
         $input = $request->all();
+        $cate_id_list = [];
+        if (!empty($input['category_id'])) {
+            $all_goods_cate_list = $goodsCategory->where('status',1)->get();
+            $all_child_id_array = getChildsId($all_goods_cate_list,$input['category_id']);
+            if ($all_child_id_array) {
+                $cate_id_list = array_merge([$input['category_id'],$all_child_id_array]);
+            } else {
+                $cate_id_list = [$input['category_id']];
+            }
+        } else {
+            $input['category_id'] = 0;
+        }
         if (!empty($input['keyword'])) $where[] = ['name','like',"%{$input['keyword']}%"];
         if (!empty($input['goods_sn'])) $where[] = ['goods_sn','like',"%{$input['goods_sn']}%"];
-        $list = $goods->where($where)->orderBy('created_at','desc')->paginate(10);
-        return view('Admin.Goods.goods_list')->with(compact('list','input'));
+        if (!empty($cate_id_list))
+        {
+            $list = $goods->where($where)->whereIn('category_id',$cate_id_list)->orderBy('created_at','desc')->paginate(10);
+        } else {
+            $list = $goods->where($where)->orderBy('created_at','desc')->paginate(10);
+        }
+        session(
+            ['redirect_back' =>
+                [
+                    'Admin_Goods_goodsList' => url()->full()
+                ]
+            ]
+        );
+        $cate_list = $goodsCategory->get();
+        $cate_list = unlimitedForLayer($cate_list);
+        return view('Admin.Goods.goods_list')->with(compact('list','input','cate_list'));
     }
 
     public function addGoods(Request $request,Goods $goods,GoodsCategory $goodsCategory,AttributeCategory $attributeCategory,Attribute $attribute,QiniuService $qiniuService)
@@ -161,7 +188,7 @@ class GoodsController extends CommonController
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
             $cate_list = $goodsCategory->get();
-            $cate_list = $this->unlimitedForLayer($cate_list);
+            $cate_list = unlimitedForLayer($cate_list);
             $attribute_category_list = $attributeCategory->get();
             $attribute_list = $attribute->get();
             return view('Admin.Goods.add_goods')->with(compact('cate_list','attribute_category_list','attribute_list'));
@@ -189,21 +216,24 @@ class GoodsController extends CommonController
                 $product = new Product();
                 $product->whereGoodsId($goods->id)->delete();
                 //软删除旧产品 新增新产品
-                foreach ($request->product as $key => $item)
+                if ($request->product)
                 {
-                    $product = new Product();
-                    $product->goods_id = $goods->id;
-                    $product->product_sn = $item['product_sn'];
-                    $product->mkt_price = $item['mkt_price'];
-                    $product->price = $item['price'];
-                    $product->stock = $item['stock'];
-                    $product->position = $item['position'];
-                    $product->status = 1;
-                    $product->save();
-                    //重写所有规格
-                    foreach ($item['attribute'] as $item)
+                    foreach ($request->product as $key => $item)
                     {
-                        $product->attributes()->attach($item);
+                        $product = new Product();
+                        $product->goods_id = $goods->id;
+                        $product->product_sn = $item['product_sn'];
+                        $product->mkt_price = floatval($item['mkt_price']);
+                        $product->price = floatval($item['price']);
+                        $product->stock = intval($item['stock']);
+                        $product->position = $item['position'];
+                        $product->status = 1;
+                        $product->save();
+                        //重写所有规格
+                        foreach ($item['attribute'] as $item)
+                        {
+                            $product->attributes()->attach($item);
+                        }
                     }
                 }
                 DB::commit(); //提交事务
@@ -219,13 +249,19 @@ class GoodsController extends CommonController
             }else {
                 $alert = ['error','操作失败'];
             }
+            $redirect_back_url = session('redirect_back.Admin_Goods_goodsList');
+            if ($redirect_back_url) return redirect($redirect_back_url)->with('alert',$alert);
             return redirect("/Admin/Goods/goodsList/{$request->category_id}")->with('alert',$alert);
         }else {
             $cate_list = $goodsCategory->get();
-            $cate_list = $this->unlimitedForLayer($cate_list);
+            $cate_list = unlimitedForLayer($cate_list);
             $attribute_category_list = $attributeCategory->get();
             $attribute_list = $attribute->get();
-            $goods_info = $goods->findOrFail($id);
+            $goods_info = $goods->with(['products' => function ($query) {
+                $query->with(['attributes' => function ($query) {
+                    $query->orderBy('category_id', 'asc');
+                }])->orderBy('product_sn', 'asc');
+            }])->findOrFail($id);
             $product_attributes_category = [];
             foreach ($goods_info->products as $product)
             {
@@ -370,4 +406,29 @@ class GoodsController extends CommonController
         }
     }
 
+    public function synMatProduct(MatOrderProduct $matOrderProduct)
+    {
+        //同步商品主表
+        $list = $matOrderProduct->all();
+        foreach ($list as $key => $item)
+        {
+            $goods = new Goods();
+            $goods->goods_sn = $item->id;
+            $goods->category_id = 1;
+            $goods->name = $item->title;
+            $goods->picture = $item->thumb;
+            $goods->detail = $item->data->content;
+            $goods->created_at = date('Y-m-d H:i:s',$item->inputtime);
+            $goods->updated_at = date('Y-m-d H:i:s',$item->updatetime);
+            $goods->status = $item->status == 1 ? 1 : 0;
+            $goods->sort = $item->listorder;
+            $goods->tag = $item->season;
+            $goods->description = $item->description;
+            $goods->seo_title = $item->title;
+            $goods->seo_keywords = $item->keywords;
+            $goods->wholesale_number = 1;
+            $goods->save();
+            dump($goods->name);
+        }
+    }
 }

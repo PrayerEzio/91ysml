@@ -36,7 +36,6 @@ $test_group = function(){
         Route::get('/getOrder/{order_sn}','IndexController@getOrder')->name('test.index.get_order');
         Route::get('/cart','IndexController@cart')->name('test.index.cart');
         Route::get('/test','IndexController@test')->name('test.index.test');
-        Route::get('/webhook','IndexController@webhook')->name('test.index.webhook');
     });
     Route::group(['prefix' => 'Chubao'],function(){
         Route::get('/getChannelCode','ChubaoController@getChannelCode');
@@ -191,6 +190,7 @@ $admin_private_group = function(){
         Route::delete('/deleteGoods',"{$controller}Controller@deleteGoods");
         Route::delete('/deleteGoodsPicture',"{$controller}Controller@deleteGoodsPicture");
         Route::delete('/deleteGoodsCategory',"{$controller}Controller@deleteGoodsCategory");
+        Route::get('/synMatProduct',"{$controller}Controller@synMatProduct");
     });
     Route::group(['prefix' => 'Attribute'],function(){
         $controller = 'Attribute';
@@ -233,10 +233,6 @@ $admin_private_group = function(){
     Route::resource('Advertisement', 'AdvertisementController');
     Route::resource('Album', 'AlbumController');
     Route::resource('AlbumPicture', 'AlbumPictureController');
-    /*Route::group(['prefix' => 'User'],function(){
-        $controller = 'User';
-        Route::resource('User', 'UserController');
-    });*/
 };
 
 $admin_public_group = function(){

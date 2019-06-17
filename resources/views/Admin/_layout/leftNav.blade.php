@@ -82,7 +82,13 @@
                         <a class="J_menuItem" href="{{ url('Admin/Goods/goodsCategoryList') }}">分类列表</a>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="{{ url('Admin/Attribute/attributeCategoryList') }}">属性列表</a>
+                        <a href="#">商品属性 <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li><a class="J_menuItem" href="{{ url('Admin/Attribute/attributeCategoryList') }}">属性列表</a>
+                            </li>
+                            <li><a class="J_menuItem" href="{{ url('Admin/Attribute/addAttribute') }}">新增属性</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a class="J_menuItem" href="{{ url('Admin/Goods/goodsList') }}">商品列表</a>

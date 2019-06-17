@@ -23,11 +23,24 @@
                     <div class="ibox-content">
                         <form id="filter_form" method="get" action="">
                             <div class="row">
-                                <div class="col-sm-6 m-b-xs">
+                                <div class="col-sm-4 m-b-xs">
+                                </div>
+                                <div class="col-sm-2 m-b-xs">
+                                    <select class="form-control m-b" name="category_id" id="category_id">
+                                        <option value="0">全部商品分类</option>
+                                        @foreach ($cate_list as $cate)
+                                            <option value="{{ $cate->id }}" @if ($cate->id == $input['category_id']) selected @endif>&nbsp;&nbsp;&nbsp;&nbsp;{{ $cate->name }}</option>
+                                            @foreach($cate->child as $sec_cate)
+                                                <option value="{{ $sec_cate->id }}" @if ($sec_cate->id == $input['category_id']) selected @endif>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $sec_cate->name }}</option>
+                                                @foreach($sec_cate->child as $tri_cate)
+                                                    <option value="{{ $tri_cate->id }}" @if ($tri_cate->id == $input['category_id']) selected @endif>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tri_cate->name }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-sm-3 m-b-xs">
-                                    <input type="text" placeholder="请输入商品编号" class="input-sm form-control" name="goods_sn" value="{{ $input['goods_sn'] or '' }}"> <span
-                                            class="input-group-btn">
+                                    <input type="text" placeholder="请输入商品编号" class="input-sm form-control" name="goods_sn" value="{{ $input['goods_sn'] or '' }}">
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="input-group">
@@ -47,6 +60,7 @@
                                     <th>商品名称</th>
                                     <th>所属分类</th>
                                     <th>上传时间</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -58,8 +72,9 @@
                                         <td>{{ $goods->name }}</td>
                                         <td>{{ $goods->category->name }}</td>
                                         <td>{{ $goods->created_at }}</td>
+                                        <td>{!! $goods->status == 0 ? '<span style="color:#ed5565">已下架</span>' : '<span style="color:#21b9bb">已上架</span>'  !!} </td>
                                         <td>
-                                            <a class="btn btn-default" target="_blank" href="{{ url('/product',['id'=>$goods->id]) }}"><i class="fa fa-eye"></i> 查看</a>
+                                            <a class="btn btn-default" target="_blank" href="{{ url('/product',['goods_sn'=>$goods->goods_sn]) }}"><i class="fa fa-eye"></i> 查看</a>
                                             <a class="btn btn-info" href="{{ url('Admin/Goods/editGoods',['id'=>$goods->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
                                             <a class="btn btn-warning" href="{{ url('Admin/Goods/goodsPictureList',['goods_id'=>$goods->id]) }}"><i class="fa fa-file-picture-o"></i> 图片列表</a>
                                             <a class="btn btn-danger" onclick="delete_goods({{ $goods->id }})"><i class="fa fa-trash"></i> 删除</a>

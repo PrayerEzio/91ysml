@@ -38,15 +38,15 @@
 
             @foreach($goods_list as $item)
                 <div class="col-sm-6 col-md-4" data-behavior="sample_code">
-                    <a href="{{ url('product',['id'=>$item->id]) }}" class="thumbnail_item thumbnail less-padding less-margin">
+                    <a href="{{ url('product',['goods_sn'=>$item->goods_sn]) }}" class="thumbnail_item thumbnail less-padding less-margin">
                         <img src="{{ $item->picture }}" alt="risotto lemon">
                     </a>
                     <div class="caption box">
                         <h3>{{ $item->name }}</h3>
                         <div class="row">
                             <div class="col-sm-8 col-xs-6">
-                                <p class="default-userProductList-CardList-price">¥ {{ $item->min_price }} / pcs</p>
-                                <span class="min-order">10 pcs min order</span>
+                                <p class="default-userProductList-CardList-price">¥ {{ $item->min_price }} / 件</p>
+                                <span class="min-order">{{ $item->wholesale_number }} 件/批次</span>
                             </div>
                             <div class="col-sm-4 col-xs-6">
                                 <button onclick="location.href='shoppingCart.html'" class="btn default-userProductList-CardList-button pull-right" role="button">{{ __('Home/common.add_to_cart') }}</button>

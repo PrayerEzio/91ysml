@@ -188,6 +188,7 @@ class OrderController extends CommonController
         try{
             //1.改变订单状态
             $order_info->status = -1;
+            $order_info->save();
             //2.回滚库存
             foreach ($order_info->products as $order_product)
             {
@@ -203,6 +204,10 @@ class OrderController extends CommonController
                     break;
             }
             DB::commit();//提交事务
+            return response([
+                'status'  => 200,
+                'message' => __('Operation succeed.'),
+            ]);
         } catch(QueryException $ex) {
             DB::rollback(); //回滚事务
             //异常处理

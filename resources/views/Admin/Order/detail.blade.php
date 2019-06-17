@@ -82,7 +82,7 @@
                             </table>
                             <div class="text-right">
                                 <button class="btn btn-primary" type="button" onclick="print_order()"><i class="fa fa-dollar"></i> 打印发货单</button>
-                                @if (!in_array($order_info->status,[-1,5]))
+                                @if (in_array($order_info->status,[1,2]))
                                 <button class="btn btn-primary" type="button" onclick="cancel_order()"><i class="fa fa-dollar"></i> 取消订单</button>
                                 @endif
                             @switch ($order_info->status)

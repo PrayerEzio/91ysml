@@ -7,6 +7,7 @@ use App\Http\Models\AdminPermission;
 use App\Http\Models\AdminRole;
 use App\Http\Models\Article;
 use App\Http\Models\ArticleCategory;
+use App\Http\Models\MatCategory;
 use App\Http\Repositories\AdminRepository;
 use Carbon\Carbon;
 use Crypt;
@@ -219,16 +220,5 @@ class IndexController extends Controller
         $when = Carbon::now()->addMinute(1);
         $admin = Admin::find(1);
         SendReminderEmail::dispatch($admin)->onQueue('emails')->delay($when);
-    }
-
-    public function webhook()
-    {
-        $user_agent = $_SERVER['HTTP_USER_AGENT'];
-        dump(strpos($user_agent,'Mozilla'));
-        dd($user_agent);
-        $cmd = 'sudo cd '.base_path().';sudo git checkout master;sudo git status;';//sudo cd '.base_path().';sudo git checkout master;sudo git status;sudo git pull origin master:master;
-        dump($cmd);
-        $output = shell_exec($cmd);
-        dd($output);
     }
 }
