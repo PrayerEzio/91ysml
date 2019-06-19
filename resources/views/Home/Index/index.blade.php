@@ -1,5 +1,28 @@
 @extends('Home.app')
 @section('title', "首页-Sramer")
+@section('css')
+    <style type="text/css">
+        .thumbnail_item {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0;
+            height: 300px;
+        }
+        .thumbnail a>img, .thumbnail>img {
+            margin-right: auto;
+            margin-left: auto;
+            max-height: 300px;
+        }
+        .box h3 {
+            font-family: Roboto;
+            font-size: 18px;
+            font-weight: 400;
+            color: #4a4a4a;
+            margin-top: 10px;
+            height: 30px;
+        }
+    </style>
+@endsection
 @section('body')
     {{-- start banner --}}
     <div class="container-fluid kimi-container less-padding">

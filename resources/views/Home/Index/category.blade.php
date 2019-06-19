@@ -1,5 +1,28 @@
 @extends('Home.app')
 @section('title', "$category_info->name-Sramer")
+@section('css')
+    <style type="text/css">
+        .thumbnail_item {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0;
+            height: 300px;
+        }
+        .thumbnail a>img, .thumbnail>img {
+            margin-right: auto;
+            margin-left: auto;
+            max-height: 300px;
+        }
+        .box h3 {
+            font-family: Roboto;
+            font-size: 18px;
+            font-weight: 400;
+            color: #4a4a4a;
+            margin-top: 10px;
+            height: 30px;
+        }
+    </style>
+@endsection
 @section('body')
 <div class="container-fluid less-padding kimi-container">
     <div>
@@ -58,10 +81,9 @@
         </div>
 
         <div class="row">
-            <div class="product-detail-tag-container col-md-4 col-md-offset-4 visible-xs text-center">
+            {{--<div class="product-detail-tag-container col-md-12 text-center">
                 <button class="btn outline-white-button text-center">Load More</button>
-            </div>
-
+            </div>--}}
             <div class="col-md-12 hidden-xs text-center">
                 <!--pagination-->
                 <nav aria-label="Page navigation">
